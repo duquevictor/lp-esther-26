@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html class="scroll-smooth" lang="pt-BR">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Esther Design System — Variação 2 · Linen Editorial</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                        display: ['Space Grotesk', 'sans-serif'],
+                    },
+                    colors: {
+                        stone: {
+                            50: '#fafaf9',
+                            100: '#f5f5f4',
+                            200: '#e7e5e4',
+                            300: '#d6d3d1',
+                            400: '#a8a29e',
+                            500: '#78716c',
+                            600: '#57534e',
+                            700: '#44403c',
+                            800: '#292524',
+                            900: '#1c1917',
+                        },
+                        'surface-light': '#F3EDE6',
+                        esther: {
+                            linen: '#F3EDE6',
+                            parchment: '#E8DFD4',
+                            olive: '#556B48',
+                            terracotta: '#C17F5B',
+                            copper: '#B8956E',
+                            ink: '#2F2A26',
+                        },
+                    },
+                    backgroundImage: {
+                        'noise': "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E\")",
+                    },
+                    animation: {
+                        'spin-slow': 'spin 12s linear infinite',
+                        'shimmer': 'shimmer 2.5s linear infinite',
+                    },
+                    keyframes: {
+                        shimmer: {
+                            from: { backgroundPosition: '0 0' },
+                            to: { backgroundPosition: '-200% 0' }
+                        }
+                    },
+                },
+            },
+        };
+    </script>
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F3EDE6;
+            color: #2F2A26;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .noise-overlay {
+            position: fixed;
+            inset: 0;
+            opacity: 0.04;
+            pointer-events: none;
+            z-index: 9999;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        .text-outline {
+            -webkit-text-stroke: 1px #556B48;
+            color: transparent;
+            transition: all 0.5s ease;
+        }
+
+        .bg-grid {
+            background-size: 40px 40px;
+            background-image:
+                linear-gradient(to right, rgba(47, 42, 38, 0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(47, 42, 38, 0.05) 1px, transparent 1px);
+        }
+
+        .reveal-up {
+            opacity: 0;
+            transform: translateY(30px);
+            filter: blur(15px);
+            will-change: transform, opacity, filter;
+            transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal-up.active {
+            opacity: 1;
+            transform: translateY(0);
+            filter: blur(0);
+        }
+
+        .reveal-zoom {
+            opacity: 0;
+            transform: scale(0.95);
+            filter: blur(10px);
+            transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal-zoom.active {
+            opacity: 1;
+            transform: scale(1);
+            filter: blur(0);
+        }
+
+        .animate-on-scroll {
+            opacity: 0;
+        }
+
+        .animate-on-scroll.active {
+            animation: animationIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes animationIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+                filter: blur(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+                filter: blur(0);
+            }
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .btn-beam {
+            position: relative;
+            z-index: 10;
+            overflow: hidden;
+            border-radius: 9999px;
+        }
+
+        .btn-beam::before {
+            content: "";
+            position: absolute;
+            inset: -2px;
+            z-index: -1;
+            background: conic-gradient(from 90deg at 50% 50%, #E8DFD2 0%, #556B48 50%, #C17F5B 100%);
+            animation: spin 4s linear infinite;
+            border-radius: inherit;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .btn-beam:hover::before {
+            opacity: 1;
+        }
+
+        .btn-beam-content {
+            background-color: #3d4a35;
+            color: #F3EDE6;
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            height: 100%;
+            border-radius: inherit;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .flashlight-card {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .flashlight-card::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+                    rgba(255, 255, 255, 0.35),
+                    transparent 40%);
+            opacity: 0;
+            transition: opacity 0.5s;
+            pointer-events: none;
+            z-index: 2;
+            mix-blend-mode: soft-light;
+        }
+
+        .flashlight-card:hover::before {
+            opacity: 1;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-18px); }
+        }
+
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .linen-stripe {
+            background: repeating-linear-gradient(
+                90deg,
+                transparent,
+                transparent 80px,
+                rgba(85, 107, 72, 0.04) 80px,
+                rgba(85, 107, 72, 0.04) 81px
+            );
+        }
+
+        .modal-root {
+            position: fixed;
+            inset: 0;
+            z-index: 200;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.35s ease;
+        }
+
+        .modal-root.is-open {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-backdrop {
+            position: absolute;
+            inset: 0;
+            background: rgba(47, 42, 38, 0.42);
+            backdrop-filter: blur(8px);
+        }
+
+        .modal-panel {
+            position: relative;
+            max-width: 28rem;
+            width: 100%;
+            background: #F3EDE6;
+            border-radius: 1rem;
+            border: 1px solid rgba(85, 107, 72, 0.18);
+            box-shadow: 0 30px 70px -25px rgba(47, 42, 38, 0.35);
+            padding: 2rem;
+            transform: translateY(10px);
+            transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .modal-root.is-open .modal-panel {
+            transform: translateY(0);
+        }
+
+        .tooltip-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        .tooltip {
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%) translateY(10px);
+            background: #2F2A26;
+            color: #F3EDE6;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            font-size: 0.75rem;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.2s;
+            white-space: nowrap;
+            z-index: 50;
+        }
+
+        .tooltip::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border: 5px solid transparent;
+            border-top-color: #2F2A26;
+        }
+
+        .tooltip-container:hover .tooltip {
+            opacity: 1;
+            transform: translateX(-50%) translateY(-5px);
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #E8DFD4;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #c4b5a8;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+
+<body class="antialiased min-h-screen relative selection:bg-esther-olive selection:text-white">
+
+    <div class="noise-overlay"></div>
+
+    <header class="fixed w-full z-50 top-0 transition-all duration-300" id="navbar">
+        <div class="absolute inset-0 bg-white/65 backdrop-blur-md border-b border-stone-200/60"></div>
+        <div class="max-w-[1440px] mx-auto px-6 py-4 relative flex justify-between items-center">
+            <a href="#top" class="flex items-center gap-2 group cursor-pointer">
+                <div
+                    class="w-8 h-8 bg-esther-olive text-white flex items-center justify-center rounded-sm transition-transform group-hover:rotate-90 duration-500">
+                    <iconify-icon icon="solar:pen-new-square-bold-duotone" class="text-xl"></iconify-icon>
+                </div>
+                <span class="font-display font-medium tracking-tight text-lg text-esther-ink">ESTHER<span class="text-stone-400">.LINEN</span></span>
+            </a>
+            <nav class="hidden md:flex items-center gap-8 text-xs font-mono uppercase tracking-widest text-stone-500">
+                <a href="#tipografia" class="hover:text-stone-900 transition-colors">Tipo</a>
+                <a href="#cores" class="hover:text-stone-900 transition-colors">Cores</a>
+                <a href="#componentes" class="hover:text-stone-900 transition-colors">UI</a>
+                <a href="#animacoes" class="hover:text-stone-900 transition-colors">Motion</a>
+            </nav>
+            <button type="button" onclick="openModal()" class="hidden sm:block text-xs font-mono uppercase tracking-widest text-stone-600 hover:text-stone-900">Modal</button>
+        </div>
+    </header>
+
+    <main id="top">
+        <!-- Hero: alinhado ao index — grid editorial + imagem -->
+        <section class="relative min-h-screen bg-esther-linen border-b border-stone-300/50 overflow-hidden linen-stripe">
+            <div class="absolute inset-0 bg-grid opacity-40 pointer-events-none"></div>
+            <div class="absolute top-24 right-[8%] w-72 h-72 rounded-full bg-esther-terracotta/15 blur-3xl animate-pulse"></div>
+            <div class="absolute bottom-20 left-[5%] w-96 h-96 rounded-full bg-esther-olive/10 blur-[90px]"></div>
+
+            <div class="relative z-10 max-w-[1440px] mx-auto px-6 md:px-24 pt-32 pb-24 min-h-screen flex flex-col lg:flex-row items-center gap-16">
+                <div class="flex-1 max-w-2xl">
+                    <div class="inline-flex items-center gap-3 mb-5 reveal-up delay-100">
+                        <span class="w-2 h-2 bg-esther-olive rounded-full"></span>
+                        <span class="text-xs font-mono uppercase tracking-[0.2em] text-stone-500">Linen editorial · DS v2</span>
+                    </div>
+                    <h1 class="font-display text-5xl md:text-7xl lg:text-[4.75rem] font-bold tracking-tighter leading-[0.85] mb-6 text-esther-ink -ml-0.5">
+                        <span class="reveal-up delay-100 block">Calma</span>
+                        <span class="reveal-up delay-200 block text-outline">estruturada</span>
+                        <span class="reveal-up delay-300 block text-stone-500">em cada detalhe.</span>
+                    </h1>
+                    <p class="text-lg md:text-xl text-stone-600 max-w-lg leading-relaxed font-light reveal-up delay-500 mb-10">
+                        Tipografia Space Grotesk + Inter — o mesmo núcleo tipográfico da página de vendas, aquecido com linho, azeitona e terracota para uma leitura premium e humana.
+                    </p>
+                    <div class="flex flex-wrap gap-4 reveal-up delay-700">
+                        <button type="button" class="group relative px-8 py-4 bg-esther-ink text-esther-linen rounded-full overflow-hidden shadow-lg hover:shadow-xl transition-all hover:-translate-y-1">
+                            <span class="relative z-10 text-sm font-medium tracking-wide">Reservar lugar</span>
+                        </button>
+                        <button type="button" class="group px-8 py-4 bg-white text-esther-ink rounded-full shadow-md border border-transparent hover:border-stone-200 transition-all hover:-translate-y-1 flex items-center gap-2">
+                            <span class="text-sm font-medium tracking-wide">Ver paleta</span>
+                            <iconify-icon icon="solar:arrow-down-linear" class="group-hover:translate-y-0.5 transition-transform"></iconify-icon>
+                        </button>
+                        <div class="btn-beam rounded-full p-[1px]">
+                            <span class="btn-beam-content px-7 py-3.5 rounded-full text-sm font-medium">btn-beam</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex-1 w-full max-w-xl relative">
+                    <div class="relative group reveal-zoom delay-200">
+                        <div class="absolute -inset-1 bg-gradient-to-br from-esther-terracotta/30 to-esther-olive/20 rounded-2xl blur-xl opacity-70 group-hover:opacity-100 transition-opacity duration-700"></div>
+                        <div class="relative rounded-2xl overflow-hidden aspect-[4/5] bg-stone-100 shadow-2xl border border-white/60">
+                            <img src="raw_files/artools_tech_feature.png" alt="Produto"
+                                class="w-full h-full object-cover grayscale-[20%] group-hover:grayscale-0 transition-all duration-700 scale-105 group-hover:scale-100" />
+                            <div class="absolute top-6 left-6 p-3 rounded-lg border border-white/50 backdrop-blur-md bg-white/35 text-esther-ink text-xs font-mono uppercase tracking-widest flashlight-card"
+                                onmousemove="updateFlashlight(event, this)">Feature</div>
+                        </div>
+                    </div>
+                    <img src="video_frames/frame_0091.jpg" alt=""
+                        class="hidden lg:block absolute -bottom-6 -left-10 w-40 rounded-xl shadow-xl border border-white animate-float object-cover aspect-square" />
+                </div>
+            </div>
+
+            <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 z-20 opacity-60 pointer-events-none">
+                <span class="text-[10px] font-mono uppercase tracking-widest text-stone-500">Continuar</span>
+                <div class="w-px h-8 bg-stone-400 overflow-hidden relative">
+                    <div class="absolute top-0 left-0 w-full h-full bg-esther-olive animate-scroll-line"></div>
+                </div>
+            </div>
+            <div class="absolute bottom-0 left-0 w-full h-28 bg-gradient-to-t from-esther-parchment/90 to-transparent pointer-events-none z-[5]"></div>
+        </section>
+
+        <section id="tipografia" class="relative z-20 bg-esther-parchment py-24 md:py-32 border-t border-stone-200 overflow-hidden">
+            <div class="absolute inset-0 opacity-[0.03] bg-noise pointer-events-none"></div>
+            <div class="max-w-[1440px] mx-auto px-6 md:px-24 relative">
+                <div class="mb-20 reveal-up">
+                    <div class="inline-flex items-center gap-2 mb-6">
+                        <span class="w-1.5 h-1.5 bg-stone-400 rounded-full"></span>
+                        <span class="text-xs font-mono uppercase tracking-[0.2em] text-stone-400">Typography</span>
+                    </div>
+                    <h2 class="font-display text-5xl md:text-6xl font-medium tracking-tight text-esther-ink max-w-3xl">
+                        Voz técnica,<br><span class="text-stone-400">tom acolhedor.</span>
+                    </h2>
+                    <p class="mt-8 text-lg text-stone-600 max-w-2xl font-light leading-relaxed">Font loading: Google Fonts CDN; display: Space Grotesk (300–600); UI: Inter (300–600); mono: JetBrains Mono (400–500).</p>
+                </div>
+
+                <div class="grid lg:grid-cols-2 gap-12 items-start">
+                    <div class="space-y-6 reveal-up delay-200">
+                        <h3 class="font-display text-4xl font-medium">Display · Space Grotesk</h3>
+                        <p class="text-stone-600 text-sm leading-relaxed">Pesos 500–700 em títulos; tracking tighter em hero.</p>
+                        <h3 class="font-sans text-2xl font-semibold">Sans · Inter</h3>
+                        <p class="text-stone-600 text-sm">body / body-lg / helpers — espacemento neutro.</p>
+                    </div>
+                    <div class="rounded-2xl border border-stone-200 bg-white/70 p-8 space-y-4 reveal-up delay-300 shadow-sm">
+                        <h1 class="font-display text-5xl font-bold tracking-tighter leading-none">h1</h1>
+                        <h2 class="font-display text-4xl font-medium">h2 · display</h2>
+                        <h3 class="font-sans text-2xl font-semibold">h3 · 1.5rem · w600</h3>
+                        <h4 class="font-sans text-xl font-medium text-stone-800">h4</h4>
+                        <h5 class="font-sans text-lg font-medium">h5</h5>
+                        <h6 class="font-mono text-xs uppercase tracking-widest text-stone-500">h6 · label system</h6>
+                        <p class="text-lg text-stone-700 leading-relaxed">body-lg · 1.125rem · lh 1.65 · w400</p>
+                        <p class="text-base text-stone-600 leading-relaxed">body · 1rem · lh 1.6</p>
+                        <p class="text-sm text-stone-500">body-sm · 0.875rem</p>
+                        <p class="text-xs text-stone-400">caption · 0.75rem · ls 0.02em</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="cores" class="bg-esther-linen py-24 border-t border-stone-200">
+            <div class="max-w-[1440px] mx-auto px-6 md:px-24">
+                <h2 class="font-display text-4xl mb-12 reveal-up">Cores · hex / rgb / hsl</h2>
+                <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+                    <div class="reveal-up delay-100 rounded-xl overflow-hidden border border-stone-200 bg-white">
+                        <div class="h-24 bg-[#556B48]"></div>
+                        <div class="p-4 text-xs font-mono space-y-1">
+                            <p class="font-sans font-medium text-sm text-esther-ink">primary olive</p>
+                            <p>#556B48</p>
+                            <p>rgb(85,107,72)</p>
+                            <p>hsl(88,20%,35%)</p>
+                        </div>
+                    </div>
+                    <div class="reveal-up delay-200 rounded-xl overflow-hidden border border-stone-200 bg-white">
+                        <div class="h-24 bg-[#C17F5B]"></div>
+                        <div class="p-4 text-xs font-mono space-y-1">
+                            <p class="font-sans font-medium text-sm">accent terracotta</p>
+                            <p>CTA hover/active · gradient partner</p>
+                        </div>
+                    </div>
+                    <div class="reveal-up delay-300 rounded-xl overflow-hidden border border-stone-200 bg-white">
+                        <div class="h-24 bg-[#F3EDE6] border-b border-stone-100"></div>
+                        <div class="p-4 text-xs space-y-1">
+                            <p class="font-mono">linen bg</p>
+                            <p class="text-stone-600">Superfície principal; opacidade em glass 0.65–0.85</p>
+                        </div>
+                    </div>
+                    <div class="reveal-up delay-500 rounded-xl overflow-hidden border border-stone-200 bg-white">
+                        <div class="h-24 bg-[#2F2A26]"></div>
+                        <div class="p-4 text-xs text-stone-600">
+                            Texto e superfícies escuras sem preto #000; contraste AA em texto ≥16px sobre linen.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="componentes" class="py-24 bg-stone-100/80 border-t border-stone-200 bg-grid">
+            <div class="max-w-[1440px] mx-auto px-6 md:px-24 space-y-16">
+                <h2 class="font-display text-4xl reveal-up">Componentes</h2>
+
+                <div class="reveal-up delay-200 flex flex-wrap gap-4">
+                    <button class="px-8 py-4 rounded-full bg-esther-ink text-white text-sm hover:-translate-y-0.5 transition-transform shadow-lg">Primário</button>
+                    <button class="px-8 py-4 rounded-full bg-white text-esther-ink border border-stone-200 text-sm hover:shadow-md transition-shadow">Secundário</button>
+                    <div class="btn-beam rounded-full"><span class="btn-beam-content px-8 py-3.5 rounded-full text-sm">Beam</span></div>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-8 max-w-4xl reveal-up delay-300">
+                    <input class="w-full px-4 py-3 rounded-lg border border-stone-200 bg-white focus:ring-2 focus:ring-esther-olive/25 outline-none text-sm" placeholder="Input neutro" />
+                    <input class="w-full px-4 py-3 rounded-lg border border-esther-terracotta/40 bg-esther-linen outline-none text-sm" value="Foco terracota" />
+                </div>
+
+                <div class="grid md:grid-cols-3 gap-6">
+                    <div class="flashlight-card rounded-xl border border-stone-200 bg-white p-6 min-h-[200px] flex flex-col justify-between hover:shadow-lg transition-shadow"
+                        onmousemove="updateFlashlight(event, this)">
+                        <iconify-icon icon="solar:widget-5-bold-duotone" class="text-2xl text-esther-olive"></iconify-icon>
+                        <p class="font-display text-xl">Card</p>
+                    </div>
+                    <div class="flashlight-card rounded-xl border border-stone-200 bg-white p-6 min-h-[200px] flex flex-col justify-between hover:shadow-lg transition-shadow"
+                        onmousemove="updateFlashlight(event, this)">
+                        <iconify-icon icon="solar:bookmark-bold-duotone" class="text-2xl text-esther-terracotta"></iconify-icon>
+                        <p class="font-display text-xl">flashlight-card</p>
+                    </div>
+                    <div class="flashlight-card rounded-xl border border-stone-200 bg-white p-6 min-h-[200px] flex flex-col justify-between hover:shadow-lg transition-shadow"
+                        onmousemove="updateFlashlight(event, this)">
+                        <iconify-icon icon="solar:shield-user-bold-duotone" class="text-2xl text-stone-500"></iconify-icon>
+                        <p class="font-display text-xl">Hover radial</p>
+                    </div>
+                </div>
+
+                <div class="flex flex-wrap items-center gap-4 reveal-up">
+                    <button onclick="openModal()" class="px-5 py-2.5 rounded-full bg-esther-olive text-white text-sm">modal-root</button>
+                    <span class="px-3 py-1 rounded-full text-[10px] font-mono uppercase bg-stone-200 text-stone-700">badge</span>
+                    <div class="tooltip-container">
+                        <span class="text-sm border-b border-dotted border-stone-400 cursor-help">Tooltip</span>
+                        <div class="tooltip">Conteúdo auxiliar</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="animacoes" class="py-24 bg-esther-linen border-t border-stone-200 relative overflow-hidden">
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-esther-copper/15 rounded-full blur-[100px] pointer-events-none"></div>
+            <div class="max-w-[1440px] mx-auto px-6 md:px-24 relative z-10">
+                <h2 class="font-display text-4xl mb-6 reveal-up">Ícones & animações</h2>
+                <p class="text-stone-600 mb-8 max-w-2xl reveal-up">Classes reutilizadas: <span class="font-mono text-sm">reveal-up</span>, <span class="font-mono text-sm">reveal-zoom</span>, <span class="font-mono text-sm">animate-on-scroll</span>, <span class="font-mono text-sm">animate-float</span>, <span class="font-mono text-sm">animate-scroll-line</span>, <span class="font-mono text-sm">btn-beam</span> / <span class="font-mono text-sm">btn-beam-content</span>, GSAP ScrollTrigger.</p>
+                <div class="flex gap-8 text-3xl text-esther-ink reveal-up delay-200">
+                    <iconify-icon icon="solar:pen-new-square-bold-duotone"></iconify-icon>
+                    <iconify-icon icon="solar:leaf-bold-duotone"></iconify-icon>
+                    <iconify-icon icon="solar:heart-pulse-bold-duotone"></iconify-icon>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-stone-900 text-stone-400 py-12 border-t border-stone-800">
+        <div class="max-w-[1440px] mx-auto px-6 md:px-24 flex justify-between flex-wrap gap-4 text-xs font-mono uppercase tracking-widest">
+            <span>design_system-esther2 · Linen editorial</span>
+            <span>2026</span>
+        </div>
+    </footer>
+
+    <div id="ds-modal" class="modal-root" aria-hidden="true">
+        <div class="modal-backdrop" onclick="closeModal()"></div>
+        <div class="modal-panel">
+            <h3 class="font-display text-2xl text-esther-ink mb-3">Modal</h3>
+            <p class="text-sm text-stone-600 mb-6">Painel com backdrop blur — padrão modal-root / modal-backdrop / modal-panel.</p>
+            <button onclick="closeModal()" class="w-full py-3 rounded-full bg-esther-ink text-white text-sm">Fechar</button>
+        </div>
+    </div>
+
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
+        function openModal() {
+            document.getElementById('ds-modal').classList.add('is-open');
+            document.body.style.overflow = 'hidden';
+        }
+        function closeModal() {
+            document.getElementById('ds-modal').classList.remove('is-open');
+            document.body.style.overflow = '';
+        }
+        window.updateFlashlight = function (e, card) {
+            const rect = card.getBoundingClientRect();
+            card.style.setProperty('--mouse-x', (e.clientX - rect.left) + 'px');
+            card.style.setProperty('--mouse-y', (e.clientY - rect.top) + 'px');
+        };
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('main .reveal-up').forEach((el, i) => setTimeout(() => el.classList.add('active'), 100 * i));
+            document.querySelectorAll('main .reveal-zoom').forEach((el, i) => setTimeout(() => el.classList.add('active'), 150 + 80 * i));
+            gsap.utils.toArray('section .reveal-up, section .reveal-zoom').forEach(function (elem) {
+                ScrollTrigger.create({
+                    trigger: elem,
+                    start: 'top 85%',
+                    onEnter: () => elem.classList.add('active'),
+                });
+            });
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes scroll-line {
+                    0% { transform: translateY(-100%); }
+                    100% { transform: translateY(100%); }
+                }
+                .animate-scroll-line {
+                    animation: scroll-line 1.5s cubic-bezier(0.77, 0, 0.175, 1) infinite;
+                }
+            `;
+            document.head.appendChild(style);
+        });
+    </script>
+</body>
+
+</html>

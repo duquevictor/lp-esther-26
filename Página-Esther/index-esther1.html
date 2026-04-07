@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html class="scroll-smooth" lang="pt-BR">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>As Receitas Que Me Impediram de Voltar a Engordar — Hero</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
+    <script src="https://unpkg.com/split-type@0.3.4/umd/index.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'ui-monospace', 'monospace'],
+                        display: ['Cormorant Garamond', 'Georgia', 'serif'],
+                    },
+                    colors: {
+                        esther: {
+                            cream: '#F7F4EF',
+                            sand: '#EBE6DD',
+                            olive: '#5C6648',
+                            'olive-soft': '#7A8568',
+                            herbal: '#6B7560',
+                            terracotta: '#B87D5C',
+                            caramel: '#A67C52',
+                            copper: '#C4956A',
+                            ink: '#2C2825',
+                            mist: '#E5E0D6',
+                        },
+                    },
+                    backgroundImage: {
+                        noise: "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")",
+                    },
+                },
+            },
+        };
+    </script>
+
+    <style>
+        :root {
+            --esther-cream: #F7F4EF;
+            --esther-olive: #5C6648;
+            --esther-terracotta: #B87D5C;
+            --esther-ink: #2C2825;
+            --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        html.lenis,
+        html.lenis body {
+            height: auto;
+        }
+
+        .lenis.lenis-smooth {
+            scroll-behavior: auto !important;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--esther-cream);
+            color: var(--esther-ink);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .noise-overlay {
+            position: fixed;
+            inset: 0;
+            opacity: 0.035;
+            pointer-events: none;
+            z-index: 9999;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        .text-outline {
+            -webkit-text-stroke: 1px rgba(92, 102, 72, 0.88);
+            color: transparent;
+        }
+
+        .bg-grid-hero {
+            background-size: 40px 40px;
+            background-image:
+                linear-gradient(to right, rgba(44, 40, 37, 0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(44, 40, 37, 0.05) 1px, transparent 1px);
+        }
+
+        .hero-aurora-blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            mix-blend-mode: multiply;
+            animation: auroraBlob 22s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes auroraBlob {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(4%, -6%) scale(1.08); }
+        }
+
+        .hero-video {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transform: scale(1.02);
+        }
+
+        .hero-gradient {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                105deg,
+                rgba(247, 244, 239, 0.97) 0%,
+                rgba(247, 244, 239, 0.92) 28%,
+                rgba(247, 244, 239, 0.55) 48%,
+                rgba(247, 244, 239, 0.12) 68%,
+                transparent 85%
+            );
+            pointer-events: none;
+        }
+
+        @media (max-width: 1023px) {
+            .hero-gradient {
+                background: linear-gradient(
+                    180deg,
+                    rgba(247, 244, 239, 0.96) 0%,
+                    rgba(247, 244, 239, 0.75) 38%,
+                    rgba(247, 244, 239, 0.35) 58%,
+                    transparent 78%
+                );
+            }
+        }
+
+        .btn-hero-cta {
+            position: relative;
+            overflow: hidden;
+            border-radius: 9999px;
+            box-shadow: 0 18px 40px -12px rgba(184, 125, 92, 0.45);
+            transition: transform 0.45s var(--ease-out-expo), box-shadow 0.45s ease;
+        }
+
+        .btn-hero-cta::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(120deg, transparent 0%, rgba(255, 255, 255, 0.22) 45%, transparent 70%);
+            transform: translateX(-120%);
+            transition: transform 0.6s var(--ease-out-expo);
+        }
+
+        .btn-hero-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 22px 48px -10px rgba(184, 125, 92, 0.5);
+        }
+
+        .btn-hero-cta:hover::after {
+            transform: translateX(120%);
+        }
+
+        .float-soft {
+            animation: floatSoft 7s ease-in-out infinite;
+        }
+
+        .float-soft-delay {
+            animation: floatSoft 7s ease-in-out infinite;
+            animation-delay: -2.5s;
+        }
+
+        @keyframes floatSoft {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-12px) rotate(1deg); }
+        }
+
+        .parallax-el {
+            will-change: transform;
+        }
+
+        .scroll-hint-line {
+            animation: scrollLine 1.5s cubic-bezier(0.77, 0, 0.175, 1) infinite;
+        }
+
+        @keyframes scrollLine {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(100%); }
+        }
+
+        #hero-headline .line {
+            overflow: hidden;
+            display: block;
+        }
+
+        #hero-headline .line-inner {
+            display: block;
+            transform: translateY(110%);
+        }
+
+        #hero-sub .hero-sub-line {
+            overflow: hidden;
+            display: block;
+        }
+
+        #hero-sub .hero-sub-line .line-inner {
+            display: block;
+            transform: translateY(105%);
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #EBE6DD;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #C4B8A8;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+
+<body class="antialiased selection:bg-esther-olive selection:text-esther-cream">
+
+    <div class="noise-overlay" aria-hidden="true"></div>
+
+    <!-- Hero: altura de scroll mapeia o vídeo (scrub) -->
+    <section class="hero-scroll relative w-full" id="hero" style="height: 260vh;" aria-label="Apresentação principal">
+        <div class="hero-sticky sticky top-0 h-[100dvh] min-h-[100vh] w-full overflow-hidden bg-esther-cream">
+
+            <video
+                id="hero-video"
+                class="hero-video"
+                src="../assets/video1.mp4"
+                muted
+                playsinline
+                preload="auto"
+                aria-hidden="true"
+            ></video>
+
+            <div class="absolute inset-0 bg-grid-hero opacity-[0.25] pointer-events-none mix-blend-multiply z-[1]"></div>
+
+            <div class="hero-aurora-blob w-[min(88vw,480px)] h-[min(88vw,480px)] bg-[#C4A27D]/30 top-[-8%] right-[-6%] z-[2]"></div>
+            <div class="hero-aurora-blob w-[380px] h-[380px] bg-[#8B9A7A]/28 bottom-[6%] left-[-10%] z-[2]" style="animation-delay: -5s;"></div>
+
+            <div class="hero-gradient z-[3]"></div>
+
+            <div class="absolute inset-0 z-[4] pointer-events-none bg-gradient-to-t from-esther-ink/[0.07] via-transparent to-transparent"></div>
+
+            <div class="relative z-[5] h-full max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-14 flex flex-col lg:flex-row lg:items-center pt-20 pb-10 lg:py-0 lg:min-h-0">
+
+                <!-- Coluna texto (esquerda) -->
+                <div class="w-full lg:w-[52%] xl:w-[48%] flex flex-col justify-center text-left lg:pr-6">
+
+                    <div class="hero-eyebrow mb-5 lg:mb-6 opacity-0">
+                        <span class="inline-flex items-center gap-2.5 rounded-full border border-esther-olive/15 bg-white/55 backdrop-blur-md px-4 py-2 shadow-sm shadow-esther-ink/5">
+                            <span class="w-1.5 h-1.5 rounded-full bg-esther-terracotta shadow-[0_0_12px_rgba(184,125,92,0.45)]"></span>
+                            <span class="text-[10px] sm:text-[11px] font-mono uppercase tracking-[0.2em] text-esther-olive/85">As Receitas Que Me Impediram de Voltar a Engordar</span>
+                        </span>
+                    </div>
+
+                    <h1 id="hero-headline" class="font-display text-[2.35rem] sm:text-5xl md:text-6xl xl:text-[4.1rem] font-semibold tracking-tight leading-[1.02] text-esther-ink mb-6 lg:mb-8">
+                        <span class="line"><span class="line-inner">Pare de emagrecer e engordar</span></span>
+                        <span class="line"><span class="line-inner text-outline">tudo de novo</span></span>
+                    </h1>
+
+                    <p id="hero-sub" class="text-base sm:text-lg md:text-xl text-esther-ink/72 max-w-xl leading-[1.65] font-light mb-8 lg:mb-10">
+                        Emagreça sem precisar começar de novo usando as mesmas receitas que me fizeram perder 55kg e manter o peso até hoje
+                    </p>
+
+                    <div class="hero-cta-wrap flex flex-col items-start gap-3 sm:gap-4">
+                        <a href="#" class="btn-hero-cta group inline-flex items-center justify-center px-8 sm:px-10 py-4 rounded-full bg-esther-terracotta text-esther-cream text-sm sm:text-[15px] font-medium tracking-wide relative z-10 pointer-events-auto">
+                            <span class="relative z-10">👉 Quero Parar de Recomeçar</span>
+                        </a>
+                        <p class="hero-micro text-xs sm:text-[13px] text-esther-ink/55 tracking-[0.02em]">
+                            🔒 Pagamento 100% seguro • Acesso instantâneo
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Coluna direita: elementos flutuantes + respiro visual -->
+                <div class="hidden lg:flex flex-1 relative min-h-[280px] items-center justify-end pointer-events-none">
+
+                    <div class="parallax-el absolute top-[8%] right-[4%] pointer-events-auto">
+                        <div class="rounded-2xl border border-white/60 bg-white/65 backdrop-blur-md px-5 py-4 shadow-xl shadow-esther-ink/[0.08] max-w-[200px]">
+                            <div class="flex items-center gap-2 mb-2">
+                                <iconify-icon icon="solar:leaf-bold-duotone" class="text-2xl text-esther-olive"></iconify-icon>
+                                <span class="text-[10px] font-mono uppercase tracking-[0.18em] text-esther-olive/75">Leveza</span>
+                            </div>
+                            <p class="font-display text-xl text-esther-ink leading-snug">Rotina que sustenta</p>
+                        </div>
+                    </div>
+
+                    <div class="parallax-el absolute bottom-[18%] right-[12%] pointer-events-auto">
+                        <div class="rounded-full border border-esther-terracotta/25 bg-esther-terracotta/10 backdrop-blur-sm px-5 py-2.5 shadow-lg shadow-esther-terracotta/10">
+                            <span class="text-[11px] font-mono uppercase tracking-[0.2em] text-esther-terracotta">Manutenção real</span>
+                        </div>
+                    </div>
+
+                    <div class="parallax-el absolute top-[42%] right-[-2%] opacity-90">
+                        <div class="w-px h-32 bg-gradient-to-b from-transparent via-esther-olive/35 to-transparent"></div>
+                    </div>
+
+                    <div class="parallax-el absolute bottom-[8%] right-[2%] w-24 h-24 rounded-full bg-esther-copper/20 blur-2xl"></div>
+                </div>
+            </div>
+
+            <!-- Mobile: cards compactos abaixo do CTA -->
+            <div class="hero-mobile-cards lg:hidden relative z-[5] px-5 sm:px-8 pb-8 flex flex-wrap gap-3 justify-start">
+                <div class="rounded-xl border border-white/50 bg-white/55 backdrop-blur-md px-3 py-2 shadow-md pointer-events-auto">
+                    <span class="text-[10px] font-mono uppercase tracking-wider text-esther-olive/80">Leveza</span>
+                    <p class="font-display text-base text-esther-ink">Rotina que sustenta</p>
+                </div>
+                <div class="rounded-full border border-esther-terracotta/30 bg-esther-terracotta/12 px-4 py-2 self-center pointer-events-auto">
+                    <span class="text-[10px] font-mono uppercase tracking-wider text-esther-terracotta">Manutenção real</span>
+                </div>
+            </div>
+
+            <div class="absolute bottom-6 left-1/2 -translate-x-1/2 z-[6] flex flex-col items-center gap-2 opacity-75">
+                <span class="text-[10px] font-mono uppercase tracking-[0.2em] text-esther-olive/70">Role para avançar</span>
+                <div class="w-px h-8 bg-esther-olive/25 overflow-hidden rounded-full relative">
+                    <div class="absolute inset-0 w-full bg-esther-terracotta/80 scroll-hint-line"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
+
+        const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        let lenis = null;
+        const LenisCtor = typeof Lenis !== 'undefined' ? Lenis : null;
+        if (!prefersReduced && LenisCtor) {
+            lenis = new LenisCtor({
+                duration: 1.15,
+                easing: function (t) { return Math.min(1, 1.001 - Math.pow(2, -10 * t)); },
+                smoothWheel: true,
+            });
+            lenis.on('scroll', ScrollTrigger.update);
+            gsap.ticker.add(function (time) {
+                lenis.raf(time * 1000);
+            });
+            gsap.ticker.lagSmoothing(0);
+        }
+
+        const video = document.getElementById('hero-video');
+        const heroScroll = document.querySelector('.hero-scroll');
+
+        function setupVideoScrub() {
+            if (!video || !heroScroll) return;
+
+            let duration = 0;
+
+            const applyTime = function (progress) {
+                if (!duration || !isFinite(duration)) return;
+                const t = Math.min(Math.max(progress, 0), 1) * duration;
+                try {
+                    video.currentTime = t;
+                } catch (e) { /* ignore */ }
+            };
+
+            const onMeta = function () {
+                duration = video.duration || 0;
+                ScrollTrigger.refresh();
+            };
+
+            video.addEventListener('loadedmetadata', onMeta);
+            if (video.readyState >= 1) onMeta();
+
+            ScrollTrigger.create({
+                trigger: heroScroll,
+                start: 'top top',
+                end: 'bottom bottom',
+                scrub: prefersReduced ? false : 1.2,
+                onUpdate: function (self) {
+                    applyTime(self.progress);
+                },
+            });
+
+            if (prefersReduced && duration) {
+                video.currentTime = 0;
+            }
+        }
+
+        function initEntrance() {
+            const tl = gsap.timeline({ defaults: { ease: 'power3.out' }, delay: 0.15 });
+
+            gsap.set('#hero-headline .line-inner', { y: '110%' });
+
+            tl.from('.hero-eyebrow', { opacity: 0, y: 16, duration: 0.75 }, 0);
+
+            document.querySelectorAll('#hero-headline .line-inner').forEach(function (el, i) {
+                tl.to(el, { y: '0%', duration: 1.05, ease: 'power4.out' }, 0.15 + i * 0.12);
+            });
+
+            const sub = document.getElementById('hero-sub');
+            const SplitCtor = typeof SplitType !== 'undefined' ? SplitType : null;
+            if (SplitCtor && sub) {
+                new SplitCtor(sub, { types: 'lines', lineClass: 'hero-sub-line' });
+                sub.querySelectorAll('.hero-sub-line').forEach(function (line) {
+                    const inner = document.createElement('span');
+                    inner.className = 'line-inner';
+                    inner.innerHTML = line.innerHTML;
+                    line.innerHTML = '';
+                    line.appendChild(inner);
+                });
+                gsap.set('#hero-sub .hero-sub-line .line-inner', { y: '105%' });
+                sub.querySelectorAll('.hero-sub-line .line-inner').forEach(function (el, i) {
+                    tl.to(el, { y: '0%', duration: 0.95, ease: 'power3.out' }, 0.55 + i * 0.08);
+                });
+            } else if (sub) {
+                tl.from(sub, { opacity: 0, y: 22, duration: 0.9 }, 0.5);
+            }
+
+            tl.from('.hero-cta-wrap', { opacity: 0, y: 20, duration: 0.85 }, 0.72)
+              .from('.hero-micro', { opacity: 0, duration: 0.6 }, 0.92);
+
+            gsap.from('.hero-sticky .parallax-el', {
+                opacity: 0,
+                y: 28,
+                duration: 1,
+                stagger: 0.12,
+                delay: 0.85,
+                ease: 'power3.out',
+            });
+
+            gsap.from('.hero-mobile-cards > *', {
+                opacity: 0,
+                y: 16,
+                duration: 0.75,
+                stagger: 0.1,
+                delay: 1,
+                ease: 'power3.out',
+            });
+        }
+
+        function parallaxFloat() {
+            if (prefersReduced) return;
+            gsap.utils.toArray('.parallax-el').forEach(function (el, i) {
+                gsap.to(el, {
+                    y: i % 2 === 0 ? -18 : 14,
+                    scrollTrigger: {
+                        trigger: '.hero-scroll',
+                        start: 'top top',
+                        end: 'bottom bottom',
+                        scrub: 1.5,
+                    },
+                });
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            setupVideoScrub();
+            if (!prefersReduced) {
+                initEntrance();
+                parallaxFloat();
+            } else {
+                gsap.set('.hero-eyebrow', { opacity: 1 });
+                gsap.set('#hero-headline .line-inner', { y: '0%' });
+                gsap.set('#hero-sub', { opacity: 1 });
+                gsap.set('.hero-cta-wrap, .hero-micro', { opacity: 1 });
+            }
+            ScrollTrigger.refresh();
+        });
+
+        window.addEventListener('resize', function () {
+            ScrollTrigger.refresh();
+        });
+    </script>
+</body>
+</html>

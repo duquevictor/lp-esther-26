@@ -1,0 +1,620 @@
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blackbelt Center | CT de Lutas em Barra Mansa e Resende</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    body { font-family: 'Inter', sans-serif; }
+    .modalidades-track {
+      --gap: 1.5rem;
+      display: flex;
+      gap: var(--gap);
+      width: max-content;
+    }
+    .modalidades-scroll {
+      overflow-x: auto;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      scroll-behavior: smooth;
+    }
+    .modalidades-scroll::-webkit-scrollbar { display: none; }
+    .modalidade-card {
+      flex: 0 0 calc(100vw - 3rem);
+      max-width: calc(100vw - 3rem);
+    }
+    @media (max-width: 767px) {
+      .modalidades-track {
+        --gap: 0rem;
+      }
+      .modalidade-card {
+        flex-basis: calc(100vw - 3.75rem);
+        max-width: calc(100vw - 3.75rem);
+      }
+    }
+    .modalidade-card div[class="absolute bottom-0 p-5"] {
+      width: 100%;
+      background: linear-gradient(to top, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.58) 45%, rgba(0,0,0,0) 100%);
+      box-shadow: inset 0 -24px 60px rgba(0,0,0,0.7);
+    }
+    .modalidade-card div[class="absolute bottom-0 p-5"] p {
+      text-shadow: 0 2px 12px rgba(0,0,0,0.95);
+    }
+    .schedule-accordion summary::-webkit-details-marker { display: none; }
+    .schedule-accordion[open] .schedule-chevron { transform: rotate(180deg); }
+    @media (min-width: 768px) and (max-width: 1023px) {
+      .modalidade-card {
+        flex-basis: calc((100vw - 3rem - var(--gap)) / 2);
+        max-width: calc((100vw - 3rem - var(--gap)) / 2);
+      }
+    }
+    @media (min-width: 1024px) {
+      .modalidade-card {
+        flex-basis: calc((min(100vw, 80rem) - 3rem - (var(--gap) * 2)) / 3);
+        max-width: calc((min(100vw, 80rem) - 3rem - (var(--gap) * 2)) / 3);
+      }
+    }
+  </style>
+</head>
+<body class="bg-zinc-950 text-zinc-100 antialiased selection:bg-red-600 selection:text-white">
+  <header class="fixed top-0 left-0 right-0 z-50 border-b border-white/5 bg-zinc-950/80 backdrop-blur-md">
+    <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+      <a href="#hero" class="flex items-center gap-2 group">
+        <img src="./logo_belt.png" alt="Logo Blackbelt Center" class="h-12 w-auto object-contain drop-shadow-[0_0_10px_rgba(220,38,38,0.25)]">
+        <div class="flex flex-col">
+          <span class="text-xl font-semibold tracking-tight uppercase leading-none">Blackbelt Center</span>
+          <span class="text-[10px] text-zinc-400 tracking-widest uppercase">Barra Mansa + Resende</span>
+        </div>
+      </a>
+      <nav class="hidden lg:flex items-center gap-8">
+        <a href="#hero" class="text-sm font-medium text-zinc-300 hover:text-white transition-colors">Início</a>
+        <a href="#modalidades" class="text-sm font-medium text-zinc-300 hover:text-white transition-colors">Modalidades</a>
+        <a href="#unidades" class="text-sm font-medium text-zinc-300 hover:text-white transition-colors">Unidades</a>
+        <a href="#contato" class="text-sm font-medium text-zinc-300 hover:text-white transition-colors">Contato</a>
+      </nav>
+      <a href="https://wa.me/5524999699921" class="rounded-full bg-red-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-red-500 transition-all shadow-[0_0_20px_rgba(220,38,38,0.3)] hover:shadow-[0_0_30px_rgba(220,38,38,0.5)]">
+        WhatsApp
+      </a>
+    </div>
+  </header>
+
+  <section id="hero" class="relative min-h-screen flex items-center justify-center pt-24 overflow-hidden">
+    <div class="absolute inset-0">
+      <img src="https://images.unsplash.com/photo-1517438984742-1262db0833a0?q=80&w=2069&auto=format&fit=crop" alt="Treino em equipe na academia" class="w-full h-full object-cover opacity-45 scale-105">
+      <div class="absolute inset-0 bg-gradient-to-b from-zinc-950/70 via-zinc-950/60 to-zinc-950"></div>
+      <div class="absolute inset-0 bg-[radial-gradient(circle_at_70%_20%,rgba(220,38,38,0.25),transparent_35%)]"></div>
+    </div>
+    <div class="relative z-10 max-w-6xl mx-auto px-6 text-center">
+      <span class="reveal inline-flex items-center gap-2 rounded-full border border-red-500/30 bg-red-500/10 px-4 py-1.5 text-xs font-medium text-red-400 mb-7 opacity-0 translate-y-10 transition-all duration-700">
+        <span class="w-2 h-2 rounded-full bg-red-500 shadow-[0_0_12px_rgba(220,38,38,0.8)]"></span>
+        Duas Unidades | Múltiplas Modalidades
+      </span>
+      <h1 class="reveal opacity-0 translate-y-10 transition-all duration-700 delay-100 text-4xl md:text-6xl lg:text-7xl font-semibold text-white tracking-tighter mb-6 leading-[1.02]">
+        O Único e Mais Completo CT de Lutas de Barra Mansa
+      </h1>
+      <p class="reveal opacity-0 translate-y-10 transition-all duration-700 delay-200 text-lg md:text-xl text-zinc-300 mb-9 max-w-4xl mx-auto leading-relaxed">
+        A Blackbelt Center é uma academia de artes marciais comprometida em oferecer o melhor em treinamento, qualidade e desenvolvimento pessoal. Com duas unidades estrategicamente localizadas em Barra Mansa (sede principal) e Resende, atendemos alunos de todas as idades e níveis de experiência.
+      </p>
+      <div class="reveal opacity-0 translate-y-10 transition-all duration-700 delay-300 flex flex-col sm:flex-row gap-4 justify-center">
+        <a href="https://wa.me/5524999699921" class="rounded-full bg-red-600 px-8 py-4 text-base font-semibold text-white hover:bg-red-500 transition-all shadow-[0_0_20px_rgba(220,38,38,0.3)] hover:shadow-[0_0_30px_rgba(220,38,38,0.5)]">
+          Agende Sua Aula Experimental
+        </a>
+        <a href="#modalidades" class="rounded-full border border-white/20 bg-white/5 px-8 py-4 text-base font-semibold text-white hover:bg-white/10 transition-all backdrop-blur-sm">
+          Conheça Nossas Modalidades
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section id="modalidades" class="py-24 border-t border-white/5 bg-zinc-950">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="reveal opacity-0 translate-y-10 transition-all duration-700 text-center mb-14">
+        <h2 class="text-4xl md:text-5xl font-semibold tracking-tight text-white mb-4">Escolha Sua Modalidade</h2>
+        <p class="text-xl text-zinc-400">Oferecemos 6 modalidades diferentes para todos os objetivos e idades.</p>
+      </div>
+      <div class="reveal opacity-0 translate-y-10 transition-all duration-700 flex justify-end gap-2 mb-4">
+        <button id="modalidadesPrev" type="button" class="w-10 h-10 rounded-full border border-white/15 bg-zinc-900/80 text-zinc-200 hover:border-red-600/50 hover:text-white transition-all">
+          <i data-lucide="chevron-left" class="w-5 h-5 mx-auto"></i>
+        </button>
+        <button id="modalidadesNext" type="button" class="w-10 h-10 rounded-full border border-white/15 bg-zinc-900/80 text-zinc-200 hover:border-red-600/50 hover:text-white transition-all">
+          <i data-lucide="chevron-right" class="w-5 h-5 mx-auto"></i>
+        </button>
+      </div>
+      <div id="modalidadesScroller" class="reveal opacity-0 translate-y-10 transition-all duration-700 modalidades-scroll overflow-hidden">
+        <div class="modalidades-track">
+          <article class="modalidade-card group relative rounded-2xl overflow-hidden border border-white/10 hover:border-red-600/50">
+            <img src="./card_jiujitsu.png" alt="Card Jiu Jitsu" class="w-full h-auto object-contain transition-transform duration-700 group-hover:scale-[1.02]">
+            <div class="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-zinc-950/90 to-transparent"></div>
+            <div class="absolute bottom-0 p-5"><p class="text-zinc-200 text-sm">A arte da alavanca, técnica e estratégia. Ideal para desenvolvimento físico completo e aprimoramento técnico.</p><p class="text-xs text-zinc-400 mt-2">Faixas etárias: Infantil, Adulto</p></div>
+          </article>
+          <article class="modalidade-card group relative rounded-2xl overflow-hidden border border-white/10 hover:border-red-600/50">
+            <img src="./card_karate.png" alt="Card Karatê" class="w-full h-auto object-contain transition-transform duration-700 group-hover:scale-[1.02]">
+            <div class="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-zinc-950/90 to-transparent"></div>
+            <div class="absolute bottom-0 p-5"><p class="text-zinc-200 text-sm">Desenvolve força, flexibilidade, disciplina e autoconfiança. Excelente para crianças, adolescentes e adultos.</p><p class="text-xs text-zinc-400 mt-2">Faixas etárias: Baby, Infantil, Adulto</p></div>
+          </article>
+          <article class="modalidade-card group relative rounded-2xl overflow-hidden border border-white/10 hover:border-red-600/50">
+            <img src="./card_muaythai.png" alt="Card Muay Thai" class="w-full h-auto object-contain transition-transform duration-700 group-hover:scale-[1.02]">
+            <div class="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-zinc-950/90 to-transparent"></div>
+            <div class="absolute bottom-0 p-5"><p class="text-zinc-200 text-sm">Conhecida como a arte dos oito membros. Modalidade completa que trabalha força, resistência e técnica.</p><p class="text-xs text-zinc-400 mt-2">Faixas etárias: Adulto</p></div>
+          </article>
+          <article class="modalidade-card group relative rounded-2xl overflow-hidden border border-white/10 hover:border-red-600/50">
+            <img src="./card_boxe.png" alt="Card Boxe" class="w-full h-auto object-contain transition-transform duration-700 group-hover:scale-[1.02]">
+            <div class="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-zinc-950/90 to-transparent"></div>
+            <div class="absolute bottom-0 p-5"><p class="text-zinc-200 text-sm">A arte do pugilato. Desenvolve velocidade, reflexos e resistência cardiovascular de forma intensa.</p><p class="text-xs text-zinc-400 mt-2">Faixas etárias: Adulto</p></div>
+          </article>
+          <article class="modalidade-card group relative rounded-2xl overflow-hidden border border-white/10 hover:border-red-600/50">
+            <img src="./card_kravmaga.png" alt="Card Krav Maga" class="w-full h-auto object-contain transition-transform duration-700 group-hover:scale-[1.02]">
+            <div class="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-zinc-950/90 to-transparent"></div>
+            <div class="absolute bottom-0 p-5"><p class="text-zinc-200 text-sm">Sistema de defesa pessoal prático e efetivo. Ideal para segurança e confiança no dia a dia.</p><p class="text-xs text-zinc-400 mt-2">Faixas etárias: Adulto</p></div>
+          </article>
+          <article class="modalidade-card group relative rounded-2xl overflow-hidden border border-white/10 hover:border-red-600/50">
+            <img src="./card_taekwondo.png" alt="Card Taekwondo" class="w-full h-auto object-contain transition-transform duration-700 group-hover:scale-[1.02]">
+            <div class="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-zinc-950/90 to-transparent"></div>
+            <div class="absolute bottom-0 p-5"><p class="text-zinc-200 text-sm">Arte marcial coreana que enfatiza chutes altos, equilíbrio e disciplina.</p><p class="text-xs text-zinc-400 mt-2">Faixas etárias: Infantil, Adulto</p></div>
+          </article>
+
+          <article class="modalidade-card group relative rounded-2xl overflow-hidden border border-white/10 hover:border-red-600/50">
+            <img src="./card_jiujitsu.png" alt="Card Jiu Jitsu duplicado" class="w-full h-auto object-contain transition-transform duration-700 group-hover:scale-[1.02]">
+            <div class="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-zinc-950/90 to-transparent"></div>
+            <div class="absolute bottom-0 p-5"><p class="text-zinc-200 text-sm">A arte da alavanca, técnica e estratégia. Ideal para desenvolvimento físico completo e aprimoramento técnico.</p><p class="text-xs text-zinc-400 mt-2">Faixas etárias: Infantil, Adulto</p></div>
+          </article>
+          <article class="modalidade-card group relative rounded-2xl overflow-hidden border border-white/10 hover:border-red-600/50">
+            <img src="./card_karate.png" alt="Card Karatê duplicado" class="w-full h-auto object-contain transition-transform duration-700 group-hover:scale-[1.02]">
+            <div class="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-zinc-950/90 to-transparent"></div>
+            <div class="absolute bottom-0 p-5"><p class="text-zinc-200 text-sm">Desenvolve força, flexibilidade, disciplina e autoconfiança. Excelente para crianças, adolescentes e adultos.</p><p class="text-xs text-zinc-400 mt-2">Faixas etárias: Baby, Infantil, Adulto</p></div>
+          </article>
+          <article class="modalidade-card group relative rounded-2xl overflow-hidden border border-white/10 hover:border-red-600/50">
+            <img src="./card_muaythai.png" alt="Card Muay Thai duplicado" class="w-full h-auto object-contain transition-transform duration-700 group-hover:scale-[1.02]">
+            <div class="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-zinc-950/90 to-transparent"></div>
+            <div class="absolute bottom-0 p-5"><p class="text-zinc-200 text-sm">Conhecida como a arte dos oito membros. Modalidade completa que trabalha força, resistência e técnica.</p><p class="text-xs text-zinc-400 mt-2">Faixas etárias: Adulto</p></div>
+          </article>
+          <article class="modalidade-card group relative rounded-2xl overflow-hidden border border-white/10 hover:border-red-600/50">
+            <img src="./card_boxe.png" alt="Card Boxe duplicado" class="w-full h-auto object-contain transition-transform duration-700 group-hover:scale-[1.02]">
+            <div class="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-zinc-950/90 to-transparent"></div>
+            <div class="absolute bottom-0 p-5"><p class="text-zinc-200 text-sm">A arte do pugilato. Desenvolve velocidade, reflexos e resistência cardiovascular de forma intensa.</p><p class="text-xs text-zinc-400 mt-2">Faixas etárias: Adulto</p></div>
+          </article>
+          <article class="modalidade-card group relative rounded-2xl overflow-hidden border border-white/10 hover:border-red-600/50">
+            <img src="./card_kravmaga.png" alt="Card Krav Maga duplicado" class="w-full h-auto object-contain transition-transform duration-700 group-hover:scale-[1.02]">
+            <div class="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-zinc-950/90 to-transparent"></div>
+            <div class="absolute bottom-0 p-5"><p class="text-zinc-200 text-sm">Sistema de defesa pessoal prático e efetivo. Ideal para segurança e confiança no dia a dia.</p><p class="text-xs text-zinc-400 mt-2">Faixas etárias: Adulto</p></div>
+          </article>
+          <article class="modalidade-card group relative rounded-2xl overflow-hidden border border-white/10 hover:border-red-600/50">
+            <img src="./card_taekwondo.png" alt="Card Taekwondo duplicado" class="w-full h-auto object-contain transition-transform duration-700 group-hover:scale-[1.02]">
+            <div class="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-zinc-950/90 to-transparent"></div>
+            <div class="absolute bottom-0 p-5"><p class="text-zinc-200 text-sm">Arte marcial coreana que enfatiza chutes altos, equilíbrio e disciplina.</p><p class="text-xs text-zinc-400 mt-2">Faixas etárias: Infantil, Adulto</p></div>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-24 bg-zinc-900 border-y border-white/5">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="reveal opacity-0 translate-y-10 transition-all duration-700 text-center mb-14">
+        <h2 class="text-4xl md:text-5xl font-semibold tracking-tight text-white mb-4">Temos Turmas Para Todos</h2>
+        <p class="text-xl text-zinc-400">Independente da idade, temos o programa perfeito para você.</p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="reveal opacity-0 translate-y-10 transition-all duration-700 delay-100 p-7 rounded-2xl bg-zinc-800/50 border border-white/10 hover:border-red-600/50">
+          <img src="./card_adulto.png" alt="Turma adulto" class="w-full h-auto object-contain rounded-xl">
+          <div class="border-t border-white/20 my-5"></div>
+          <h3 class="text-2xl font-semibold mb-2">Adulto</h3>
+          <p class="text-zinc-400">Treino completo e desafiador para quem busca excelência técnica e condicionamento físico.</p>
+        </div>
+        <div class="reveal opacity-0 translate-y-10 transition-all duration-700 delay-200 p-7 rounded-2xl bg-zinc-800/50 border border-white/10 hover:border-red-600/50">
+          <img src="./card_infantil.png" alt="Turma infantil" class="w-full h-auto object-contain rounded-xl">
+          <div class="border-t border-white/20 my-5"></div>
+          <h3 class="text-2xl font-semibold mb-2">Infantil</h3>
+          <p class="text-zinc-400">Desenvolvimento físico, disciplina e valores como respeito e perseverança.</p>
+        </div>
+        <div class="reveal opacity-0 translate-y-10 transition-all duration-700 delay-300 p-7 rounded-2xl bg-zinc-800/50 border border-white/10 hover:border-red-600/50">
+          <img src="./card_baby.png" alt="Turma baby" class="w-full h-auto object-contain rounded-xl">
+          <div class="border-t border-white/20 my-5"></div>
+          <h3 class="text-2xl font-semibold mb-2">Baby (3-5 anos)</h3>
+          <p class="text-zinc-400">Primeiros passos nas artes marciais com foco em coordenação, disciplina e diversão.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="unidades" class="py-24 bg-zinc-950">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="reveal opacity-0 translate-y-10 transition-all duration-700 text-center mb-14">
+        <h2 class="text-4xl md:text-5xl font-semibold tracking-tight text-white mb-4">Duas Unidades, Mesma Qualidade</h2>
+        <p class="text-xl text-zinc-400">Escolha a localidade mais conveniente para você.</p>
+      </div>
+      <div class="reveal opacity-0 translate-y-10 transition-all duration-700 rounded-3xl border border-white/10 bg-zinc-900 overflow-hidden shadow-2xl flex flex-col lg:flex-row min-h-[760px] lg:min-h-[640px]">
+        <div class="w-full lg:w-[420px] border-r border-white/10 bg-zinc-900/95 p-5 lg:p-6 space-y-4">
+          <article id="selectBarraMansa" class="location-card w-full text-left p-5 rounded-2xl border border-red-600/40 bg-zinc-800/60 hover:border-red-600/60 transition-all cursor-pointer">
+            <div class="flex items-center justify-between mb-3">
+              <h3 class="text-xl font-semibold text-white">Barra Mansa (Sede Principal)</h3>
+              <span class="text-xs text-red-400 border border-red-600/30 rounded-full px-2 py-0.5 bg-red-600/10">Sede</span>
+            </div>
+            <ul class="space-y-2 text-zinc-300 mb-5 text-sm">
+              <li class="flex items-center gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-red-600"></i>6 modalidades disponíveis</li>
+              <li class="flex items-center gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-red-600"></i>Horários variados</li>
+              <li class="flex items-center gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-red-600"></i>Duas áreas de luta equipadas</li>
+            </ul>
+            <div class="rounded-xl border border-white/10 bg-zinc-950/70 px-4 py-3 mb-5">
+              <p class="text-xs uppercase tracking-widest text-zinc-500 mb-1">Endereço</p>
+              <p class="text-sm text-zinc-300">R. São Sebastião, 161 - Centro, Barra Mansa - RJ, 27345-480</p>
+            </div>
+            <a href="https://wa.me/5524999699921" class="w-full inline-flex justify-center rounded-full bg-red-600 px-5 py-2.5 text-sm font-semibold hover:bg-red-500 transition-all shadow-[0_0_20px_rgba(220,38,38,0.3)] hover:shadow-[0_0_30px_rgba(220,38,38,0.5)]">Ver Horários de Barra Mansa</a>
+          </article>
+
+          <article id="selectResende" class="location-card w-full text-left p-5 rounded-2xl border border-white/10 bg-zinc-800/40 hover:border-red-600/50 transition-all cursor-pointer">
+            <div class="flex items-center justify-between mb-3">
+              <h3 class="text-xl font-semibold text-white">Resende (Unidade Satélite)</h3>
+              <span class="text-xs text-zinc-300 border border-white/20 rounded-full px-2 py-0.5 bg-white/5">Satélite</span>
+            </div>
+            <ul class="space-y-2 text-zinc-300 mb-5 text-sm">
+              <li class="flex items-center gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-red-600"></i>Karatê em 3 locais parceiros</li>
+              <li class="flex items-center gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-red-600"></i>Comodidade e acessibilidade</li>
+              <li class="flex items-center gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-red-600"></i>Qualidade Blackbelt em cada aula</li>
+            </ul>
+            <div class="rounded-xl border border-white/10 bg-zinc-950/70 px-4 py-3 mb-5 space-y-3">
+              <div>
+                <p class="text-xs uppercase tracking-widest text-zinc-500 mb-1">CIMAN</p>
+                <p class="text-sm text-zinc-300">R. Mal. Bitencourt, S/n - Guararapes, Resende - RJ, 27533-050</p>
+              </div>
+              <div>
+                <p class="text-xs uppercase tracking-widest text-zinc-500 mb-1">CSSAN</p>
+                <p class="text-sm text-zinc-300">Praça Dezoito do Forte, S/N - Monte Castelo, Resende - RJ, 27533-350</p>
+              </div>
+              <div>
+                <p class="text-xs uppercase tracking-widest text-zinc-500 mb-1">Colégio Salesiano Resende</p>
+                <p class="text-sm text-zinc-300">Av. Marcílio Dias, 256 - Jardim Jalisco, Resende - RJ, 27500-000</p>
+              </div>
+            </div>
+            <a href="https://wa.me/5524999699921" class="w-full inline-flex justify-center rounded-full bg-red-600 px-5 py-2.5 text-sm font-semibold hover:bg-red-500 transition-all shadow-[0_0_20px_rgba(220,38,38,0.3)] hover:shadow-[0_0_30px_rgba(220,38,38,0.5)]">Ver Horários de Resende</a>
+          </article>
+        </div>
+
+        <div class="relative flex-1 bg-zinc-800 min-h-[420px] lg:min-h-[640px]">
+          <div id="unidadesMap" class="absolute inset-0 z-0"></div>
+          <div class="absolute inset-0 z-10 pointer-events-none bg-gradient-to-t from-zinc-950/35 via-transparent to-zinc-950/20"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-24 border-t border-white/5 bg-zinc-900">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="reveal opacity-0 translate-y-10 transition-all duration-700 text-center mb-14">
+        <h2 class="text-4xl md:text-5xl font-semibold tracking-tight text-white mb-4">Horários Disponíveis</h2>
+        <p class="text-xl text-zinc-400">Múltiplos horários para se adequar à sua rotina.</p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
+        <details class="schedule-accordion reveal opacity-0 translate-y-10 transition-all duration-700 delay-100 rounded-xl border border-white/10 bg-zinc-950 open:border-red-600/40">
+          <summary class="list-none cursor-pointer p-5 flex items-center justify-between">
+            <span class="text-red-500 text-base font-semibold">Jiu Jitsu</span>
+            <i data-lucide="chevron-down" class="schedule-chevron w-5 h-5 text-zinc-400 transition-transform duration-300"></i>
+          </summary>
+          <div class="px-5 pb-5 border-t border-white/10">
+            <ul class="mt-4 space-y-2 text-sm text-zinc-300">
+              <li><span class="text-white font-medium">Adulto:</span> Seg/Qua/Sex às 08h30</li>
+              <li class="text-zinc-400 pl-3">- Ter/Qui/Sex às 20h</li>
+              <li><span class="text-white font-medium">Infantil:</span> Ter/Qui às 19h</li>
+            </ul>
+          </div>
+        </details>
+
+        <details class="schedule-accordion reveal opacity-0 translate-y-10 transition-all duration-700 delay-200 rounded-xl border border-white/10 bg-zinc-950 open:border-red-600/40">
+          <summary class="list-none cursor-pointer p-5 flex items-center justify-between">
+            <span class="text-red-500 text-base font-semibold">Karatê</span>
+            <i data-lucide="chevron-down" class="schedule-chevron w-5 h-5 text-zinc-400 transition-transform duration-300"></i>
+          </summary>
+          <div class="px-5 pb-5 border-t border-white/10">
+            <ul class="mt-4 space-y-2 text-sm text-zinc-300">
+              <li><span class="text-white font-medium">Adulto:</span> Seg/Qua/Sex às 19h</li>
+              <li class="text-zinc-400 pl-3">- Ter/Qui às 06h, 16h, 17h</li>
+              <li class="text-zinc-400 pl-3">- Seg/Qua às 10h</li>
+              <li><span class="text-white font-medium">Infantil:</span> Seg/Qua/Sex às 18h</li>
+              <li class="text-zinc-400 pl-3">- Ter/Qui às 10h, 16h, 17h</li>
+              <li><span class="text-white font-medium">Baby (3 a 5 anos):</span> Seg/Qua/Sex às 10h</li>
+              <li class="text-zinc-400 pl-3">- Ter/Qui às 18h</li>
+            </ul>
+          </div>
+        </details>
+
+        <details class="schedule-accordion reveal opacity-0 translate-y-10 transition-all duration-700 delay-300 rounded-xl border border-white/10 bg-zinc-950 open:border-red-600/40">
+          <summary class="list-none cursor-pointer p-5 flex items-center justify-between">
+            <span class="text-red-500 text-base font-semibold">Muay Thai</span>
+            <i data-lucide="chevron-down" class="schedule-chevron w-5 h-5 text-zinc-400 transition-transform duration-300"></i>
+          </summary>
+          <div class="px-5 pb-5 border-t border-white/10">
+            <ul class="mt-4 space-y-2 text-sm text-zinc-300">
+              <li><span class="text-white font-medium">Adulto:</span> Seg/Qua/Sex às 08h, 16h, 18h</li>
+              <li class="text-zinc-400 pl-3">- Ter/Qui às 06h, 11h, 20h</li>
+              <li><span class="text-white font-medium">Infantil:</span> Seg/Qua/Sex às 17h</li>
+              <li class="text-zinc-400 pl-3">- Ter/Qui às 10h</li>
+            </ul>
+          </div>
+        </details>
+
+        <details class="schedule-accordion reveal opacity-0 translate-y-10 transition-all duration-700 delay-100 rounded-xl border border-white/10 bg-zinc-950 open:border-red-600/40">
+          <summary class="list-none cursor-pointer p-5 flex items-center justify-between">
+            <span class="text-red-500 text-base font-semibold">Boxe</span>
+            <i data-lucide="chevron-down" class="schedule-chevron w-5 h-5 text-zinc-400 transition-transform duration-300"></i>
+          </summary>
+          <div class="px-5 pb-5 border-t border-white/10">
+            <ul class="mt-4 space-y-2 text-sm text-zinc-300">
+              <li><span class="text-white font-medium">Adulto:</span> Seg/Qua/Sex às 19h</li>
+              <li class="text-zinc-400 pl-3">- Ter/Qui às 07h</li>
+            </ul>
+          </div>
+        </details>
+
+        <details class="schedule-accordion reveal opacity-0 translate-y-10 transition-all duration-700 delay-200 rounded-xl border border-white/10 bg-zinc-950 open:border-red-600/40">
+          <summary class="list-none cursor-pointer p-5 flex items-center justify-between">
+            <span class="text-red-500 text-base font-semibold">Krav Maga</span>
+            <i data-lucide="chevron-down" class="schedule-chevron w-5 h-5 text-zinc-400 transition-transform duration-300"></i>
+          </summary>
+          <div class="px-5 pb-5 border-t border-white/10">
+            <ul class="mt-4 space-y-2 text-sm text-zinc-300">
+              <li><span class="text-white font-medium">Adulto:</span> Ter/Qui às 19h</li>
+              <li class="text-zinc-400 pl-3">- Sáb às 14h</li>
+            </ul>
+          </div>
+        </details>
+
+        <details class="schedule-accordion reveal opacity-0 translate-y-10 transition-all duration-700 delay-300 rounded-xl border border-white/10 bg-zinc-950 open:border-red-600/40">
+          <summary class="list-none cursor-pointer p-5 flex items-center justify-between">
+            <span class="text-red-500 text-base font-semibold">Taekwondo</span>
+            <i data-lucide="chevron-down" class="schedule-chevron w-5 h-5 text-zinc-400 transition-transform duration-300"></i>
+          </summary>
+          <div class="px-5 pb-5 border-t border-white/10">
+            <ul class="mt-4 space-y-2 text-sm text-zinc-300">
+              <li><span class="text-white font-medium">Adulto:</span> Seg/Qua às 20h</li>
+            </ul>
+          </div>
+        </details>
+      </div>
+      <div class="text-center reveal opacity-0 translate-y-10 transition-all duration-700 delay-200">
+        <a href="https://wa.me/5524999699921" class="inline-flex rounded-full bg-red-600 px-8 py-4 font-semibold hover:bg-red-500 transition-all shadow-[0_0_20px_rgba(220,38,38,0.3)] hover:shadow-[0_0_30px_rgba(220,38,38,0.5)]">Ver Todos os Horários</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-24 bg-zinc-950">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="reveal opacity-0 translate-y-10 transition-all duration-700 text-center mb-14">
+        <h2 class="text-4xl md:text-5xl font-semibold tracking-tight text-white mb-4">Por Que Treinar na Blackbelt Center?</h2>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div class="reveal opacity-0 translate-y-10 transition-all duration-700 delay-100 p-6 rounded-xl bg-zinc-900 border border-white/10"><i data-lucide="badge-check" class="w-6 h-6 text-red-600 mb-3"></i><p>Instrutores qualificados e certificados</p></div>
+        <div class="reveal opacity-0 translate-y-10 transition-all duration-700 delay-200 p-6 rounded-xl bg-zinc-900 border border-white/10"><i data-lucide="heart-handshake" class="w-6 h-6 text-red-600 mb-3"></i><p>Ambiente acolhedor e inclusivo</p></div>
+        <div class="reveal opacity-0 translate-y-10 transition-all duration-700 delay-300 p-6 rounded-xl bg-zinc-900 border border-white/10"><i data-lucide="swords" class="w-6 h-6 text-red-600 mb-3"></i><p>Múltiplas modalidades para todos</p></div>
+        <div class="reveal opacity-0 translate-y-10 transition-all duration-700 delay-100 p-6 rounded-xl bg-zinc-900 border border-white/10"><i data-lucide="clock-4" class="w-6 h-6 text-red-600 mb-3"></i><p>Horários flexíveis</p></div>
+        <div class="reveal opacity-0 translate-y-10 transition-all duration-700 delay-200 p-6 rounded-xl bg-zinc-900 border border-white/10"><i data-lucide="users" class="w-6 h-6 text-red-600 mb-3"></i><p>Comunidade forte e motivadora</p></div>
+        <div class="reveal opacity-0 translate-y-10 transition-all duration-700 delay-300 p-6 rounded-xl bg-zinc-900 border border-white/10"><i data-lucide="trending-up" class="w-6 h-6 text-red-600 mb-3"></i><p>Resultados comprovados</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-24 bg-zinc-900 border-y border-white/5">
+    <div class="max-w-5xl mx-auto px-6">
+      <div class="reveal opacity-0 translate-y-10 transition-all duration-700 text-center mb-10">
+        <h2 class="text-4xl md:text-5xl font-semibold tracking-tight text-white mb-4">Aceitamos Total Pass</h2>
+        <p class="text-xl text-zinc-400">Sim, a Blackbelt Center aceita Total Pass a partir do plano TP2.</p>
+      </div>
+      <div class="reveal opacity-0 translate-y-10 transition-all duration-700 delay-100 p-8 rounded-3xl border border-red-600/30 bg-zinc-950">
+        <ul class="space-y-4 text-zinc-300 mb-8">
+          <li class="flex gap-3"><i data-lucide="check-circle-2" class="w-5 h-5 text-red-600 mt-0.5 shrink-0"></i>Check-in obrigatório desde a primeira aula</li>
+          <li class="flex gap-3"><i data-lucide="x-circle" class="w-5 h-5 text-red-600 mt-0.5 shrink-0"></i>Sem aula experimental para usuários Total Pass</li>
+          <li class="flex gap-3"><i data-lucide="baby" class="w-5 h-5 text-red-600 mt-0.5 shrink-0"></i>Crianças a partir dos 14 anos</li>
+          <li class="flex gap-3"><i data-lucide="package" class="w-5 h-5 text-red-600 mt-0.5 shrink-0"></i>Material (Muay Thai/Boxe) responsabilidade do aluno</li>
+          <li class="flex gap-3"><i data-lucide="refresh-cw" class="w-5 h-5 text-red-600 mt-0.5 shrink-0"></i>Aluguel de material disponível</li>
+        </ul>
+        <a href="https://wa.me/5524999699921" class="inline-flex rounded-full bg-red-600 px-7 py-3 font-semibold hover:bg-red-500 transition-all shadow-[0_0_20px_rgba(220,38,38,0.3)] hover:shadow-[0_0_30px_rgba(220,38,38,0.5)]">Consultar Valores no WhatsApp</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-24 bg-zinc-950">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="reveal opacity-0 translate-y-10 transition-all duration-700 text-center mb-14">
+        <h2 class="text-4xl md:text-5xl font-semibold tracking-tight text-white mb-4">Informações Importantes</h2>
+      </div>
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div class="reveal opacity-0 translate-y-10 transition-all duration-700 delay-100 p-7 rounded-2xl bg-zinc-900 border border-white/10">
+          <h3 class="text-xl font-semibold mb-3 text-red-500">Menores de Idade</h3>
+          <p class="text-zinc-300">Para alunos menores de 18 anos, é indispensável a presença ou autorização de responsável legal. Formulário disponível na secretaria.</p>
+        </div>
+        <div class="reveal opacity-0 translate-y-10 transition-all duration-700 delay-200 p-7 rounded-2xl bg-zinc-900 border border-white/10">
+          <h3 class="text-xl font-semibold mb-3 text-red-500">Material Necessário</h3>
+          <ul class="space-y-2 text-zinc-300">
+            <li>Muay Thai e Boxe: Luvas e caneleiras (responsabilidade do aluno)</li>
+            <li>Demais modalidades: Não necessário</li>
+            <li>Aluguel disponível</li>
+          </ul>
+        </div>
+        <div class="reveal opacity-0 translate-y-10 transition-all duration-700 delay-300 p-7 rounded-2xl bg-zinc-900 border border-white/10">
+          <h3 class="text-xl font-semibold mb-3 text-red-500">Aula Experimental</h3>
+          <p class="text-zinc-300">R$20, abatida da taxa de matrícula. Usuários Total Pass não têm direito.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-24 bg-zinc-900 border-y border-white/5">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="reveal opacity-0 translate-y-10 transition-all duration-700 text-center mb-14">
+        <h2 class="text-4xl md:text-5xl font-semibold tracking-tight text-white mb-4">O Que Nossos Alunos Dizem</h2>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+        <article class="reveal opacity-0 translate-y-10 transition-all duration-700 delay-100 p-6 rounded-2xl bg-zinc-950 border border-white/10"><img src="https://i.pravatar.cc/100?img=11" class="w-14 h-14 rounded-full mb-4 border border-white/20" alt="Aluno João"><h3 class="font-semibold">João - Jiu Jitsu</h3><p class="text-zinc-400 text-sm mt-2">Melhor decisão que tomei. A comunidade aqui é incrível e os instrutores são muito dedicados.</p><div class="flex gap-1 mt-3 text-red-500"><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i></div></article>
+        <article class="reveal opacity-0 translate-y-10 transition-all duration-700 delay-200 p-6 rounded-2xl bg-zinc-950 border border-white/10"><img src="https://i.pravatar.cc/100?img=32" class="w-14 h-14 rounded-full mb-4 border border-white/20" alt="Aluna Camila"><h3 class="font-semibold">Camila - Muay Thai</h3><p class="text-zinc-400 text-sm mt-2">Treinos intensos e acompanhamento real. Evoluí muito no condicionamento e na confiança.</p><div class="flex gap-1 mt-3 text-red-500"><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i></div></article>
+        <article class="reveal opacity-0 translate-y-10 transition-all duration-700 delay-300 p-6 rounded-2xl bg-zinc-950 border border-white/10"><img src="https://i.pravatar.cc/100?img=18" class="w-14 h-14 rounded-full mb-4 border border-white/20" alt="Aluno Rafael"><h3 class="font-semibold">Rafael - Karatê</h3><p class="text-zinc-400 text-sm mt-2">Estrutura excelente e ambiente acolhedor. Meu filho ama as aulas e está mais disciplinado.</p><div class="flex gap-1 mt-3 text-red-500"><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i></div></article>
+        <article class="reveal opacity-0 translate-y-10 transition-all duration-700 delay-100 p-6 rounded-2xl bg-zinc-950 border border-white/10"><img src="https://i.pravatar.cc/100?img=51" class="w-14 h-14 rounded-full mb-4 border border-white/20" alt="Aluna Bruna"><h3 class="font-semibold">Bruna - Boxe</h3><p class="text-zinc-400 text-sm mt-2">Horários flexíveis e aulas muito bem conduzidas. Recomendo para qualquer nível.</p><div class="flex gap-1 mt-3 text-red-500"><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i></div></article>
+      </div>
+    </div>
+  </section>
+
+  <section id="contato" class="relative py-28 bg-zinc-950 overflow-hidden">
+    <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-red-900/20 via-zinc-950 to-zinc-950"></div>
+    <div class="relative z-10 max-w-5xl mx-auto px-6 text-center">
+      <h2 class="reveal opacity-0 translate-y-10 transition-all duration-700 text-4xl md:text-6xl font-semibold tracking-tight text-white mb-5">Comece Sua Jornada Hoje</h2>
+      <p class="reveal opacity-0 translate-y-10 transition-all duration-700 delay-100 text-xl text-zinc-300 mb-10 max-w-3xl mx-auto">Não importa se você é iniciante ou experiente, a Blackbelt Center é o lugar perfeito para desenvolver suas habilidades.</p>
+      <div class="reveal opacity-0 translate-y-10 transition-all duration-700 delay-200 flex flex-col sm:flex-row items-center justify-center gap-4 mb-4">
+        <a href="https://wa.me/5524999699921" class="rounded-full bg-red-600 px-8 py-4 font-semibold hover:bg-red-500 transition-all shadow-[0_0_20px_rgba(220,38,38,0.3)] hover:shadow-[0_0_30px_rgba(220,38,38,0.5)]">Agende Sua Aula Experimental Agora</a>
+        <a href="https://wa.me/5524999699921" class="rounded-full border border-white/20 bg-white/5 px-8 py-4 font-semibold hover:bg-white/10 transition-all">Fale com Nossa Secretaria</a>
+      </div>
+      <p class="reveal opacity-0 translate-y-10 transition-all duration-700 delay-300 text-zinc-500">Orçamento rápido e sem compromisso</p>
+    </div>
+  </section>
+
+  <footer class="bg-black border-t border-white/10 py-10">
+    <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-3">
+      <p class="text-zinc-600 text-sm">© 2026 Blackbelt Center. Todos os direitos reservados.</p>
+      <a href="https://wa.me/5524999699921" class="text-sm text-zinc-400 hover:text-white transition-colors">WhatsApp: (24) 99969-9921</a>
+    </div>
+  </footer>
+
+  <script>
+    lucide.createIcons();
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.remove('opacity-0', 'translate-y-10');
+          entry.target.classList.add('opacity-100', 'translate-y-0');
+        }
+      });
+    }, { threshold: 0.15 });
+    document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+
+    const modalidadesScroller = document.getElementById('modalidadesScroller');
+    const modalidadesPrev = document.getElementById('modalidadesPrev');
+    const modalidadesNext = document.getElementById('modalidadesNext');
+
+    if (modalidadesScroller) {
+      const getStep = () => {
+        const firstCard = modalidadesScroller.querySelector('.modalidade-card');
+        const track = modalidadesScroller.querySelector('.modalidades-track');
+        if (!firstCard || !track) return 320;
+        const styles = window.getComputedStyle(track);
+        const gap = parseFloat(styles.gap || '24');
+        return firstCard.getBoundingClientRect().width + gap;
+      };
+
+      const normalizeLoop = () => {
+        const half = modalidadesScroller.scrollWidth / 2;
+        if (modalidadesScroller.scrollLeft >= half) {
+          modalidadesScroller.scrollLeft -= half;
+        }
+        if (modalidadesScroller.scrollLeft < 0) {
+          modalidadesScroller.scrollLeft += half;
+        }
+      };
+
+      const autoplayAdvance = () => {
+        modalidadesScroller.scrollBy({ left: getStep(), behavior: 'smooth' });
+        window.setTimeout(normalizeLoop, 420);
+      };
+
+      let autoplayTimer = window.setInterval(autoplayAdvance, 3200);
+      const restartAutoplay = () => {
+        window.clearInterval(autoplayTimer);
+        autoplayTimer = window.setInterval(autoplayAdvance, 3200);
+      };
+
+      modalidadesNext?.addEventListener('click', () => {
+        modalidadesScroller.scrollBy({ left: getStep(), behavior: 'smooth' });
+        window.setTimeout(normalizeLoop, 420);
+        restartAutoplay();
+      });
+
+      modalidadesPrev?.addEventListener('click', () => {
+        modalidadesScroller.scrollBy({ left: -getStep(), behavior: 'smooth' });
+        window.setTimeout(normalizeLoop, 420);
+        restartAutoplay();
+      });
+
+      modalidadesScroller.addEventListener('mouseenter', () => window.clearInterval(autoplayTimer));
+      modalidadesScroller.addEventListener('mouseleave', restartAutoplay);
+      modalidadesScroller.addEventListener('touchstart', () => window.clearInterval(autoplayTimer), { passive: true });
+      modalidadesScroller.addEventListener('touchend', restartAutoplay, { passive: true });
+    }
+
+    if (window.L && document.getElementById('unidadesMap')) {
+      const unidadesMap = L.map('unidadesMap', { zoomControl: true, scrollWheelZoom: false }).setView([-22.48, -44.42], 11);
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; OpenStreetMap'
+      }).addTo(unidadesMap);
+
+      const pinStyle = {
+        radius: 8,
+        fillColor: '#dc2626',
+        color: '#ffffff',
+        weight: 2,
+        opacity: 1,
+        fillOpacity: 0.9
+      };
+
+      const barraMansaLayer = L.layerGroup([
+        L.circleMarker([-22.5457663, -44.1722121], pinStyle)
+          .bindPopup('<strong>Blackbelt Center - Barra Mansa</strong><br>R. São Sebastião, 161 - Centro')
+      ]);
+
+      const resendeLayer = L.layerGroup([
+        L.circleMarker([-22.4575, -44.4525], pinStyle)
+          .bindPopup('<strong>CIMAN</strong><br>R. Mal. Bitencourt, S/n - Guararapes'),
+        L.circleMarker([-22.4502659, -44.4601234], pinStyle)
+          .bindPopup('<strong>CSSAN</strong><br>Praça Dezoito do Forte, S/N - Monte Castelo'),
+        L.circleMarker([-22.4641321, -44.4596825], pinStyle)
+          .bindPopup('<strong>Colégio Salesiano Resende</strong><br>Av. Marcílio Dias, 256 - Jardim Jalisco')
+      ]);
+
+      const selectBarraMansa = document.getElementById('selectBarraMansa');
+      const selectResende = document.getElementById('selectResende');
+      const cards = [selectBarraMansa, selectResende];
+
+      const setActiveCard = (activeCard) => {
+        cards.forEach((card) => {
+          if (!card) return;
+          card.classList.remove('border-red-600/40', 'bg-zinc-800/60');
+          card.classList.add('border-white/10', 'bg-zinc-800/40');
+        });
+        activeCard?.classList.remove('border-white/10', 'bg-zinc-800/40');
+        activeCard?.classList.add('border-red-600/40', 'bg-zinc-800/60');
+      };
+
+      let currentLocationLayer = null;
+
+      const showLayer = (layer, bounds, activeCard) => {
+        if (currentLocationLayer) {
+          unidadesMap.removeLayer(currentLocationLayer);
+        }
+        currentLocationLayer = layer;
+        currentLocationLayer.addTo(unidadesMap);
+        unidadesMap.fitBounds(bounds.pad(0.35));
+        setActiveCard(activeCard);
+      };
+
+      const barraBounds = L.latLngBounds([[-22.5457663, -44.1722121]]);
+      const resendeBounds = L.latLngBounds([
+        [-22.4575, -44.4525],
+        [-22.4502659, -44.4601234],
+        [-22.4641321, -44.4596825]
+      ]);
+
+      showLayer(barraMansaLayer, barraBounds, selectBarraMansa);
+
+      selectBarraMansa?.addEventListener('click', (event) => {
+        if (event.target.closest('a')) return;
+        showLayer(barraMansaLayer, barraBounds, selectBarraMansa);
+      });
+
+      selectResende?.addEventListener('click', (event) => {
+        if (event.target.closest('a')) return;
+        showLayer(resendeLayer, resendeBounds, selectResende);
+      });
+    }
+  </script>
+</body>
+</html>

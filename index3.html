@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>As Receitas Que Me Impediram de Voltar a Engordar</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet">
+    
+    <!-- Iconify -->
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+
+    <!-- GSAP & Lenis & SplitType -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/split-type"></script>
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.34/dist/lenis.min.js"></script>
+
+    <!-- Tailwind Config from Design System -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            bg: '#FDFBF7', /* Cream */
+                            bgDarker: '#F5F2EB', /* Warm Beige */
+                            surface: '#ffffff',
+                            border: '#EAE3D9',
+                            text: '#2C2A28',
+                            muted: '#6B6861',
+                            green: '#6E7A5E', /* Herbal Green */
+                            greenLight: '#E8EBE4',
+                            terracotta: '#C17767', /* Soft Terracotta */
+                            terracottaLight: '#F9ECE9'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Playfair Display', 'serif'],
+                    },
+                    boxShadow: {
+                        'soft': '0 4px 20px -2px rgba(110, 122, 94, 0.05)',
+                        'glow': '0 10px 40px -10px rgba(193, 119, 103, 0.15)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Base / Resets */
+        body {
+            background-color: theme('colors.brand.bg');
+            color: theme('colors.brand.text');
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        /* Lenis smooth scroll */
+        html.lenis {
+            height: auto;
+        }
+        .lenis.lenis-smooth {
+            scroll-behavior: auto;
+        }
+        .lenis.lenis-smooth [data-lenis-prevent] {
+            overscroll-behavior: contain;
+        }
+        .lenis.lenis-stopped {
+            overflow: hidden;
+        }
+        .lenis.lenis-scrolling iframe {
+            pointer-events: none;
+        }
+
+        /* Noise Overlay */
+        .noise-overlay {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 50;
+            opacity: 0.03;
+            background-image: url('data:image/svg+xml,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noiseFilter"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.75" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noiseFilter)"/%3E%3C/svg%3E');
+        }
+
+        /* Hero Layout */
+        .hero-container {
+            position: relative;
+            /* Extra height to allow scrolling for the video effect */
+            height: 400vh;
+        }
+
+        .hero-sticky {
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            width: 100%;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+        }
+
+        /* Video Background */
+        .video-wrapper {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+        
+        .video-wrapper::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            /* Gradient overlay to ensure text readability on the left */
+            background: linear-gradient(to right, theme('colors.brand.bgDarker') 0%, rgba(253, 251, 247, 0.85) 30%, rgba(253, 251, 247, 0.2) 70%, transparent 100%);
+            z-index: 2;
+        }
+
+        @media (max-width: 768px) {
+            .video-wrapper::after {
+                background: linear-gradient(to top, theme('colors.brand.bgDarker') 0%, rgba(253, 251, 247, 0.9) 40%, rgba(253, 251, 247, 0.4) 100%);
+            }
+        }
+
+        /* To dim the video globally slightly for premium feel */
+        .video-overlay-dark {
+            position: absolute;
+            inset: 0;
+            background: rgba(0,0,0,0.1);
+            z-index: 3;
+            mix-blend-mode: multiply;
+        }
+
+        video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            /* Start paused */
+        }
+
+        /* Content Layer */
+        .hero-content-layer {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+        }
+
+        /* Typography split animations */
+        .char {
+            transform: translateY(110%);
+            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* Split words wrapper for overflow hidden */
+        .word {
+            overflow: hidden;
+            padding-bottom: 0.1em; /* prevent clipping descenders */
+            margin-bottom: -0.1em;
+        }
+
+        /* Float Animations for secondary elements */
+        .animate-float {
+            animation: float 8s ease-in-out infinite;
+        }
+        .animate-float-delayed {
+            animation: float 9s ease-in-out infinite;
+            animation-delay: 2s;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        /* CTA Button Refinement */
+        .cta-btn {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s ease;
+        }
+        .cta-btn::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(120deg, transparent, rgba(255,255,255,0.3), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+        }
+        .cta-btn:hover::after {
+            transform: translateX(100%);
+        }
+        
+        /* Outline text for contrast in headline */
+        .text-outline {
+            -webkit-text-stroke: 1px theme('colors.brand.green');
+            color: transparent;
+            opacity: 0.7;
+        }
+
+    </style>
+</head>
+<body class="selection:bg-brand-green/20 selection:text-brand-green">
+
+    <!-- Noise Texture -->
+    <div class="noise-overlay"></div>
+
+    <!-- Scroll Container -->
+    <main>
+        
+        <section class="hero-container" id="hero-section">
+            <div class="hero-sticky">
+                
+                <!-- Video Background -->
+                <div class="video-wrapper">
+                    <video id="hero-video" preload="auto" muted playsinline class="lg:translate-x-[8%]">
+                        <source src="assets/video1.mp4" type="video/mp4">
+                    </video>
+                    <div class="video-overlay-dark"></div>
+                </div>
+
+                <!-- Floating Auxiliary Elements (Right Side / Background) -->
+                <div class="absolute z-[5] right-[10%] top-[25%] hidden lg:flex flex-col items-end gap-6 pointer-events-none">
+                    <!-- Badge 1 -->
+                    <div class="anim-float bg-white/40 backdrop-blur-md border border-white/50 shadow-soft px-5 py-3 rounded-2xl animate-float opacity-0 translate-x-8">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-full bg-brand-greenLight flex justify-center items-center text-brand-green">
+                                <iconify-icon icon="solar:leaf-bold-duotone"></iconify-icon>
+                            </div>
+                            <div>
+                                <p class="text-xs font-semibold text-brand-text uppercase tracking-widest">Transformação</p>
+                                <p class="text-[10px] text-brand-muted">Mantenha seus resultados</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="absolute z-[5] right-[15%] bottom-[20%] hidden lg:flex flex-col items-end gap-6 pointer-events-none">
+                    <!-- Badge 2 -->
+                    <div class="anim-float bg-white/40 backdrop-blur-md border border-white/50 shadow-soft px-5 py-3 rounded-2xl animate-float-delayed opacity-0 translate-x-8">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-full bg-brand-terracottaLight flex justify-center items-center text-brand-terracotta">
+                                <iconify-icon icon="solar:heart-angle-bold-duotone"></iconify-icon>
+                            </div>
+                            <div>
+                                <p class="text-xs font-semibold text-brand-text uppercase tracking-widest">Saúde & Leveza</p>
+                                <p class="text-[10px] text-brand-muted">-55kg mantidos</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Main Content -->
+                <div class="hero-content-layer max-w-7xl mx-auto px-6 lg:px-12">
+                    
+                    <div class="w-full lg:w-6/12 flex flex-col justify-center pt-20 pb-12 lg:py-0">
+                        
+                        <!-- Top minimal badge -->
+                        <div class="anim-fade-up inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-brand-green/30 bg-brand-green/5 backdrop-blur-sm self-start mb-8 opacity-0 translate-y-4">
+                            <span class="w-2 h-2 rounded-full bg-brand-green animate-pulse"></span>
+                            <span class="text-xs font-medium tracking-widest text-brand-green uppercase">O Fim do Efeito Sanfona</span>
+                        </div>
+
+                        <!-- Headline -->
+                        <h1 class="hero-title font-display text-5xl sm:text-6xl lg:text-[5rem] leading-[1.05] tracking-tight text-brand-text mb-6">
+                            Pare de emagrecer <br class="hidden sm:block"/>
+                            e engordar <br class="hidden sm:block"/>
+                            <span class="italic font-light opacity-90 text-brand-green relative inline-block">
+                                <span class="relative z-10">tudo de novo</span>
+                                <!-- Gentle underline SVG -->
+                                <svg class="absolute -bottom-1 left-0 w-full h-3 text-brand-terracotta/40 -z-10" viewBox="0 0 100 20" preserveAspectRatio="none">
+                                    <path d="M0 10 Q 50 20 100 10" fill="transparent" stroke="currentColor" stroke-width="3" vector-effect="non-scaling-stroke"></path>
+                                </svg>
+                            </span>
+                        </h1>
+
+                        <!-- Subheadline -->
+                        <p class="hero-subtitle text-lg lg:text-xl text-brand-muted max-w-lg mb-10 font-light leading-relaxed opacity-0 translate-y-4">
+                            Emagreça sem precisar começar de novo usando as mesmas receitas que me fizeram perder 55kg e manter o peso até hoje.
+                        </p>
+
+                        <!-- Actions -->
+                        <div class="anim-fade-up flex flex-col items-start gap-4 opacity-0 translate-y-4">
+                            <button class="cta-btn w-full sm:w-auto px-8 py-4 rounded-full bg-brand-terracotta text-white font-medium hover:bg-brand-terracotta/90 transform hover:-translate-y-1 transition-all shadow-lg shadow-brand-terracotta/20 flex items-center justify-center gap-3 text-base">
+                                👉 Quero Parar de Recomeçar
+                            </button>
+                            
+                            <!-- Microtext -->
+                            <div class="flex items-center gap-2 text-xs font-medium text-brand-muted/80 ml-2">
+                                <span>🔒 Pagamento 100% seguro &bull; Acesso instantâneo</span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Dummy section just to allow scrolling down to see the end of the video scrub -->
+        <section class="h-screen bg-brand-bg relative z-20 flex flex-col items-center justify-center border-t border-brand-border/50">
+           <h2 class="font-display text-4xl text-brand-text mb-4 text-center px-4">Continue descobrindo...</h2>
+           <p class="text-brand-muted font-light px-4 text-center max-w-md">Role para cima para ver o vídeo retroceder suavemente.</p>
+        </section>
+
+    </main>
+
+    <!-- Interactions & Animations -->
+    <script>
+        // Ensure scripts run after load
+        window.addEventListener('load', () => {
+            
+            // 1. Initialize Lenis for buttery smooth scrolling
+            const lenis = new Lenis({
+                duration: 1.2,
+                easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+                direction: 'vertical',
+                gestureDirection: 'vertical',
+                smooth: true,
+                mouseMultiplier: 1,
+                smoothTouch: false,
+                touchMultiplier: 2,
+                infinite: false,
+            })
+
+            function raf(time) {
+                lenis.raf(time)
+                requestAnimationFrame(raf)
+            }
+            requestAnimationFrame(raf)
+
+            // Register GSAP plugins
+            gsap.registerPlugin(ScrollTrigger);
+
+            // Sync GSAP and Lenis
+            lenis.on('scroll', ScrollTrigger.update)
+            gsap.ticker.add((time)=>{
+              lenis.raf(time * 1000)
+            })
+            gsap.ticker.lagSmoothing(0)
+
+            // 2. Initial Entry Animations
+            const splitTitle = new SplitType('.hero-title', { types: 'lines, words, chars' });
+            
+            const tlInit = gsap.timeline({ delay: 0.2 });
+
+            // Char by char reveal for Title
+            tlInit.to(splitTitle.chars, {
+                y: '0%',
+                duration: 0.8,
+                stagger: 0.02,
+                ease: 'power3.out'
+            })
+            // Fade in subtitle
+            .to('.hero-subtitle', {
+                opacity: 1,
+                y: 0,
+                duration: 0.8,
+                ease: 'power2.out'
+            }, "-=0.5")
+            // Fade in buttons and microtext
+            .to('.anim-fade-up', {
+                opacity: 1,
+                y: 0,
+                duration: 0.8,
+                stagger: 0.2,
+                ease: 'power2.out'
+            }, "-=0.6")
+            // Fade in right side floating elements
+            .to('.anim-float', {
+                opacity: 1,
+                x: 0,
+                duration: 1,
+                stagger: 0.3,
+                ease: 'power2.out'
+            }, "-=0.4");
+
+            // 3. Video Scroll-Driven Playback via GSAP + requestAnimationFrame lerp
+            // We use lerp for buttery smooth video seeking
+            const video = document.getElementById('hero-video');
+            let scrollProgress = 0;
+            let currentVideoTime = 0;
+            let targetVideoTime = 0;
+
+            // Wait for video metadata to know the duration
+            video.addEventListener('loadedmetadata', () => {
+                const duration = video.duration || 10; // Fallback if duration is Infinity/NaN
+
+                // Create a ScrollTrigger that maps the hero-container scroll to progress 0->1
+                ScrollTrigger.create({
+                    trigger: ".hero-container",
+                    start: "top top",
+                    end: "bottom bottom",
+                    scrub: true,
+                    onUpdate: (self) => {
+                        scrollProgress = self.progress;
+                        targetVideoTime = scrollProgress * duration;
+                    }
+                });
+
+                // RequestAnimationFrame loop for lerping video time
+                function updateVideoTime() {
+                    // lerp formula: current = current + (target - current) * easing
+                    // Tweak 0.08 for more/less smoothing
+                    const diff = targetVideoTime - currentVideoTime;
+                    
+                    // Only update if difference is significant to save performance
+                    if (Math.abs(diff) > 0.01) {
+                        currentVideoTime += diff * 0.08;
+                        if(video.readyState >= 2) {
+                            video.currentTime = currentVideoTime;
+                        }
+                    }
+                    requestAnimationFrame(updateVideoTime);
+                }
+                
+                // Start tracking
+                requestAnimationFrame(updateVideoTime);
+                
+                // Pause video natively just in case
+                video.pause();
+            });
+
+            // If the video is already loaded (from cache)
+            if (video.readyState >= 1) {
+                video.dispatchEvent(new Event('loadedmetadata'));
+            }
+
+            // 4. Subtle Parallax for Floating Elements inside the sticky container
+            gsap.to('.anim-float', {
+                y: -50,
+                ease: "none",
+                scrollTrigger: {
+                    trigger: ".hero-container",
+                    start: "top top",
+                    end: "bottom top",
+                    scrub: 1
+                }
+            });
+
+        });
+    </script>
+</body>
+</html>

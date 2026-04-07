@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth bg-[#06080f]">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sant Anna Auto Detail | Polimento e restauração de faróis</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --sa-bg-deep: #06080f;
+  --sa-bg: #0a0f1a;
+  --sa-navy: #0f172a;
+  --sa-navy-mid: #152238;
+  --sa-navy-light: #1e3a5f;
+  --sa-silver: #b8c4d4;
+  --sa-silver-dim: #8b9cb3;
+  --sa-white: #fafafa;
+  --sa-accent: #3b82f6;
+  --sa-accent-glow: rgba(59, 130, 246, 0.45);
+  --sa-beam: rgba(191, 219, 254, 0.35);
+  --sa-success: #22c55e;
+  --sa-error: #ef4444;
+  --sa-warning: #eab308;
+  --sa-border: rgba(255, 255, 255, 0.08);
+}
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background-color: var(--sa-bg-deep);
+  color: var(--sa-white);
+}
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--sa-bg-deep); }
+::-webkit-scrollbar-thumb { background: #27272a; border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: #3f3f46; }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(30px); filter: blur(4px); }
+  to { opacity: 1; transform: translateY(0); filter: blur(0); }
+}
+.animate-fade-up {
+  opacity: 0;
+  animation: fadeUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+.delay-100 { animation-delay: 100ms; }
+.delay-200 { animation-delay: 200ms; }
+.delay-300 { animation-delay: 300ms; }
+.delay-400 { animation-delay: 400ms; }
+.delay-500 { animation-delay: 500ms; }
+
+.card-hover-border { position: relative; }
+.card-hover-border::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(to bottom right, rgba(255,255,255,0.08), rgba(147,197,253,0.12), rgba(255,255,255,0));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  transition: all 0.5s ease;
+}
+.group:hover .card-hover-border::before,
+.card-hover-border:hover::before {
+  background: linear-gradient(to bottom right, rgba(191, 219, 254, 0.35), rgba(59, 130, 246, 0.15), transparent);
+}
+
+details > summary { list-style: none; }
+details > summary::-webkit-details-marker { display: none; }
+
+@keyframes float-badge {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+.animate-float-badge { animation: float-badge 4s ease-in-out infinite; }
+
+@keyframes text-shimmer {
+  0% { background-position: 200% center; }
+  100% { background-position: -200% center; }
+}
+.animate-text-shimmer {
+  background: linear-gradient(to right, #64748b 15%, #e2e8f0 45%, #94a3b8 75%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  animation: text-shimmer 4s linear infinite;
+}
+
+@keyframes slow-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+.animate-slow-spin { animation: slow-spin 12s linear infinite; }
+
+@keyframes blurIn {
+  from { opacity: 0; transform: translateY(24px); filter: blur(12px); }
+  to { opacity: 1; transform: translateY(0); filter: blur(0); }
+}
+.animate-blur-in {
+  opacity: 0;
+  animation: blurIn 1.1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes glowPulse {
+  0%, 100% { opacity: 0.5; transform: scale(1); }
+  50% { opacity: 0.85; transform: scale(1.04); }
+}
+.animate-glow-pulse { animation: glowPulse 3.5s ease-in-out infinite; }
+
+@keyframes shimmerBorder {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
+}
+.shimmer-border {
+  position: relative;
+  background: linear-gradient(90deg, rgba(59,130,246,0.2), rgba(191,219,254,0.4), rgba(59,130,246,0.2));
+  background-size: 200% 100%;
+  animation: shimmerBorder 3s ease infinite;
+  border-radius: inherit;
+  padding: 1px;
+}
+.shimmer-border-inner {
+  border-radius: inherit;
+  background: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(16px);
+}
+
+.hover-lift {
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.45s ease;
+}
+.hover-lift:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 24px 48px -12px rgba(59, 130, 246, 0.15), 0 0 40px rgba(191, 219, 254, 0.08);
+}
+
+.headlight-glow {
+  pointer-events: none;
+  position: absolute;
+  width: 140%;
+  height: 80%;
+  top: -10%;
+  right: -25%;
+  background: radial-gradient(ellipse 55% 45% at 70% 50%, rgba(191, 219, 254, 0.22) 0%, transparent 65%);
+  filter: blur(2px);
+}
+.headlight-glow-2 {
+  position: absolute;
+  width: 60%;
+  height: 50%;
+  bottom: 10%;
+  left: 5%;
+  background: radial-gradient(ellipse at center, rgba(59, 130, 246, 0.18) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.glass-hero-title {
+  text-shadow: 0 0 40px rgba(191, 219, 254, 0.15);
+}
+
+.reveal-ds {
+  opacity: 0;
+  transform: translateY(28px);
+  filter: blur(6px);
+  transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1), filter 0.9s ease;
+}
+.reveal-ds.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+  filter: blur(0);
+}
+
+.sa-tooltip {
+  position: absolute;
+  z-index: 50;
+  bottom: calc(100% + 10px);
+  left: 50%;
+  transform: translateX(-50%) translateY(4px);
+  padding: 0.5rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 300;
+  color: #e2e8f0;
+  background: rgba(15, 23, 42, 0.95);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 0.5rem;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+}
+.group:hover .sa-tooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}
+
+dialog::backdrop {
+  background: rgba(6, 8, 15, 0.85);
+  backdrop-filter: blur(8px);
+}
+</style>
+</head>
+<body class="antialiased selection:bg-blue-500/30 selection:text-white overflow-x-hidden">
+
+    <header class="fixed top-0 w-full z-50 bg-[#06080f]/60 backdrop-blur-xl border-b border-white/5 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-6 md:px-12 h-20 flex items-center justify-between">
+            <a href="#top" class="flex items-center group shrink-0">
+                <img src="logo%20bruno.jpg" alt="Sant Anna Auto Detail" width="220" height="64" class="h-11 sm:h-12 md:h-[3.25rem] w-auto max-w-[min(200px,48vw)] object-contain object-left transition-opacity duration-300 group-hover:opacity-90">
+            </a>
+            <nav class="hidden lg:flex items-center gap-6 xl:gap-8">
+                <a href="#problema" class="text-sm font-light text-zinc-400 hover:text-white transition-colors tracking-wide uppercase">Problema</a>
+                <a href="#educacao" class="text-sm font-light text-zinc-400 hover:text-white transition-colors tracking-wide uppercase">Por quê</a>
+                <a href="#antes-depois" class="text-sm font-light text-zinc-400 hover:text-white transition-colors tracking-wide uppercase">Antes / Depois</a>
+                <a href="#processo" class="text-sm font-light text-zinc-400 hover:text-white transition-colors tracking-wide uppercase">Processo</a>
+                <a href="#vitrificacao" class="text-sm font-light text-zinc-400 hover:text-white transition-colors tracking-wide uppercase">Proteção</a>
+                <a href="#depoimentos" class="text-sm font-light text-zinc-400 hover:text-white transition-colors tracking-wide uppercase">Clientes</a>
+            </nav>
+            <div class="flex items-center gap-2 sm:gap-3">
+                <a href="https://wa.me/5511999999999?text=Ol%C3%A1%2C%20quero%20or%C3%A7amento%20de%20polimento%20de%20farol." target="_blank" rel="noopener noreferrer" class="bg-white text-black hover:bg-slate-200 px-4 sm:px-5 py-2.5 rounded-full text-xs sm:text-sm font-normal tracking-wide transition-all shadow-[0_0_20px_rgba(191,219,254,0.15)] hover:shadow-[0_0_28px_rgba(191,219,254,0.28)] inline-flex items-center gap-2">
+                    <i data-lucide="message-circle" stroke-width="1.5" class="w-4 h-4"></i>
+                    <span class="hidden sm:inline">WhatsApp</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- 1. HERO -->
+    <section id="top" class="relative min-h-screen flex items-center pt-24 pb-16 overflow-hidden bg-black">
+        <div class="absolute inset-0 z-0">
+            <img src="Captura%20de%20Tela%202026-03-25%20%C3%A0s%2021.21.57.png" alt="" class="w-full h-full object-cover object-center opacity-50 mix-blend-lighten scale-105">
+            <div class="absolute inset-0 bg-gradient-to-r from-[#06080f] via-[#06080f]/90 to-[#0f172a]/50"></div>
+            <div class="absolute inset-0 bg-gradient-to-t from-[#06080f] via-transparent to-black/65"></div>
+            <div class="headlight-glow animate-glow-pulse"></div>
+            <div class="headlight-glow-2 animate-glow-pulse" style="animation-delay: -1.2s;"></div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-6 md:px-12 relative z-10 w-full">
+            <div class="grid lg:grid-cols-12 gap-12 lg:gap-10 items-center">
+                <div class="lg:col-span-6 xl:col-span-7 animate-fade-up">
+                    <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/10 bg-white/5 text-sm text-slate-300 mb-8 tracking-wide backdrop-blur-md animate-float-badge">
+                        <i data-lucide="sparkles" stroke-width="1.5" class="w-4 h-4 text-sky-300/90"></i>
+                        Sant Anna Auto Detail · Polimento profissional
+                    </div>
+
+                    <h1 class="md:text-5xl lg:text-6xl xl:text-7xl leading-[1.08] text-3xl sm:text-4xl font-normal text-white tracking-tight mb-6 glass-hero-title">
+                        Recupere a transparência do seu farol<br>
+                        <span class="inline-block mt-2 animate-fade-up delay-200"><span class="animate-text-shimmer">em menos de 1 hora.</span></span>
+                    </h1>
+
+                    <p class="text-lg md:text-xl xl:text-2xl text-slate-400 max-w-2xl font-extralight leading-relaxed mb-10 animate-blur-in delay-100">
+                        Mais visibilidade à noite, mais segurança ao dirigir e um visual muito mais novo para o seu carro — sem precisar trocar o farol.
+                    </p>
+
+                    <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 animate-fade-up delay-200">
+                        <a href="https://wa.me/5511999999999?text=Quero%20or%C3%A7amento%20polimento%20de%20farol%20%E2%80%94%20Sant%20Anna" target="_blank" rel="noopener noreferrer" class="hover:bg-slate-200 transition-all hover:shadow-[0_0_36px_rgba(191,219,254,0.25)] flex items-center justify-center gap-2 group text-base md:text-lg font-normal text-black bg-white rounded-full pt-4 pr-8 pb-4 pl-8 shadow-[0_0_24px_rgba(255,255,255,0.12)] hover-lift">
+                            Falar no WhatsApp agora
+                            <i data-lucide="arrow-right" stroke-width="1.5" class="w-5 h-5 group-hover:translate-x-1 transition-transform"></i>
+                        </a>
+                        <a href="#antes-depois" class="bg-transparent border border-white/20 hover:border-sky-400/40 hover:bg-white/5 text-white px-8 py-4 rounded-full text-base md:text-lg font-light transition-all flex items-center justify-center gap-2 backdrop-blur-sm hover-lift text-center">
+                            <i data-lucide="images" stroke-width="1.5" class="w-5 h-5"></i>
+                            Ver antes / depois
+                        </a>
+                    </div>
+
+                    <div class="mt-14 pt-8 border-t border-white/10 flex flex-wrap gap-x-8 gap-y-4 animate-fade-up delay-300">
+                        <span class="flex items-center gap-2 text-sm md:text-base text-slate-400 tracking-wide uppercase font-light">
+                            <i data-lucide="clock" stroke-width="1.5" class="w-5 h-5 text-sky-300"></i> Atendimento ágil
+                        </span>
+                        <span class="flex items-center gap-2 text-sm md:text-base text-slate-400 tracking-wide uppercase font-light">
+                            <i data-lucide="shield-check" stroke-width="1.5" class="w-5 h-5 text-sky-300"></i> Proteção UV
+                        </span>
+                        <span class="flex items-center gap-2 text-sm md:text-base text-slate-400 tracking-wide uppercase font-light">
+                            <i data-lucide="award" stroke-width="1.5" class="w-5 h-5 text-sky-300"></i> Acabamento premium
+                        </span>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-6 xl:col-span-5 relative animate-fade-up delay-200">
+                    <div class="shimmer-border rounded-2xl hover-lift">
+                        <div class="shimmer-border-inner rounded-2xl overflow-hidden p-2">
+                            <div class="rounded-xl overflow-hidden">
+                                <img src="Captura%20de%20Tela%202026-03-25%20%C3%A0s%2021.21.49.png" alt="Comparação antes e depois — quatro resultados reais de restauração de faróis" class="w-full h-auto object-cover transition-transform duration-700 hover:scale-[1.02]">
+                            </div>
+                            <p class="text-center text-xs text-slate-500 font-extralight mt-3 px-2">Resultados reais · oxidação removida · transparência recuperada</p>
+                        </div>
+                    </div>
+                    <div class="absolute -z-10 -inset-4 rounded-3xl bg-gradient-to-br from-sky-500/10 via-transparent to-blue-900/20 blur-2xl animate-slow-spin opacity-60"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 2. PROBLEMA -->
+    <section id="problema" class="py-24 md:py-32 bg-[#0a0f1a] relative border-y border-white/5">
+        <div class="max-w-7xl mx-auto px-6 md:px-12">
+            <div class="max-w-3xl reveal-ds">
+                <span class="text-slate-500 text-sm font-light tracking-widest uppercase block mb-4">O que está em jogo</span>
+                <h2 class="text-3xl md:text-5xl font-normal tracking-tight text-white leading-tight mb-8">
+                    Se o seu farol está assim, você está correndo risco
+                </h2>
+                <p class="text-lg md:text-xl text-slate-400 font-extralight leading-relaxed mb-8">
+                    Com o tempo, os faróis perdem a proteção original e começam a oxidar.
+                </p>
+                <p class="text-base md:text-lg text-slate-300 font-light mb-6">Eles ficam:</p>
+                <ul class="space-y-3 mb-10">
+                    <li class="flex items-start gap-3 text-lg text-slate-400 font-extralight">
+                        <i data-lucide="alert-circle" stroke-width="1.5" class="w-6 h-6 text-amber-400/90 shrink-0 mt-0.5"></i>
+                        Amarelados
+                    </li>
+                    <li class="flex items-start gap-3 text-lg text-slate-400 font-extralight">
+                        <i data-lucide="alert-circle" stroke-width="1.5" class="w-6 h-6 text-amber-400/90 shrink-0 mt-0.5"></i>
+                        Opacos
+                    </li>
+                    <li class="flex items-start gap-3 text-lg text-slate-400 font-extralight">
+                        <i data-lucide="alert-circle" stroke-width="1.5" class="w-6 h-6 text-amber-400/90 shrink-0 mt-0.5"></i>
+                        Com aparência de velho
+                    </li>
+                </ul>
+                <p class="text-lg md:text-xl text-slate-400 font-extralight leading-relaxed mb-6">
+                    Mas o problema não é só estético.
+                </p>
+                <p class="text-lg md:text-xl text-slate-300 font-light leading-relaxed">
+                    Você perde visibilidade à noite<br>
+                    <span class="text-slate-400 font-extralight">E isso compromete diretamente sua segurança ao dirigir.</span>
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. EDUCAÇÃO -->
+    <section id="educacao" class="py-24 md:py-32 bg-[#06080f]">
+        <div class="max-w-7xl mx-auto px-6 md:px-12">
+            <div class="grid lg:grid-cols-2 gap-16 items-start">
+                <div class="reveal-ds">
+                    <span class="text-slate-500 text-sm font-light tracking-widest uppercase block mb-4">Entenda o processo</span>
+                    <h2 class="text-3xl md:text-5xl font-normal tracking-tight text-white leading-tight mb-8">
+                        Por que isso acontece?
+                    </h2>
+                    <div class="space-y-6 text-lg md:text-xl text-slate-400 font-extralight leading-relaxed">
+                        <p>
+                            Os faróis modernos são feitos de <strong class="text-slate-200 font-normal">policarbonato</strong> ou acrílico — materiais leves e resistentes a impacto, porém sensíveis a <strong class="text-slate-200 font-normal">UV</strong>, poluição, poeira de freio e produtos químicos de lavagem mal feita.
+                        </p>
+                        <p>
+                            Com os anos, a superfície da lente degrada: microfissuras aparecem, a luz se espalha em vez de projetar, e surge a <strong class="text-slate-200 font-normal">camada amarelada</strong> que todos conhecem. Não é “sujeira” que sai com pano — é <strong class="text-slate-200 font-normal">estrutura da lente alterada</strong>.
+                        </p>
+                        <p>
+                            O polimento profissional remove essa camada degradada de forma controlada; a <strong class="text-slate-200 font-normal">vitrificação</strong> recoloca uma barreira protetora para o sol e a chuva não destruírem de novo em poucas semanas.
+                        </p>
+                    </div>
+                </div>
+                <div class="relative rounded-2xl overflow-hidden border border-white/10 group bg-slate-900 min-h-[320px] reveal-ds">
+                    <img src="Captura%20de%20Tela%202026-03-25%20%C3%A0s%2021.21.42.png" alt="Farol antes e depois — carro vermelho" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03] min-h-[320px]">
+                    <div class="absolute inset-0 bg-gradient-to-t from-[#06080f]/80 via-transparent to-transparent pointer-events-none"></div>
+                    <p class="absolute bottom-6 left-6 right-6 text-sm text-slate-300 font-extralight">Comparação real: máscara de proteção no “antes” e lente cristalina no “depois”.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. ANTES / DEPOIS -->
+    <section id="antes-depois" class="py-24 md:py-32 bg-[#0a0f1a] border-y border-white/5">
+        <div class="max-w-7xl mx-auto px-6 md:px-12">
+            <div class="text-center max-w-3xl mx-auto mb-16 reveal-ds">
+                <span class="text-slate-500 text-sm font-light tracking-widest uppercase mb-4 block">Prova visual</span>
+                <h2 class="text-3xl md:text-5xl font-normal tracking-tight text-white leading-tight">
+                    Olha a diferença de um farol restaurado
+                </h2>
+            </div>
+
+            <div class="grid lg:grid-cols-2 gap-8 mb-8">
+                <div class="group rounded-2xl overflow-hidden border border-white/10 bg-slate-900/40 card-hover-border transition-all duration-500 hover:-translate-y-2 reveal-ds">
+                    <div class="relative aspect-[4/5] max-h-[560px] overflow-hidden">
+                        <img src="Captura%20de%20Tela%202026-03-25%20%C3%A0s%2021.21.42.png" alt="Antes e depois — farol vermelho" class="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105">
+                    </div>
+                    <div class="p-6 border-t border-white/5">
+                        <p class="text-slate-400 font-extralight text-sm leading-relaxed">Restauração completa da lente: do amarelado opaco ao brilho transparente — mesmo veículo, mesmo ângulo.</p>
+                    </div>
+                </div>
+                <div class="group rounded-2xl overflow-hidden border border-white/10 bg-slate-900/40 card-hover-border transition-all duration-500 hover:-translate-y-2 reveal-ds">
+                    <div class="relative overflow-hidden">
+                        <img src="Captura%20de%20Tela%202026-03-25%20%C3%A0s%2021.21.57.png" alt="Antes e depois — farol horizontal" class="w-full h-auto object-cover transition-transform duration-700 group-hover:scale-[1.02]">
+                    </div>
+                    <div class="p-6 border-t border-white/5">
+                        <p class="text-slate-400 font-extralight text-sm leading-relaxed">Contraste extremo: lente oxidada bloqueando a luz × óptica cristalina com reflexo nítido.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="shimmer-border rounded-2xl hover-lift reveal-ds">
+                <div class="shimmer-border-inner rounded-2xl overflow-hidden p-2">
+                    <img src="Captura%20de%20Tela%202026-03-25%20%C3%A0s%2021.21.49.png" alt="Grid antes e depois — múltiplos faróis" class="w-full rounded-xl object-cover">
+                    <p class="text-center text-sm text-slate-500 font-extralight mt-4 px-4 pb-2">Quatro ângulos · etiquetas Antes / Depois · resultado consistente em ambos os lados do veículo</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. PROCESSO (4 etapas) -->
+    <section id="processo" class="py-24 md:py-32 bg-[#06080f]">
+        <div class="max-w-7xl mx-auto px-6 md:px-12">
+            <div class="text-center max-w-3xl mx-auto mb-16 reveal-ds">
+                <span class="text-slate-500 text-sm font-light tracking-widest uppercase mb-4 block">Método</span>
+                <h2 class="text-3xl md:text-5xl font-normal tracking-tight text-white">
+                    Como funciona o polimento profissional
+                </h2>
+            </div>
+            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="group bg-slate-900/40 rounded-2xl p-8 card-hover-border transition-all duration-500 hover:-translate-y-2 flex flex-col h-full relative overflow-hidden reveal-ds">
+                    <div class="absolute top-0 right-0 w-28 h-28 bg-sky-500/10 rounded-bl-full blur-3xl group-hover:bg-sky-400/15 transition-all"></div>
+                    <div class="w-12 h-12 rounded-full bg-[#06080f] border border-sky-500/40 flex items-center justify-center text-sky-300 mb-6 font-normal text-lg">1</div>
+                    <h3 class="text-xl font-normal tracking-tight text-white mb-3">Limpeza e máscara</h3>
+                    <p class="text-sm md:text-base text-slate-400 font-extralight leading-relaxed flex-grow">Remoção de sujeira e proteção da pintura ao redor da óptica com fita automotiva.</p>
+                </div>
+                <div class="group bg-slate-900/40 rounded-2xl p-8 card-hover-border transition-all duration-500 hover:-translate-y-2 flex flex-col h-full relative overflow-hidden reveal-ds">
+                    <div class="absolute top-0 right-0 w-28 h-28 bg-sky-500/10 rounded-bl-full blur-3xl group-hover:bg-sky-400/15 transition-all"></div>
+                    <div class="w-12 h-12 rounded-full bg-[#06080f] border border-sky-500/40 flex items-center justify-center text-sky-300 mb-6 font-normal text-lg">2</div>
+                    <h3 class="text-xl font-normal tracking-tight text-white mb-3">Lixamento / corte</h3>
+                    <p class="text-sm md:text-base text-slate-400 font-extralight leading-relaxed flex-grow">Remoção da camada oxidada com abrasivos graduados e controle térmico para não “queimar” a lente.</p>
+                </div>
+                <div class="group bg-slate-900/40 rounded-2xl p-8 card-hover-border transition-all duration-500 hover:-translate-y-2 flex flex-col h-full relative overflow-hidden reveal-ds">
+                    <div class="absolute top-0 right-0 w-28 h-28 bg-sky-500/10 rounded-bl-full blur-3xl group-hover:bg-sky-400/15 transition-all"></div>
+                    <div class="w-12 h-12 rounded-full bg-[#06080f] border border-sky-500/40 flex items-center justify-center text-sky-300 mb-6 font-normal text-lg">3</div>
+                    <h3 class="text-xl font-normal tracking-tight text-white mb-3">Polimento fino</h3>
+                    <p class="text-sm md:text-base text-slate-400 font-extralight leading-relaxed flex-grow">Refino do brilho e remoção de hologramas para acabamento transparente e uniforme.</p>
+                </div>
+                <div class="group bg-slate-900/40 rounded-2xl p-8 card-hover-border transition-all duration-500 hover:-translate-y-2 flex flex-col h-full relative overflow-hidden reveal-ds">
+                    <div class="absolute top-0 right-0 w-28 h-28 bg-sky-500/10 rounded-bl-full blur-3xl group-hover:bg-sky-400/15 transition-all"></div>
+                    <div class="w-12 h-12 rounded-full bg-[#06080f] border border-sky-500/40 flex items-center justify-center text-sky-300 mb-6 font-normal text-lg">4</div>
+                    <h3 class="text-xl font-normal tracking-tight text-white mb-3">Proteção (vitrificação)</h3>
+                    <p class="text-sm md:text-base text-slate-400 font-extralight leading-relaxed flex-grow">Selagem química com cura controlada — recomendada para fixar o resultado no tempo.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. VITRIFICAÇÃO -->
+    <section id="vitrificacao" class="py-24 md:py-32 bg-[#0a0f1a] border-y border-white/5 relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-br from-sky-950/20 via-transparent to-transparent pointer-events-none"></div>
+        <div class="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
+            <div class="grid lg:grid-cols-2 gap-14 items-center">
+                <div class="reveal-ds">
+                    <span class="text-slate-500 text-sm font-light tracking-widest uppercase block mb-4">Proteção real</span>
+                    <h2 class="text-3xl md:text-5xl font-normal tracking-tight text-white leading-tight mb-8">
+                        Não adianta só polir. É preciso proteger.
+                    </h2>
+                    <p class="text-lg md:text-xl text-slate-400 font-extralight leading-relaxed mb-8">
+                        Depois do polimento, a lente fica exposta de novo ao sol e à poluição. Sem proteção, o amarelado volta mais rápido — só que agora você já investiu no brilho.
+                    </p>
+                    <p class="text-lg md:text-xl text-slate-400 font-extralight leading-relaxed mb-10">
+                        A <strong class="text-slate-200 font-normal">vitrificação</strong> aplica uma camada hidrofóbica e resistente a UV que prolonga o efeito, facilita a limpeza e mantém o aspecto “de fábrica” por muito mais tempo.
+                    </p>
+                    <ul class="space-y-4">
+                        <li class="flex gap-3 text-slate-300 font-light">
+                            <i data-lucide="check" stroke-width="1.5" class="w-5 h-5 text-sky-400 shrink-0 mt-0.5"></i>
+                            Menor aderência de poeira e chuva na lente
+                        </li>
+                        <li class="flex gap-3 text-slate-300 font-light">
+                            <i data-lucide="check" stroke-width="1.5" class="w-5 h-5 text-sky-400 shrink-0 mt-0.5"></i>
+                            Barreira extra contra raios UV
+                        </li>
+                        <li class="flex gap-3 text-slate-300 font-light">
+                            <i data-lucide="check" stroke-width="1.5" class="w-5 h-5 text-sky-400 shrink-0 mt-0.5"></i>
+                            Acabamento com profundidade — não “plástico seco”
+                        </li>
+                    </ul>
+                </div>
+                <div class="rounded-2xl p-8 md:p-10 bg-slate-900/50 border border-white/10 backdrop-blur-sm card-hover-border hover-lift reveal-ds">
+                    <i data-lucide="shield-half" stroke-width="1.5" class="w-12 h-12 text-sky-300/90 mb-6"></i>
+                    <h3 class="text-2xl font-normal text-white mb-4">Pacote recomendado</h3>
+                    <p class="text-slate-400 font-extralight leading-relaxed mb-8">
+                        Polimento completo + vitrificação da óptica. É o combo que entrega o visual de carro novo e a tranquilidade de não precisar refazer cedo demais.
+                    </p>
+                    <a href="https://wa.me/5511999999999?text=Quero%20polimento%20%2B%20vitrifica%C3%A7%C3%A3o%20de%20farol" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 bg-white text-black hover:bg-slate-200 px-8 py-4 rounded-full text-base font-normal transition-all shadow-[0_0_24px_rgba(191,219,254,0.15)] hover-lift w-full justify-center sm:w-auto">
+                        Pedir este pacote no WhatsApp
+                        <i data-lucide="arrow-right" stroke-width="1.5" class="w-4 h-4"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 7. BENEFÍCIOS -->
+    <section id="beneficios" class="py-24 md:py-32 bg-[#06080f]">
+        <div class="max-w-7xl mx-auto px-6 md:px-12">
+            <div class="text-center max-w-2xl mx-auto mb-16 reveal-ds">
+                <h2 class="text-3xl md:text-5xl font-normal tracking-tight text-white mb-4">O que você ganha na prática</h2>
+                <p class="text-slate-400 font-extralight text-lg">Benefícios que vão além do “bonito”.</p>
+            </div>
+            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
+                <div class="flex gap-4 p-6 rounded-2xl bg-slate-900/40 border border-white/5 card-hover-border hover:-translate-y-1 transition-all duration-500 reveal-ds">
+                    <i data-lucide="sparkle" stroke-width="1.5" class="w-8 h-8 text-sky-300 shrink-0"></i>
+                    <div>
+                        <h3 class="text-lg font-normal text-white mb-1">Aparência de novo</h3>
+                        <p class="text-sm text-slate-400 font-extralight leading-relaxed">Frente do carro rejuvenescida — impacto direto na primeira impressão.</p>
+                    </div>
+                </div>
+                <div class="flex gap-4 p-6 rounded-2xl bg-slate-900/40 border border-white/5 card-hover-border hover:-translate-y-1 transition-all duration-500 reveal-ds">
+                    <i data-lucide="sun-dim" stroke-width="1.5" class="w-8 h-8 text-sky-300 shrink-0"></i>
+                    <div>
+                        <h3 class="text-lg font-normal text-white mb-1">Mais visibilidade</h3>
+                        <p class="text-sm text-slate-400 font-extralight leading-relaxed">Luz mais direta e forte — especialmente com faróis amarelados.</p>
+                    </div>
+                </div>
+                <div class="flex gap-4 p-6 rounded-2xl bg-slate-900/40 border border-white/5 card-hover-border hover:-translate-y-1 transition-all duration-500 reveal-ds">
+                    <i data-lucide="shield-alert" stroke-width="1.5" class="w-8 h-8 text-sky-300 shrink-0"></i>
+                    <div>
+                        <h3 class="text-lg font-normal text-white mb-1">Mais segurança</h3>
+                        <p class="text-sm text-slate-400 font-extralight leading-relaxed">Reação e leitura da pista melhores à noite e na chuva.</p>
+                    </div>
+                </div>
+                <div class="flex gap-4 p-6 rounded-2xl bg-slate-900/40 border border-white/5 card-hover-border hover:-translate-y-1 transition-all duration-500 reveal-ds">
+                    <i data-lucide="trending-up" stroke-width="1.5" class="w-8 h-8 text-sky-300 shrink-0"></i>
+                    <div>
+                        <h3 class="text-lg font-normal text-white mb-1">Valorização do carro</h3>
+                        <p class="text-sm text-slate-400 font-extralight leading-relaxed">Detalhe que compradores e avaliadores percebem na hora.</p>
+                    </div>
+                </div>
+                <div class="flex gap-4 p-6 rounded-2xl bg-slate-900/40 border border-white/5 card-hover-border hover:-translate-y-1 transition-all duration-500 sm:col-span-2 lg:col-span-1 reveal-ds">
+                    <i data-lucide="piggy-bank" stroke-width="1.5" class="w-8 h-8 text-sky-300 shrink-0"></i>
+                    <div>
+                        <h3 class="text-lg font-normal text-white mb-1">Economia</h3>
+                        <p class="text-sm text-slate-400 font-extralight leading-relaxed">Evita troca prematura do farol completo quando a lente ainda pode ser recuperada.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 8. PARA QUEM É -->
+    <section id="para-quem" class="py-24 md:py-32 bg-[#0a0f1a] border-y border-white/5">
+        <div class="max-w-3xl mx-auto px-6 md:px-12">
+            <h2 class="text-3xl md:text-5xl font-normal tracking-tight text-white mb-10 text-center reveal-ds">É para você se…</h2>
+            <ul class="space-y-4 reveal-ds">
+                <li class="flex items-start gap-4 text-lg text-slate-300 font-extralight">
+                    <i data-lucide="check-circle-2" stroke-width="1.5" class="w-6 h-6 text-sky-400 shrink-0 mt-0.5"></i>
+                    Seu carro tem mais de 3–4 anos e os faróis já amarelaram
+                </li>
+                <li class="flex items-start gap-4 text-lg text-slate-300 font-extralight">
+                    <i data-lucide="check-circle-2" stroke-width="1.5" class="w-6 h-6 text-sky-400 shrink-0 mt-0.5"></i>
+                    Você dirige à noite ou pega estrada com frequência
+                </li>
+                <li class="flex items-start gap-4 text-lg text-slate-300 font-extralight">
+                    <i data-lucide="check-circle-2" stroke-width="1.5" class="w-6 h-6 text-sky-400 shrink-0 mt-0.5"></i>
+                    Vai vender ou trocar o veículo e quer o melhor aspecto possível
+                </li>
+                <li class="flex items-start gap-4 text-lg text-slate-300 font-extralight">
+                    <i data-lucide="check-circle-2" stroke-width="1.5" class="w-6 h-6 text-sky-400 shrink-0 mt-0.5"></i>
+                    Quer resultado profissional — não gambiarra com pasta de dente
+                </li>
+                <li class="flex items-start gap-4 text-lg text-slate-300 font-extralight">
+                    <i data-lucide="check-circle-2" stroke-width="1.5" class="w-6 h-6 text-sky-400 shrink-0 mt-0.5"></i>
+                    Valoriza tempo: serviço rápido com acabamento de detail
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- 9. PROVA SOCIAL -->
+    <section id="depoimentos" class="py-24 md:py-32 bg-[#06080f]">
+        <div class="max-w-7xl mx-auto px-6 md:px-12">
+            <div class="text-center mb-16 reveal-ds">
+                <span class="text-slate-500 text-sm font-light tracking-widest uppercase mb-3 block">Confiança</span>
+                <h2 class="text-3xl md:text-5xl font-normal tracking-tight text-white">Quem restaurou, recomenda</h2>
+            </div>
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="group bg-slate-900/40 rounded-2xl p-8 card-hover-border transition-all duration-500 hover:-translate-y-2 relative overflow-hidden reveal-ds">
+                    <div class="absolute top-0 right-0 w-24 h-24 bg-white/5 rounded-bl-full blur-2xl"></div>
+                    <div class="flex gap-1 text-sky-200 mb-4">
+                        <i data-lucide="star" stroke-width="1.5" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" stroke-width="1.5" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" stroke-width="1.5" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" stroke-width="1.5" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" stroke-width="1.5" class="w-4 h-4 fill-current"></i>
+                    </div>
+                    <p class="text-slate-300 font-extralight leading-relaxed mb-6">“Diferença absurda na estrada. Pensei em trocar o farol — a Sant Anna recuperou sem precisar.”</p>
+                    <p class="text-sm text-slate-500 font-light">— Cliente particular · SUV</p>
+                </div>
+                <div class="group bg-slate-900/40 rounded-2xl p-8 card-hover-border transition-all duration-500 hover:-translate-y-2 relative overflow-hidden reveal-ds">
+                    <div class="absolute top-0 right-0 w-24 h-24 bg-white/5 rounded-bl-full blur-2xl"></div>
+                    <div class="flex gap-1 text-sky-200 mb-4">
+                        <i data-lucide="star" stroke-width="1.5" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" stroke-width="1.5" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" stroke-width="1.5" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" stroke-width="1.5" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" stroke-width="1.5" class="w-4 h-4 fill-current"></i>
+                    </div>
+                    <p class="text-slate-300 font-extralight leading-relaxed mb-6">“Serviço rápido e caprichado. O carro parece outro na frente — vale cada centavo.”</p>
+                    <p class="text-sm text-slate-500 font-light">— Entusiasta · sedan premium</p>
+                </div>
+                <div class="group bg-slate-900/40 rounded-2xl p-8 card-hover-border transition-all duration-500 hover:-translate-y-2 relative overflow-hidden reveal-ds">
+                    <div class="absolute top-0 right-0 w-24 h-24 bg-white/5 rounded-bl-full blur-2xl"></div>
+                    <div class="flex gap-1 text-sky-200 mb-4">
+                        <i data-lucide="star" stroke-width="1.5" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" stroke-width="1.5" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" stroke-width="1.5" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" stroke-width="1.5" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" stroke-width="1.5" class="w-4 h-4 fill-current"></i>
+                    </div>
+                    <p class="text-slate-300 font-extralight leading-relaxed mb-6">“Vitrificação fez toda a diferença. Meses depois ainda está cristalino.”</p>
+                    <p class="text-sm text-slate-500 font-light">— Frota leve · uso urbano</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 10. CTA FINAL -->
+    <section id="cta-final" class="py-24 md:py-32 bg-[#0a0f1a] relative overflow-hidden border-t border-white/5">
+        <img src="Captura%20de%20Tela%202026-03-25%20%C3%A0s%2021.21.57.png" alt="" class="absolute inset-0 w-full h-full object-cover opacity-10 mix-blend-luminosity pointer-events-none">
+        <div class="absolute inset-0 bg-gradient-to-t from-[#06080f] via-[#0a0f1a]/95 to-[#0a0f1a] pointer-events-none"></div>
+        <div class="max-w-4xl mx-auto px-6 md:px-12 text-center relative z-10 reveal-ds">
+            <h2 class="text-3xl md:text-5xl lg:text-6xl font-normal tracking-tight text-white mb-6 leading-tight">
+                Seu farol não vai melhorar sozinho
+            </h2>
+            <p class="text-xl md:text-2xl text-slate-400 font-extralight mb-4">
+                Quanto mais você espera, pior fica.
+            </p>
+            <p class="text-slate-500 font-extralight mb-12 max-w-xl mx-auto">
+                Orçamento rápido e sem compromisso — fale agora no WhatsApp e agende sua avaliação.
+            </p>
+            <a href="https://wa.me/5511999999999?text=Quero%20or%C3%A7amento%20polimento%20de%20farol%20%E2%80%94%20urgente" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center gap-3 bg-white text-black hover:bg-slate-200 px-10 py-5 rounded-full text-lg md:text-xl font-normal tracking-wide transition-all shadow-[0_0_40px_rgba(191,219,254,0.25)] hover-lift">
+                <i data-lucide="message-circle" stroke-width="1.5" class="w-6 h-6"></i>
+                Falar no WhatsApp agora
+            </a>
+            <p class="mt-6 text-sm text-slate-500 font-extralight">Resposta em horário comercial · Sant Anna Auto Detail</p>
+        </div>
+    </section>
+
+    <!-- Bloco claro (padrão design system) -->
+    <section class="py-20 bg-slate-100 relative overflow-hidden">
+        <div class="absolute inset-0 opacity-[0.04] bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMSIgY3k9IjEiIHI9IjEiIGZpbGw9IiMwMDAwMDAiLz48L3N2Zz4=')]"></div>
+        <div class="max-w-3xl mx-auto px-6 text-center relative z-10 reveal-ds">
+            <p class="text-slate-600 font-extralight text-lg mb-6">Prefere ver mais fotos antes de decidir?</p>
+            <a href="#antes-depois" class="inline-flex items-center gap-2 text-slate-900 font-light border-b border-slate-900/30 hover:border-slate-900 pb-0.5 transition-colors">
+                Voltar para antes / depois
+                <i data-lucide="arrow-up" stroke-width="1.5" class="w-4 h-4"></i>
+            </a>
+        </div>
+    </section>
+
+    <footer class="bg-[#06080f] pt-20 pb-10 border-t border-white/5">
+        <div class="max-w-7xl mx-auto px-6 md:px-12">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-16">
+                <div>
+                    <img src="logo%20bruno.jpg" alt="Sant Anna Auto Detail" width="240" height="72" class="h-14 sm:h-16 w-auto max-w-[220px] object-contain object-left mb-6">
+                    <p class="text-sm text-slate-500 font-extralight leading-relaxed mb-6">
+                        Polimento e restauração de faróis com padrão premium. Atendimento com foco em resultado e segurança.
+                    </p>
+                    <a href="https://wa.me/5511999999999" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-sky-300 hover:text-sky-200 text-sm font-light">
+                        <i data-lucide="message-circle" stroke-width="1.5" class="w-5 h-5"></i>
+                        WhatsApp
+                    </a>
+                </div>
+                <div>
+                    <h4 class="text-white text-sm font-light mb-6 uppercase tracking-widest">Página</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#problema" class="text-sm text-slate-400 hover:text-white transition-colors font-light">O problema</a></li>
+                        <li><a href="#processo" class="text-sm text-slate-400 hover:text-white transition-colors font-light">Como funciona</a></li>
+                        <li><a href="#antes-depois" class="text-sm text-slate-400 hover:text-white transition-colors font-light">Antes / depois</a></li>
+                        <li><a href="#cta-final" class="text-sm text-slate-400 hover:text-white transition-colors font-light">Orçamento</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white text-sm font-light mb-6 uppercase tracking-widest">Contato</h4>
+                    <p class="text-sm text-slate-400 font-extralight mb-4">Substitua o número placeholder no HTML pelo WhatsApp oficial.</p>
+                    <p class="text-xs text-slate-600 font-light">© Sant Anna Auto Detail</p>
+                </div>
+            </div>
+            <div class="border-t border-white/5 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-slate-600 font-light">
+                <p>Landing index-bruno1 · design system Sant Anna</p>
+                <a href="design_system_bruno.html" class="text-slate-500 hover:text-slate-300 transition-colors">Design system</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+        const io = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                }
+            });
+        }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+        document.querySelectorAll('.reveal-ds').forEach((el) => io.observe(el));
+    </script>
+</body>
+</html>

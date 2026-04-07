@@ -1,0 +1,533 @@
+<html lang="en" class="scroll-smooth"><head>
+<script>
+try{if(window.parent&&window.parent!==window){window.parent.promotekit_referral="1fd2949a-d22c-431b-92bf-02d4ad04ee24";window.parent.document.cookie="promotekit_referral=1fd2949a-d22c-431b-92bf-02d4ad04ee24;path=/;domain=.aura.build;max-age=31536000"}}catch(e){}
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ground Control USA - Mixed Martial Arts &amp; Fitness</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
+body { font-family: 'Inter', sans-serif; }
+/* Custom scrollbar for the locator list */
+.locator-scroll::-webkit-scrollbar { width: 6px; }
+.locator-scroll::-webkit-scrollbar-track { background: #18181b; }
+.locator-scroll::-webkit-scrollbar-thumb { background: #3f3f46; border-radius: 3px; }
+.locator-scroll::-webkit-scrollbar-thumb:hover { background: #52525b; }
+</style></head>
+<body class="bg-zinc-950 text-zinc-100 antialiased selection:bg-red-600 selection:text-white">
+
+    <!-- TOP MENU -->
+    <header class="fixed top-0 left-0 right-0 z-50 border-b border-white/5 bg-zinc-950/80 backdrop-blur-md">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+            <!-- Logo -->
+            <a href="#" class="flex items-center gap-2 group">
+                <div class="w-10 h-10 bg-red-600 rounded-full flex items-center justify-center text-white">
+                    <i data-lucide="biceps-flexed" class="w-6 h-6 fill-current"></i>
+                </div>
+                <div class="flex flex-col">
+                    <span class="text-xl font-semibold tracking-tight uppercase leading-none">Ground Control</span>
+                    <span class="text-[10px] text-zinc-400 tracking-widest uppercase">Est. 2008</span>
+                </div>
+            </a>
+
+            <!-- Desktop Nav -->
+            <nav class="hidden lg:flex items-center gap-8">
+                <a href="#hero" class="text-sm font-medium text-zinc-300 hover:text-white transition-colors">Home</a>
+                <a href="#programs" class="text-sm font-medium text-zinc-300 hover:text-white transition-colors">Programs</a>
+                <a href="#locations" class="text-sm font-medium text-zinc-300 hover:text-white transition-colors">Locations</a>
+                <a href="#shop" class="text-sm font-medium text-zinc-300 hover:text-white transition-colors flex items-center gap-1">
+                    Shop <i data-lucide="external-link" class="w-3 h-3 text-zinc-500"></i>
+                </a>
+            </nav>
+
+            <!-- Actions -->
+            <div class="flex items-center gap-4">
+                <a href="#partner" class="hidden sm:block text-sm font-medium text-zinc-300 hover:text-white transition-colors">
+                    Partner Program
+                </a>
+                <a href="#" class="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-medium text-white hover:bg-white/10 transition-colors flex items-center gap-2">
+                    <i data-lucide="user" class="w-4 h-4"></i>
+                    <span>Member Login</span>
+                </a>
+                <!-- Mobile Menu Toggle (Visual Only) -->
+                <button class="lg:hidden p-2 text-zinc-400 hover:text-white">
+                    <i data-lucide="menu" class="w-6 h-6"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section id="hero" class="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
+        <!-- Background with Overlay -->
+        <div class="absolute inset-0 z-0">
+            <img src="https://images.unsplash.com/photo-1599058945522-28d584b6f0ff?q=80&amp;w=2069&amp;auto=format&amp;fit=crop" alt="Gym Background" class="w-full h-full object-cover opacity-40">
+            <div class="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/60 to-transparent"></div>
+        </div>
+
+        <div class="relative z-10 container mx-auto px-6 text-center max-w-5xl mt-10">
+            <span class="inline-flex items-center gap-2 rounded-full border border-red-500/30 bg-red-500/10 px-3 py-1 text-xs font-medium text-red-400 mb-6 backdrop-blur-sm">
+                <span class="relative flex h-2 w-2">
+                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                  <span class="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
+                </span>
+                New Locations Opening Soon
+            </span>
+            <h1 class="text-5xl md:text-7xl lg:text-8xl font-semibold text-white tracking-tighter mb-8 leading-[0.95]">
+                FIND A <span class="text-red-600">GROUND CONTROL</span> <br class="hidden md:block"> GYM NEAR YOU.
+            </h1>
+            <p class="text-xl md:text-2xl text-zinc-300 mb-10 max-w-2xl mx-auto leading-relaxed">
+                World-class Jiu Jitsu, Muay Thai, and MMA training. Join a community that pushes you to be your best self.
+            </p>
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <a href="#locations" class="w-full sm:w-auto rounded-full bg-red-600 px-8 py-4 text-base font-semibold text-white hover:bg-red-500 transition-all shadow-[0_0_20px_rgba(220,38,38,0.3)] hover:shadow-[0_0_30px_rgba(220,38,38,0.5)]">
+                    Find My Gym
+                </a>
+                <a href="#shop" class="w-full sm:w-auto rounded-full border border-white/20 bg-white/5 px-8 py-4 text-base font-semibold text-white hover:bg-white/10 backdrop-blur-sm transition-all flex items-center justify-center gap-2">
+                    <span>Shop Gear</span>
+                    <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- GYM LOCATOR (Hotworx Style) -->
+    <section id="locations" class="relative z-20 -mt-20 lg:-mt-32 px-4 pb-24">
+        <div class="max-w-7xl mx-auto">
+            <div class="rounded-3xl border border-white/10 bg-zinc-900 overflow-hidden shadow-2xl flex flex-col lg:flex-row h-[800px]">
+                
+                <!-- Sidebar List -->
+                <div class="w-full lg:w-[400px] flex flex-col border-r border-white/5 bg-zinc-900/95 backdrop-blur z-10 shrink-0">
+                    <div class="p-6 border-b border-white/5">
+                        <h2 class="text-2xl font-semibold tracking-tight text-white mb-2">Select Location</h2>
+                        <p class="text-base text-zinc-400 mb-4">Auto-detecting nearest gym...</p>
+                        
+                        <div class="relative">
+                            <i data-lucide="search" class="absolute left-3 top-3.5 w-5 h-5 text-zinc-500"></i>
+                            <input type="text" placeholder="Zip, City, or State" class="w-full bg-zinc-950 border border-white/10 rounded-xl py-3 pl-10 pr-4 text-white focus:outline-none focus:border-red-600 focus:ring-1 focus:ring-red-600 transition-all placeholder:text-zinc-600">
+                        </div>
+                    </div>
+
+                    <!-- List Items -->
+                    <div class="flex-1 overflow-y-auto locator-scroll p-4 space-y-3">
+                        
+                        <!-- Location Card 1 (Active) -->
+                        <div class="group p-4 rounded-xl bg-zinc-800/50 border border-red-600/50 cursor-pointer hover:bg-zinc-800 transition-all">
+                            <div class="flex justify-between items-start mb-2">
+                                <h3 class="text-lg font-semibold text-white">Baltimore (HQ)</h3>
+                                <span class="bg-red-600/20 text-red-400 text-xs px-2 py-0.5 rounded-full">Nearest</span>
+                            </div>
+                            <p class="text-zinc-400 text-sm mb-1">8303 Pulaski Hwy, Rosedale, MD</p>
+                            <p class="text-zinc-500 text-xs mb-3">Open Today: 6:00 AM - 9:00 PM</p>
+                            <div class="flex gap-2 mt-3">
+                                <button class="flex-1 bg-white text-black text-xs font-semibold py-2 rounded-lg hover:bg-zinc-200">View Site</button>
+                                <button class="p-2 border border-white/10 rounded-lg hover:bg-white/5 text-zinc-300"><i data-lucide="phone" class="w-4 h-4"></i></button>
+                                <button class="p-2 border border-white/10 rounded-lg hover:bg-white/5 text-zinc-300"><i data-lucide="map-pin" class="w-4 h-4"></i></button>
+                            </div>
+                        </div>
+
+                        <!-- Location Card 2 -->
+                        <div class="group p-4 rounded-xl border border-white/5 hover:bg-zinc-800 hover:border-white/10 cursor-pointer transition-all">
+                            <h3 class="text-lg font-semibold text-white mb-1">Columbia</h3>
+                            <p class="text-zinc-400 text-sm mb-1">9130 Red Branch Rd, Columbia, MD</p>
+                            <p class="text-zinc-500 text-xs mb-3">Open Today: 7:00 AM - 8:30 PM</p>
+                            <div class="flex gap-2 mt-3 opacity-50 group-hover:opacity-100 transition-opacity">
+                                <button class="flex-1 border border-white/20 text-white text-xs font-semibold py-2 rounded-lg hover:bg-white/10">View Site</button>
+                            </div>
+                        </div>
+
+                         <!-- Location Card 3 -->
+                         <div class="group p-4 rounded-xl border border-white/5 hover:bg-zinc-800 hover:border-white/10 cursor-pointer transition-all">
+                            <h3 class="text-lg font-semibold text-white mb-1">Hunt Valley</h3>
+                            <p class="text-zinc-400 text-sm mb-1">47 Loveton Cir, Sparks Glencoe, MD</p>
+                            <p class="text-zinc-500 text-xs mb-3">Open Today: 6:30 AM - 9:00 PM</p>
+                            <div class="flex gap-2 mt-3 opacity-50 group-hover:opacity-100 transition-opacity">
+                                <button class="flex-1 border border-white/20 text-white text-xs font-semibold py-2 rounded-lg hover:bg-white/10">View Site</button>
+                            </div>
+                        </div>
+                        
+                        <!-- Location Card 4 -->
+                        <div class="group p-4 rounded-xl border border-white/5 hover:bg-zinc-800 hover:border-white/10 cursor-pointer transition-all">
+                            <h3 class="text-lg font-semibold text-white mb-1">Owings Mills</h3>
+                            <p class="text-zinc-400 text-sm mb-1">12400 Owings Mills Blvd, Reisterstown</p>
+                            <p class="text-zinc-500 text-xs mb-3">Open Today: 10:00 AM - 8:00 PM</p>
+                            <div class="flex gap-2 mt-3 opacity-50 group-hover:opacity-100 transition-opacity">
+                                <button class="flex-1 border border-white/20 text-white text-xs font-semibold py-2 rounded-lg hover:bg-white/10">View Site</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Map View Area -->
+                <div class="relative flex-1 bg-zinc-800">
+                    <!-- Static Map Image Placeholder simulating Dark Mode Google Maps -->
+                    <img src="https://images.unsplash.com/photo-1524661135-423995f22d0b?q=80&amp;w=2074&amp;auto=format&amp;fit=crop" class="w-full h-full object-cover grayscale opacity-50 mix-blend-multiply" alt="Map">
+                    
+                    <!-- Map Pins (Simulated) -->
+                    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                         <div class="relative flex flex-col items-center">
+                            <div class="bg-zinc-950 text-white px-3 py-1 rounded-lg text-xs font-medium mb-1 whitespace-nowrap border border-white/10 shadow-xl">
+                                Ground Control Baltimore
+                            </div>
+                            <div class="w-4 h-4 bg-red-600 rounded-full border-2 border-white shadow-[0_0_15px_rgba(220,38,38,0.8)]"></div>
+                         </div>
+                    </div>
+                    
+                    <div class="absolute top-[40%] left-[60%]">
+                        <div class="w-3 h-3 bg-zinc-500 rounded-full border-2 border-white hover:bg-red-600 cursor-pointer transition-colors"></div>
+                   </div>
+                   <div class="absolute top-[60%] left-[45%]">
+                        <div class="w-3 h-3 bg-zinc-500 rounded-full border-2 border-white hover:bg-red-600 cursor-pointer transition-colors"></div>
+                   </div>
+
+                    <!-- Map Controls -->
+                    <div class="absolute bottom-6 right-6 flex flex-col gap-2">
+                        <button class="w-10 h-10 bg-zinc-900 border border-white/10 rounded-lg flex items-center justify-center text-white hover:bg-zinc-800"><i data-lucide="plus" class="w-5 h-5"></i></button>
+                        <button class="w-10 h-10 bg-zinc-900 border border-white/10 rounded-lg flex items-center justify-center text-white hover:bg-zinc-800"><i data-lucide="minus" class="w-5 h-5"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PROGRAMS SECTION -->
+    <section id="programs" class="py-24 bg-zinc-950 border-t border-white/5">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
+                <div>
+                    <h2 class="text-4xl md:text-5xl font-semibold tracking-tight text-white mb-4">Training Programs</h2>
+                    <p class="text-xl text-zinc-400 max-w-xl">Comprehensive martial arts instruction for all skill levels. From beginners to professional fighters.</p>
+                </div>
+                <a href="#" class="text-white border-b border-red-600 pb-1 hover:text-red-500 transition-colors">View All Disciplines</a>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 h-[600px] md:h-[500px]">
+                
+                <!-- Card 1 -->
+                <div class="group relative rounded-2xl overflow-hidden cursor-pointer h-full">
+                    <img src="https://images.unsplash.com/photo-1595078475328-1ab05d0a6a0e?q=80&amp;w=1000&amp;auto=format&amp;fit=crop" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="Muay Thai">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-80 group-hover:opacity-90 transition-opacity"></div>
+                    <div class="absolute bottom-0 left-0 p-8 w-full">
+                        <i data-lucide="sword" class="w-8 h-8 text-red-600 mb-4"></i>
+                        <h3 class="text-3xl font-bold italic tracking-tighter text-white mb-2 uppercase">Muay Thai</h3>
+                        <p class="text-zinc-300 text-sm opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300">
+                            The art of 8 limbs. Striking techniques using fists, elbows, knees, and shins.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="group relative rounded-2xl overflow-hidden cursor-pointer h-full">
+                    <img src="https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/917d6f93-fb36-439a-8c48-884b67b35381_1600w.jpg" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="Jiu Jitsu">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-80 group-hover:opacity-90 transition-opacity"></div>
+                    <div class="absolute bottom-0 left-0 p-8 w-full">
+                        <i data-lucide="waves" class="w-8 h-8 text-red-600 mb-4"></i>
+                        <h3 class="text-3xl font-bold italic tracking-tighter text-white mb-2 uppercase">Jiu Jitsu</h3>
+                        <p class="text-zinc-300 text-sm opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300">
+                            Grappling based on leverage and ground control. Gi and No-Gi classes available.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="group relative rounded-2xl overflow-hidden cursor-pointer h-full">
+                    <img src="https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/4734259a-bad7-422f-981e-ce01e79184f2_1600w.jpg" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="Wrestling">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-80 group-hover:opacity-90 transition-opacity"></div>
+                    <div class="absolute bottom-0 left-0 p-8 w-full">
+                        <i data-lucide="users" class="w-8 h-8 text-red-600 mb-4"></i>
+                        <h3 class="text-3xl font-bold italic tracking-tighter text-white mb-2 uppercase">Wrestling</h3>
+                        <p class="text-zinc-300 text-sm opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300">
+                            Takedowns, positioning, and explosive power essential for MMA integration.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="group relative rounded-2xl overflow-hidden cursor-pointer h-full">
+                    <img src="https://images.unsplash.com/photo-1599058945522-28d584b6f0ff?q=80&amp;w=1000&amp;auto=format&amp;fit=crop" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="MMA">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-80 group-hover:opacity-90 transition-opacity"></div>
+                    <div class="absolute bottom-0 left-0 p-8 w-full">
+                        <i data-lucide="zap" class="w-8 h-8 text-red-600 mb-4"></i>
+                        <h3 class="text-3xl font-bold italic tracking-tighter text-white mb-2 uppercase">MMA</h3>
+                        <p class="text-zinc-300 text-sm opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300">
+                            The complete blend of striking and grappling. Test your skills in the cage.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- TRAINING LIBRARY & PROMO -->
+    <section class="py-24 bg-zinc-900 border-y border-white/5">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <div class="order-2 lg:order-1">
+                    <div class="relative rounded-2xl overflow-hidden border border-white/10 aspect-video group cursor-pointer">
+                        <img src="https://images.unsplash.com/photo-1555597673-b21d5c935865?q=80&amp;w=2000&amp;auto=format&amp;fit=crop" class="w-full h-full object-cover opacity-60 group-hover:opacity-40 transition-all">
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <div class="w-20 h-20 bg-red-600 rounded-full flex items-center justify-center pl-1 group-hover:scale-110 transition-transform shadow-2xl shadow-red-900/50">
+                                <i data-lucide="play" class="w-8 h-8 text-white fill-current"></i>
+                            </div>
+                        </div>
+                        <div class="absolute bottom-4 left-4">
+                            <span class="text-xs font-mono text-zinc-400 bg-black/50 px-2 py-1 rounded">LIBRARY PREVIEW</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="order-1 lg:order-2">
+                    <h2 class="text-3xl md:text-5xl font-semibold tracking-tight text-white mb-6">Ground Control Online Academy</h2>
+                    <p class="text-xl text-zinc-400 mb-8 leading-relaxed">
+                        Access our national-level curriculum from anywhere. Breakdown videos, technique drills, and theory from our black belt instructors. Perfect for supplementing your in-gym training.
+                    </p>
+                    <button class="flex items-center gap-2 text-white font-medium hover:text-red-500 transition-colors group">
+                        Explore Library <i data-lucide="arrow-right" class="w-5 h-5 transform group-hover:translate-x-1 transition-transform"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SHOP SECTION -->
+    <section id="shop" class="py-24 bg-zinc-950">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-center mb-12">
+                <h2 class="text-4xl font-semibold tracking-tight text-white">Latest Gear</h2>
+                <a href="#" class="hidden md:inline-flex items-center gap-2 text-zinc-400 hover:text-white transition-colors">
+                    Shop All Gear <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                </a>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Product 1 -->
+                <div class="group">
+                    <div class="bg-zinc-900 rounded-2xl p-8 mb-4 border border-white/5 relative overflow-hidden">
+                         <div class="absolute top-4 right-4 text-zinc-500 hover:text-red-500 cursor-pointer">
+                            <i data-lucide="heart" class="w-5 h-5"></i>
+                        </div>
+                        <img src="https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?q=80&amp;w=1000&amp;auto=format&amp;fit=crop" alt="Gloves" class="w-full h-64 object-contain mix-blend-screen grayscale group-hover:grayscale-0 transition-all duration-500">
+                    </div>
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="text-lg font-medium text-white mb-1">Pro Sparring Gloves</h3>
+                            <p class="text-zinc-500 text-sm">16oz - Leather</p>
+                        </div>
+                        <span class="text-lg font-semibold text-white">$89.00</span>
+                    </div>
+                </div>
+
+                <!-- Product 2 -->
+                <div class="group">
+                    <div class="bg-zinc-900 rounded-2xl p-8 mb-4 border border-white/5 relative overflow-hidden">
+                        <div class="absolute top-4 right-4 text-zinc-500 hover:text-red-500 cursor-pointer">
+                            <i data-lucide="heart" class="w-5 h-5"></i>
+                        </div>
+                        <img src="https://images.unsplash.com/photo-1517130038641-a774d04afb3c?q=80&amp;w=1000&amp;auto=format&amp;fit=crop" alt="Dumbbells" class="w-full h-64 object-contain mix-blend-screen grayscale group-hover:grayscale-0 transition-all duration-500">
+                    </div>
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="text-lg font-medium text-white mb-1">GC Competition Gi</h3>
+                            <p class="text-zinc-500 text-sm">White/Black - Pearl Weave</p>
+                        </div>
+                        <span class="text-lg font-semibold text-white">$149.00</span>
+                    </div>
+                </div>
+
+                <!-- Product 3 -->
+                <div class="group">
+                    <div class="bg-zinc-900 rounded-2xl p-8 mb-4 border border-white/5 relative overflow-hidden">
+                        <div class="absolute top-4 right-4 text-zinc-500 hover:text-red-500 cursor-pointer">
+                            <i data-lucide="heart" class="w-5 h-5"></i>
+                        </div>
+                        <img src="https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?q=80&amp;w=1000&amp;auto=format&amp;fit=crop" alt="Shirt" class="w-full h-64 object-contain mix-blend-screen grayscale group-hover:grayscale-0 transition-all duration-500">
+                    </div>
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="text-lg font-medium text-white mb-1">Performance Rashguard</h3>
+                            <p class="text-zinc-500 text-sm">Ranked Colors</p>
+                        </div>
+                        <span class="text-lg font-semibold text-white">$55.00</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-8 text-center md:hidden">
+                <a href="#" class="inline-block px-6 py-3 border border-white/20 rounded-full text-white font-medium">Shop All Gear</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- PARTNER PROGRAM SECTION -->
+    <section id="partner" class="relative py-32 bg-zinc-950 overflow-hidden">
+        <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-red-900/20 via-zinc-950 to-zinc-950"></div>
+        
+        <div class="max-w-7xl mx-auto px-6 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 bg-zinc-900/50 border border-white/10 rounded-3xl p-8 lg:p-12 backdrop-blur-sm">
+                
+                <div class="lg:col-span-7 flex flex-col justify-center">
+                    <div class="flex items-center gap-2 mb-6">
+                        <i data-lucide="briefcase" class="text-red-500 w-5 h-5"></i>
+                        <span class="text-red-500 font-medium tracking-wide text-sm uppercase">Franchise Opportunity</span>
+                    </div>
+                    <h2 class="text-4xl lg:text-5xl font-semibold tracking-tight text-white mb-6">Own a Ground Control.</h2>
+                    <p class="text-xl text-zinc-300 mb-8 max-w-2xl leading-relaxed">
+                        Join one of the fastest-growing martial arts brands in the country. We provide the blueprint, training systems, and marketing support to help you build a thriving community in your city.
+                    </p>
+                    
+                    <ul class="space-y-4 mb-8">
+                        <li class="flex items-start gap-3">
+                            <i data-lucide="check-circle-2" class="w-6 h-6 text-zinc-500 shrink-0 mt-0.5"></i>
+                            <span class="text-zinc-300">Proven business model with recurring revenue streams.</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <i data-lucide="check-circle-2" class="w-6 h-6 text-zinc-500 shrink-0 mt-0.5"></i>
+                            <span class="text-zinc-300">National brand authority and centralized marketing.</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <i data-lucide="check-circle-2" class="w-6 h-6 text-zinc-500 shrink-0 mt-0.5"></i>
+                            <span class="text-zinc-300">Comprehensive instructor training certification.</span>
+                        </li>
+                    </ul>
+
+                    <a href="#" class="inline-flex items-center justify-center w-fit rounded-full bg-white px-8 py-4 text-base font-semibold text-black hover:bg-zinc-200 transition-colors">
+                        Apply to Partner Program
+                    </a>
+                </div>
+
+                <div class="lg:col-span-5 relative h-full min-h-[400px]">
+                    <img src="https://images.unsplash.com/photo-1599058945522-28d584b6f0ff?q=80&amp;w=1000&amp;auto=format&amp;fit=crop" class="absolute inset-0 w-full h-full object-cover rounded-2xl grayscale" alt="Gym Owner">
+                    <div class="absolute inset-0 rounded-2xl border border-white/10"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ABOUT / BRAND STORY -->
+    <section class="py-24 bg-zinc-950 border-t border-white/5">
+        <div class="max-w-4xl mx-auto px-6 text-center">
+            <i data-lucide="quote" class="w-12 h-12 text-zinc-800 mx-auto mb-8 fill-current"></i>
+            <h2 class="text-3xl md:text-5xl font-semibold tracking-tight text-white mb-8">
+                More Than Just A Gym.
+            </h2>
+            <p class="text-xl md:text-2xl text-zinc-400 leading-relaxed mb-12">
+                "Ground Control was founded on the belief that martial arts is for everyone. Whether you want to compete in the cage, learn self-defense, or just get in the best shape of your life, our mats are open to you. We build confidence, discipline, and a family-like environment."
+            </p>
+            <div class="flex items-center justify-center gap-4">
+                <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&amp;w=150&amp;auto=format&amp;fit=crop" class="w-12 h-12 rounded-full grayscale border border-white/20" alt="Founder">
+                <div class="text-left">
+                    <div class="text-white font-medium">John Doe</div>
+                    <div class="text-zinc-500 text-sm">Founder, Ground Control USA</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MEMBER FEATURES (Referral + Portal) -->
+    <section class="py-12 bg-zinc-950">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Referral -->
+                <div class="group p-8 rounded-2xl bg-zinc-900 border border-white/5 hover:border-red-600/30 transition-all cursor-pointer">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="p-3 bg-zinc-950 rounded-lg text-red-500 border border-white/5">
+                            <i data-lucide="users-2" class="w-6 h-6"></i>
+                        </div>
+                        <i data-lucide="arrow-up-right" class="w-5 h-5 text-zinc-600 group-hover:text-white transition-colors"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-white mb-2">Refer a Friend</h3>
+                    <p class="text-zinc-400 text-base">Earn rewards when friends join any Ground Control location nationwide.</p>
+                </div>
+                
+                <!-- Portal -->
+                <div class="group p-8 rounded-2xl bg-zinc-900 border border-white/5 hover:border-red-600/30 transition-all cursor-pointer">
+                    <div class="flex justify-between items-start mb-4">
+                         <div class="p-3 bg-zinc-950 rounded-lg text-white border border-white/5">
+                            <i data-lucide="layout-dashboard" class="w-6 h-6"></i>
+                        </div>
+                        <i data-lucide="arrow-up-right" class="w-5 h-5 text-zinc-600 group-hover:text-white transition-colors"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-white mb-2">Member Portal</h3>
+                    <p class="text-zinc-400 text-base">Manage your membership, book classes, and track your belt progress.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-black border-t border-white/10 pt-20 pb-10">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+                
+                <!-- Col 1 -->
+                <div class="col-span-1 md:col-span-1">
+                    <a href="#" class="flex items-center gap-2 mb-6">
+                        <div class="w-8 h-8 bg-white rounded-full flex items-center justify-center text-black">
+                             <i data-lucide="biceps-flexed" class="w-5 h-5 fill-current"></i>
+                        </div>
+                        <span class="text-lg font-bold text-white uppercase tracking-tight">Ground Control</span>
+                    </a>
+                    <p class="text-zinc-500 text-sm mb-6">
+                        Premier Mixed Martial Arts training centers across the USA.
+                    </p>
+                    <div class="flex gap-4">
+                        <a href="#" class="text-zinc-400 hover:text-white"><i data-lucide="instagram" class="w-5 h-5"></i></a>
+                        <a href="#" class="text-zinc-400 hover:text-white"><i data-lucide="facebook" class="w-5 h-5"></i></a>
+                        <a href="#" class="text-zinc-400 hover:text-white"><i data-lucide="youtube" class="w-5 h-5"></i></a>
+                    </div>
+                </div>
+
+                <!-- Col 2 -->
+                <div>
+                    <h4 class="text-white font-semibold mb-4">Programs</h4>
+                    <ul class="space-y-3 text-sm text-zinc-400">
+                        <li><a href="#" class="hover:text-red-500 transition-colors">Jiu Jitsu</a></li>
+                        <li><a href="#" class="hover:text-red-500 transition-colors">Muay Thai</a></li>
+                        <li><a href="#" class="hover:text-red-500 transition-colors">Boxing</a></li>
+                        <li><a href="#" class="hover:text-red-500 transition-colors">MMA</a></li>
+                        <li><a href="#" class="hover:text-red-500 transition-colors">Kids Programs</a></li>
+                    </ul>
+                </div>
+
+                <!-- Col 3 -->
+                <div>
+                    <h4 class="text-white font-semibold mb-4">Company</h4>
+                    <ul class="space-y-3 text-sm text-zinc-400">
+                        <li><a href="#locations" class="hover:text-white transition-colors">Locations</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Our Story</a></li>
+                        <li><a href="#partner" class="hover:text-white transition-colors">Partner Program</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Careers</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Contact</a></li>
+                    </ul>
+                </div>
+
+                <!-- Col 4 -->
+                 <div>
+                    <h4 class="text-white font-semibold mb-4">Legal</h4>
+                    <ul class="space-y-3 text-sm text-zinc-400">
+                        <li><a href="#" class="hover:text-white transition-colors">Privacy Policy</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Terms of Service</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Refund Policy</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Waiver</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+                <p class="text-zinc-600 text-sm">© 2024 Ground Control USA. All rights reserved.</p>
+                <div class="flex items-center gap-2">
+                    <span class="w-2 h-2 bg-green-500 rounded-full"></span>
+                    <span class="text-zinc-500 text-xs font-mono">SYSTEMS OPERATIONAL</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+    </script>
+
+</body></html>

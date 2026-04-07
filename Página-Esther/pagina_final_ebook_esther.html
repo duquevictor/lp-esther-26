@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html class="scroll-smooth overflow-x-hidden" lang="pt-BR">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Acervo Antisanfona  Esther Gregolon</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'ui-monospace', 'monospace'],
+                        display: ['Cormorant Garamond', 'Georgia', 'serif'],
+                        alt: ['Fraunces', 'Georgia', 'serif'],
+                    },
+                    colors: {
+                        esther: {
+                            cream: '#F7F4EF',
+                            sand: '#EBE6DD',
+                            olive: '#5C6648',
+                            'olive-soft': '#7A8568',
+                            herbal: '#6B7560',
+                            terracotta: '#CC733E',
+                            caramel: '#C28340',
+                            copper: '#DD8E4F',
+                            ink: '#2C2825',
+                            mist: '#EEF0EA',
+                            linen: '#F3EDE6'
+                        },
+                    },
+                    backgroundImage: {
+                        'noise': "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")",
+                    },
+                    animation: {
+                        'spin-slow': 'spin 12s linear infinite',
+                        'aurora': 'aurora 18s ease-in-out infinite',
+                        'breathe': 'breathe 8s ease-in-out infinite',
+                        'marquee': 'marquee 30s linear infinite',
+                        'float': 'float 8s ease-in-out infinite',
+                        'beam': 'beam 5s linear infinite',
+                    },
+                    keyframes: {
+                        aurora: {
+                            '0%, 100%': { transform: 'translate(0,0) scale(1)' },
+                            '33%': { transform: 'translate(3%, -3%) scale(1.05)' },
+                            '66%': { transform: 'translate(-2%, 4%) scale(0.95)' },
+                        },
+                        breathe: {
+                            '0%, 100%': { opacity: '0.45' },
+                            '50%': { opacity: '0.75' },
+                        },
+                        marquee: {
+                            '0%': { transform: 'translateX(0)' },
+                            '100%': { transform: 'translateX(-50%)' },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0) rotate(-1deg)' },
+                            '50%': { transform: 'translateY(-15px) rotate(1deg)' },
+                        },
+                        beam: {
+                            'from': { transform: 'rotate(0deg)' },
+                            'to': { transform: 'rotate(360deg)' },
+                        }
+                    },
+                },
+            },
+        };
+    </script>
+
+    <style>
+        :root {
+            --esther-cream: #F7F4EF;
+            --esther-olive: #5C6648;
+            --esther-terracotta: #B87D5C;
+            --esther-ink: #2C2825;
+            --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--esther-cream);
+            color: var(--esther-ink);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .noise-overlay {
+            position: fixed;
+            inset: 0;
+            opacity: 0.035;
+            pointer-events: none;
+            z-index: 9999;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        .bg-grid {
+            background-size: 40px 40px;
+            background-image:
+                linear-gradient(to right, rgba(44, 40, 37, 0.06) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(44, 40, 37, 0.06) 1px, transparent 1px);
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.45);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+        }
+
+        /* --- Scroll Animations --- */
+        .reveal-up {
+            opacity: 0;
+            transform: translateY(30px);
+            filter: blur(12px);
+            will-change: transform, opacity, filter;
+            transition: all 1.2s var(--ease-out-expo);
+        }
+
+        .reveal-up.active {
+            opacity: 1;
+            transform: translateY(0);
+            filter: blur(0);
+        }
+
+        .reveal-zoom {
+            opacity: 0;
+            transform: scale(0.95);
+            filter: blur(10px);
+            transition: all 1.1s var(--ease-out-expo);
+        }
+
+        .reveal-zoom.active {
+            opacity: 1;
+            transform: scale(1);
+            filter: blur(0);
+        }
+
+        /* --- Custom Elements --- */
+        .btn-glow {
+            position: relative;
+            z-index: 10;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(180deg, #fb923c 0%, #ea580c 100%);
+            color: #FFFFFF !important;
+            font-weight: 700;
+            border-radius: 9999px;
+            box-shadow: 
+                inset 0px 2px 4px rgba(255, 255, 255, 0.4), 
+                0px 8px 30px rgba(234, 88, 12, 0.6);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            animation: pulse-orange 2s infinite;
+            text-shadow: 0px 1px 2px rgba(0,0,0,0.1);
+        }
+
+        .btn-glow:hover {
+            transform: scale(1.03) translateY(-2px);
+            box-shadow: 
+                inset 0px 2px 4px rgba(255, 255, 255, 0.5), 
+                0px 12px 40px rgba(234, 88, 12, 0.8);
+            animation: none;
+        }
+
+        @keyframes pulse-orange {
+            0% {
+                box-shadow: inset 0px 2px 4px rgba(255,255,255,0.4), 0 0 0 0 rgba(234, 88, 12, 0.5), 0px 8px 30px rgba(234, 88, 12, 0.6);
+            }
+            70% {
+                box-shadow: inset 0px 2px 4px rgba(255,255,255,0.4), 0 0 0 15px rgba(234, 88, 12, 0), 0px 8px 30px rgba(234, 88, 12, 0.6);
+            }
+            100% {
+                box-shadow: inset 0px 2px 4px rgba(255,255,255,0.4), 0 0 0 0 rgba(234, 88, 12, 0), 0px 8px 30px rgba(234, 88, 12, 0.6);
+            }
+        }
+
+        .flashlight-card {
+            position: relative;
+            overflow: hidden;
+            border-radius: 1.25rem;
+            background: rgba(255,255,255, 0.5);
+            border: 1px solid rgba(92, 102, 72, 0.15);
+            transition: all 0.4s ease;
+        }
+
+        .flashlight-card::before {
+            content: "";
+            position: absolute;
+            inset: 0px;
+            background: radial-gradient(600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+                    rgba(255, 255, 255, 0.7),
+                    transparent 45%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .flashlight-card:hover::before {
+            opacity: 1;
+        }
+        
+        .flashlight-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px -10px rgba(44, 40, 37, 0.1);
+            border-color: rgba(184, 125, 92, 0.3);
+        }
+
+        .hero-aurora-blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(90px);
+            mix-blend-mode: multiply;
+        }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--esther-sand); }
+        ::-webkit-scrollbar-thumb { background: #C4B8A8; border-radius: 4px; }
+
+        .pain-cycle-anchor {
+            position: relative;
+            isolation: isolate;
+        }
+
+        .pain-cycle-anchor > :not(.pain-cycle-deco) {
+            position: relative;
+            z-index: 1;
+        }
+
+        .pain-cycle-deco {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            width: min(560px, 92vw);
+            height: min(320px, 48vw);
+            transform: translateX(-50%);
+            margin-top: -1.5rem;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.18;
+        }
+
+        @media (min-width: 640px) {
+            .pain-cycle-deco {
+                opacity: 0.22;
+                height: 340px;
+                margin-top: -2rem;
+            }
+        }
+
+        .pain-cycle-deco svg {
+            width: 100%;
+            height: 100%;
+            overflow: visible;
+        }
+
+        .pain-cycle-orbit {
+            transform-origin: 100px 78px;
+            animation: pain-cycle-drift 48s linear infinite;
+        }
+
+        .pain-cycle-wave {
+            animation: pain-cycle-flow 36s ease-in-out infinite;
+        }
+
+        .pain-cycle-dash {
+            stroke-dasharray: 8 14;
+            animation: pain-cycle-march 52s linear infinite;
+        }
+
+        @keyframes pain-cycle-drift {
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes pain-cycle-flow {
+            0%, 100% { transform: translateY(0); opacity: 0.85; }
+            50% { transform: translateY(6px); opacity: 1; }
+        }
+
+        @keyframes pain-cycle-march {
+            to { stroke-dashoffset: -220; }
+        }
+    </style>
+</head>
+
+<body class="antialiased min-h-screen relative selection:bg-esther-olive selection:text-esther-cream overflow-x-hidden w-full">
+
+    <div class="noise-overlay"></div>
+
+    <!-- Seção 1: A Promessa (Acima da Dobra) -->
+    <section class="relative lg:min-h-screen overflow-hidden bg-esther-cream border-b border-esther-olive/15 lg:pt-10 pb-8 lg:pb-16">
+        
+        <!-- Mobile Background Wrapper -->
+        <div class="block lg:hidden absolute inset-0 z-0 h-[100vh] w-full overflow-hidden pointer-events-none select-none">
+            <img src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Prato Saudável" class="w-full h-[50vh] object-cover object-center" />
+            
+            <!-- Degrade suave para o creme -->
+            <div class="absolute top-0 left-0 w-full h-[45vh] bg-gradient-to-b from-black/40 via-esther-cream/50 to-esther-cream"></div>
+            <div class="absolute top-[44vh] bottom-0 left-0 w-full bg-esther-cream"></div>
+
+            <!-- Badges flutuantes no mobile -->
+            <div class="absolute top-[5vh] left-0 w-full flex flex-col gap-4 px-4 z-10">
+                <div class="bg-white/90 backdrop-blur-xl border border-white/50 px-3 py-2 rounded-xl shadow-xl flex items-center gap-2 self-end">
+                    <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="Esther" class="w-8 h-8 rounded-full object-cover" />
+                    <p class="text-[9px] font-mono tracking-widest uppercase text-esther-olive font-bold leading-tight">Por Esther<br>Gregolon</p>
+                </div>
+                <div class="glass-panel p-3 rounded-2xl flex items-center gap-3 bg-white/20 backdrop-blur border border-white/40 shadow-xl self-start mt-1">
+                    <iconify-icon icon="solar:book-bookmark-bold-duotone" class="text-3xl text-white drop-shadow-md"></iconify-icon>
+                    <div>
+                        <p class="text-white font-display text-lg font-medium tracking-wide drop-shadow-md leading-none">As 100 Receitas</p>
+                        <p class="text-white/90 text-[9px] font-mono uppercase tracking-widest mt-1 drop-shadow-md">Acervo Completo</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Desktop Effects -->
+        <div class="hero-aurora-blob w-[700px] h-[700px] bg-esther-terracotta/20 -top-32 -right-32 animate-aurora hidden lg:block"></div>
+        <div class="hero-aurora-blob w-[600px] h-[600px] bg-esther-olive/15 bottom-[-100px] left-[-100px] hidden lg:block" style="animation-delay: -5s;"></div>
+        <div class="absolute inset-0 bg-grid opacity-[0.35] pointer-events-none mix-blend-multiply"></div>
+
+        <div class="relative z-10 max-w-[1440px] mx-auto px-6 md:px-16 pt-[26vh] sm:pt-[35vh] lg:pt-20 pb-4 lg:pb-20 lg:min-h-[90vh] flex flex-col lg:flex-row items-center gap-16 lg:gap-24">
+            
+            <div class="flex-1 text-left w-full">
+                <div class="inline-flex items-center gap-3 mb-6 lg:mb-8 reveal-up bg-white/40 backdrop-blur-md px-4 py-2 border border-white/60 rounded-full">
+                    <span class="w-2.5 h-2.5 rounded-full bg-esther-terracotta shadow-[0_0_12px_rgba(184,125,92,0.6)] animate-pulse"></span>
+                    <span class="text-xs font-mono uppercase tracking-[0.2em] text-esther-olive/90 font-bold">Pare de emagrecer e engordar tudo de novo.</span>
+                </div>
+                
+                <h1 class="font-display text-[2.1rem] sm:text-[2.75rem] lg:text-[3.25rem] font-semibold tracking-tighter leading-[1.05] mb-6 lg:mb-8 text-esther-ink reveal-up delay-200">
+                    As exatas <span class="text-white bg-gradient-to-r from-esther-terracotta to-esther-copper px-4 py-1.5 rounded-2xl inline-block -rotate-2 shadow-lg shadow-esther-terracotta/20 font-bold mx-1 translate-y-[-2px]">100 receitas</span> que me fizeram <span class="font-alt italic text-esther-terracotta relative inline-block">eliminar 55kg<span class="absolute bottom-1 left-0 w-full h-3 bg-esther-terracotta/20 -z-10 rounded-full"></span></span> e manter o peso <span class="underline decoration-esther-olive/30 underline-offset-4 decoration-[3px]">há mais de 3 anos</span> <span class="font-alt italic text-esther-copper font-medium text-[1.1em]">sem passar fome</span> e <span class="text-esther-terracotta border-b-[3px] border-esther-terracotta/30 pb-[2px]">sem comer comida sem graça</span>.
+                </h1>
+                
+                
+                <div class="reveal-up delay-500">
+                    <a href="#oferta" class="btn-glow w-full sm:w-auto px-8 py-5 text-sm md:text-base tracking-wide uppercase border border-orange-400/50">
+                        👉 QUERO PARAR DE RECOMEÇAR
+                    </a>
+                    <p class="mt-4 text-xs font-mono font-medium text-esther-ink/60 flex items-center justify-center sm:justify-start gap-2">
+                        <iconify-icon icon="solar:lock-bold" class="text-esther-olive"></iconify-icon> Pagamento 100% seguro • Acesso imediato no seu e-mail
+                    </p>
+                </div>
+            </div>
+
+            <div class="hidden lg:block flex-1 w-full relative z-20 reveal-zoom delay-500 perspective-1000">
+                <div class="relative glass-panel rounded-[2.5rem] p-3 shadow-2xl shadow-esther-ink/5 border border-white/70">
+                    <div class="rounded-[2rem] overflow-hidden aspect-[4/5] relative group">
+                        <img src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Prato saudável" class="w-full h-full object-cover group-hover:scale-105 transition-all duration-[1.5s]" />
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+                        <div class="absolute bottom-6 left-6 right-6 z-20">
+                            <div class="glass-panel p-4 rounded-xl flex items-center gap-4 bg-white/10">
+                                <iconify-icon icon="solar:book-bookmark-bold-duotone" class="text-4xl text-esther-cream"></iconify-icon>
+                                <div>
+                                    <p class="text-white font-display text-xl font-medium tracking-wide">As 100 Receitas</p>
+                                    <p class="text-white/80 text-xs font-mono uppercase tracking-widest mt-1">Acervo Completo</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Mockup abstraction badges -->
+                    <div class="absolute right-0 sm:-right-8 md:-right-12 top-16 bg-white/90 backdrop-blur-xl border border-white/50 px-4 py-3 rounded-2xl shadow-xl animate-float z-30">
+                        <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="Esther" class="w-12 h-12 rounded-full object-cover mb-2" />
+                        <p class="text-[10px] font-mono tracking-widest uppercase text-esther-olive font-bold">Por Esther Gregolon</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção 2: O Problema (A Dor Real) -->
+    <section class="pt-12 pb-24 md:py-32 bg-esther-sand border-b border-esther-olive/10 relative z-10">
+        <div class="max-w-4xl mx-auto px-6 md:px-16">
+            <h2 class="font-display text-[2.2rem] leading-[1.1] sm:text-5xl md:text-6xl text-esther-ink text-center mb-16 font-semibold tracking-tighter reveal-up">
+                Isso soa <span class="font-alt italic text-esther-terracotta relative inline-flex">familiar<span class="absolute bottom-1 left-0 w-full h-3 sm:h-4 bg-esther-terracotta/20 -z-10 rounded-full"></span></span> <br class="block sm:hidden" /> para <span class="text-esther-copper border-b-[3px] border-esther-copper/40 pb-0.5">você?</span>
+            </h2>
+            
+            <div class="space-y-6 mb-16">
+                <div class="flashlight-card bg-white/40 p-6 rounded-2xl reveal-up border border-white/50 flex gap-5 items-start" onmousemove="updateFlashlight(event, this)">
+                    <div class="mt-1 bg-esther-olive/10 text-esther-olive p-3 rounded-xl"><iconify-icon icon="solar:calendar-bold-duotone" class="text-2xl"></iconify-icon></div>
+                    <div>
+                        <p class="font-bold text-esther-ink mb-1">Segunda-feira:</p>
+                        <p class="text-esther-ink/75 font-light leading-relaxed">Você acorda motivada, corta o pão, come só alface com frango seco e vai dormir com fome.</p>
+                    </div>
+                </div>
+                
+                <div class="flashlight-card bg-white/40 p-6 rounded-2xl reveal-up flex gap-5 items-start border border-white/50" onmousemove="updateFlashlight(event, this)">
+                    <div class="mt-1 bg-esther-terracotta/10 text-esther-terracotta p-3 rounded-xl"><iconify-icon icon="solar:sad-circle-bold-duotone" class="text-2xl"></iconify-icon></div>
+                    <div>
+                        <p class="font-bold text-esther-ink mb-1">Quarta-feira:</p>
+                        <p class="text-esther-ink/75 font-light leading-relaxed">A energia cai, o mau humor bate, mas você resiste.</p>
+                    </div>
+                </div>
+                
+                <div class="flashlight-card bg-white/40 p-6 rounded-2xl reveal-up flex gap-5 items-start border border-white/50" onmousemove="updateFlashlight(event, this)">
+                    <div class="mt-1 bg-esther-ink/10 text-esther-ink p-3 rounded-xl"><iconify-icon icon="solar:cup-star-bold-duotone" class="text-2xl"></iconify-icon></div>
+                    <div>
+                        <p class="font-bold text-esther-ink mb-1">Sexta-feira:</p>
+                        <p class="text-esther-ink/75 font-light leading-relaxed">O cansaço da semana pesa. Você pensa: <em class="font-alt">"Eu mereço um doce"</em>.</p>
+                    </div>
+                </div>
+                
+                <div class="flashlight-card bg-white/40 p-6 rounded-2xl reveal-up flex gap-5 items-start border border-white/50" onmousemove="updateFlashlight(event, this)">
+                    <div class="mt-1 bg-red-900/10 text-red-900 p-3 rounded-xl"><iconify-icon icon="solar:danger-triangle-bold-duotone" class="text-2xl"></iconify-icon></div>
+                    <div>
+                        <p class="font-bold text-esther-ink mb-1">Domingo:</p>
+                        <p class="text-esther-ink/75 font-light leading-relaxed">Você já chutou o balde e promete que <em class="font-alt">"na próxima segunda eu volto ao foco"</em>.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center reveal-up pain-cycle-anchor">
+                <div class="pain-cycle-deco" aria-hidden="true">
+                    <svg viewBox="0 0 200 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="pain-cycle-g1" x1="0%" y1="50%" x2="100%" y2="50%">
+                                <stop offset="0%" stop-color="#5C6648" stop-opacity="0.35" />
+                                <stop offset="50%" stop-color="#CC733E" stop-opacity="0.45" />
+                                <stop offset="100%" stop-color="#5C6648" stop-opacity="0.3" />
+                            </linearGradient>
+                            <linearGradient id="pain-cycle-g2" x1="50%" y1="0%" x2="50%" y2="100%">
+                                <stop offset="0%" stop-color="#DD8E4F" stop-opacity="0.2" />
+                                <stop offset="100%" stop-color="#5C6648" stop-opacity="0.15" />
+                            </linearGradient>
+                        </defs>
+                        <g class="pain-cycle-orbit">
+                            <ellipse cx="100" cy="78" rx="72" ry="52" stroke="url(#pain-cycle-g1)" stroke-width="0.65" fill="none" opacity="0.9" />
+                            <path d="M 46 78 C 46 48, 72 32, 100 32 C 128 32, 154 48, 154 78 C 154 108, 128 124, 100 124 C 72 124, 46 108, 46 78" stroke="url(#pain-cycle-g2)" stroke-width="0.5" fill="none" class="pain-cycle-dash" stroke-linecap="round" />
+                        </g>
+                        <g class="pain-cycle-wave">
+                            <path d="M 8 118 Q 34 100, 60 118 T 112 118 T 164 118 T 192 118" stroke="#5C6648" stroke-width="0.45" fill="none" stroke-linecap="round" opacity="0.5" />
+                            <path d="M 8 132 Q 38 150, 68 132 T 120 132 T 172 132 T 192 132" stroke="#CC733E" stroke-width="0.4" fill="none" stroke-linecap="round" opacity="0.4" />
+                        </g>
+                    </svg>
+                </div>
+                <p class="text-[1.8rem] sm:text-3xl md:text-4xl font-display font-semibold text-esther-ink mb-8 leading-[1.4] sm:leading-[1.3] text-balance">
+                    O resultado? Você <span class="underline decoration-esther-olive/40 underline-offset-4 font-bold text-esther-olive">perde 3kg</span>, <span class="font-alt italic text-esther-terracotta relative inline-block px-1 mx-1">ganha 5kg<span class="absolute bottom-1 sm:bottom-2 left-0 w-full h-2 sm:h-3 bg-esther-terracotta/20 -z-10 rounded-full"></span></span>. 
+                    <span class="underline decoration-esther-olive/40 underline-offset-4 font-bold text-esther-olive ml-1">Perde 5kg</span>, <span class="text-white bg-gradient-to-r from-esther-terracotta to-esther-copper px-3 sm:px-4 py-1 sm:py-1.5 rounded-2xl inline-block -rotate-2 shadow-lg shadow-esther-terracotta/20 font-bold mx-1 mt-2 sm:mt-0 translate-y-[-2px]">ganha 7kg.</span>
+                </p>
+                <p class="text-lg text-esther-ink/70 font-light max-w-2xl mx-auto mb-6">
+                    O problema não é a sua falta de força de vontade. O problema é que <strong class="font-semibold text-esther-ink">ninguém consegue viver para sempre comendo comida sem graça.</strong>
+                </p>
+                <p class="text-lg text-esther-ink/70 font-light max-w-2xl mx-auto bg-white/60 p-6 rounded-2xl border border-esther-olive/10 shadow-sm inline-block">
+                    Se a sua dieta exige que você cozinhe pratos separados da sua família, ela já nasceu com prazo de validade.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção 3: A Solução (O Método e a História) -->
+    <section class="py-24 md:py-32 bg-esther-linen border-b border-esther-olive/10">
+        <div class="max-w-[1200px] mx-auto px-6 md:px-16 flex flex-col lg:flex-row items-center gap-16">
+            
+            <div class="flex-1 w-full reveal-zoom">
+                <div class="relative flex gap-4 justify-center">
+                    <div class="w-1/2 rounded-3xl overflow-hidden border-4 border-white shadow-xl -rotate-3 relative z-10 aspect-[3/4]">
+                        <img src="./imagens/antes_esther.jpeg" alt="Antes" class="w-full h-full object-cover" />
+                        <div class="absolute bottom-3 left-3 bg-white/90 text-xs font-mono font-bold px-3 py-1 rounded-full shadow-md text-esther-ink">Antes</div>
+                    </div>
+                    <div class="w-1/2 rounded-3xl overflow-hidden border-4 border-white shadow-xl rotate-3 relative mt-12 z-20 hover:scale-105 transition-transform duration-500 aspect-[3/4]">
+                        <img src="./imagens/depois_esther.jpeg" alt="Depois" class="w-full h-full object-cover" />
+                        <div class="absolute bottom-3 left-3 bg-esther-olive text-white text-xs font-mono font-bold px-3 py-1 rounded-full shadow-md">Hoje (-55kg)</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex-1 space-y-6 text-lg text-esther-ink/80 font-light reveal-up">
+                <h2 class="font-display text-4xl md:text-5xl text-esther-ink font-semibold mb-8 leading-[1.1] sm:leading-tight">
+                    Prazer, eu sou a <br class="block sm:hidden" /> 
+                    <span class="text-esther-terracotta font-bold drop-shadow-[0_4px_12px_rgba(204,115,62,0.25)] tracking-tight">Esther Gregolon.</span>
+                </h2>
+                <p>Eu passei a maior parte da minha vida lutando contra a balança. Eu sei exatamente o que é ter o armário cheio de roupas que não servem mais. Sei o que é a frustração de subir na balança e ver o peso subir de novo.</p>
+                <p>Eu só consegui eliminar <strong class="font-semibold text-esther-ink">55 quilos</strong> quando eu entendi uma regra simples:</p>
+                
+                <div class="bg-white/40 p-6 rounded-2xl border-l-4 border-esther-terracotta my-8 shadow-sm">
+                    <p class="text-2xl font-display text-esther-terracotta font-medium italic">
+                        O segredo não está em comer menos. Está em comer melhor.
+                    </p>
+                </div>
+
+                <p>Eu sou Chef em Gastronomia Funcional. Eu peguei os pratos que eu mais amava  pães, massas, doces, estrogonofe  e criei versões funcionais deles. Versões que dão saciedade, desinflamam o corpo e, o mais importante: <strong class="font-semibold text-esther-ink">são gostosas de verdade.</strong></p>
+                <p>Quando você come algo gostoso e que te sustenta, você não sente vontade de furar a dieta. E é assim que o efeito sanfona acaba.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção 4: A Oferta Principal (Tangibilizando o Volume) -->
+    <section id="oferta" class="pt-24 pb-12 md:py-32 bg-esther-cream border-b border-esther-olive/10 relative z-10 bg-grid">
+        <div class="max-w-[1440px] mx-auto px-6 md:px-16">
+            
+            <div class="text-center mb-16 reveal-up">
+                <h2 class="font-display text-[2.1rem] sm:text-5xl lg:text-6xl text-esther-ink font-semibold mb-10 leading-[1.1] sm:leading-tight">
+                    Apresento a você: <br />
+                    <span class="font-alt italic font-black text-transparent bg-clip-text bg-gradient-to-r from-esther-terracotta via-[#DE8146] to-esther-copper drop-shadow-[0_8px_24px_rgba(204,115,62,0.35)] block mt-2 sm:mt-4 pb-2">
+                        O Acervo Antisanfona.
+                    </span>
+                </h2>
+                <p class="text-lg text-esther-ink/75 font-light max-w-3xl mx-auto">
+                    Eu reuni as minhas <strong class="font-medium text-esther-ink">100 melhores receitas</strong> e organizei de uma forma que você nunca mais vai precisar pensar no que fazer para comer. 
+                </p>
+                <p class="text-lg text-esther-ink/75 font-light max-w-3xl mx-auto mt-2">
+                    Não é uma lista bagunçada. São 6 guias práticos separados pelo seu momento do dia:
+                </p>
+            </div>
+
+            <!-- Mockup Bundle Central -->
+            <div class="flex justify-center mb-28 mt-12 reveal-zoom">
+                <div class="relative w-full max-w-5xl glass-panel rounded-[2rem] p-4 xl:p-8 shadow-2xl border-white/60 group">
+                     <img src="../mockups-esther.png" alt="Pacote 100 Receitas" class="w-full h-auto rounded-3xl object-contain group-hover:scale-[1.01] transition-transform duration-700" style="max-height: 600px;" />
+                     
+                     <div class="absolute -top-6 sm:-top-8 inset-x-0 flex justify-center pointer-events-none z-10">
+                          <div class="bg-white/95 backdrop-blur px-8 pt-4 pb-3 sm:pt-5 sm:pb-4 rounded-3xl border border-esther-olive/20 shadow-xl text-center pointer-events-auto">
+                              <span class="text-[10px] font-mono tracking-widest uppercase text-esther-olive font-bold mb-1 block">Pacote Exclusivo</span>
+                              <p class="font-display text-2xl sm:text-3xl md:text-4xl text-esther-ink font-semibold">Os 6 Guias Completos</p>
+                          </div>
+                     </div>
+                </div>
+            </div>
+
+            <!-- Grid 6 Guias -->
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Card 1 -->
+                <div class="flashlight-card overflow-hidden group reveal-up flex flex-col h-full bg-white/40 border border-white/50 rounded-3xl" onmousemove="updateFlashlight(event, this)">
+                    <div class="h-56 overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1494390248081-4e521a5940db?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" alt="Café da Manhã" />
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none"></div>
+                        <div class="absolute bottom-4 right-4 bg-white/90 backdrop-blur px-3 py-1.5 rounded-full shadow-lg border border-white/50 flex items-center gap-1.5">
+                            <iconify-icon icon="solar:sun-fog-bold-duotone" class="text-esther-olive text-sm"></iconify-icon>
+                            <span class="text-[10px] font-mono font-bold text-esther-ink uppercase tracking-wider">15 Receitas</span>
+                        </div>
+                    </div>
+                    <div class="p-6 flex-1 flex flex-col relative z-10">
+                        <h3 class="font-display text-2xl font-semibold text-esther-ink mb-3 group-hover:text-esther-terracotta transition-colors">1. Despertar Funcional</h3>
+                        <p class="text-sm text-esther-ink/75 font-light leading-relaxed">Cafés da manhã rápidos para começar o dia com energia, sem pico de insulina. (Pães de frigideira, panquecas, ovos turbinados).</p>
+                    </div>
+                </div>
+                
+                <!-- Card 2 -->
+                <div class="flashlight-card overflow-hidden group reveal-up delay-100 flex flex-col h-full bg-white/40 border border-white/50 rounded-3xl" onmousemove="updateFlashlight(event, this)">
+                    <div class="h-56 overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" alt="Almoço" />
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none"></div>
+                        <div class="absolute bottom-4 right-4 bg-white/90 backdrop-blur px-3 py-1.5 rounded-full shadow-lg border border-white/50 flex items-center gap-1.5">
+                            <iconify-icon icon="solar:crown-star-bold-duotone" class="text-esther-terracotta text-sm"></iconify-icon>
+                            <span class="text-[10px] font-mono font-bold text-esther-ink uppercase tracking-wider">25 Receitas</span>
+                        </div>
+                    </div>
+                    <div class="p-6 flex-1 flex flex-col relative z-10">
+                        <h3 class="font-display text-2xl font-semibold text-esther-ink mb-3 group-hover:text-esther-terracotta transition-colors">2. Almoço de Rainha</h3>
+                        <p class="text-sm text-esther-ink/75 font-light leading-relaxed">Pratos principais suculentos que você faz em quantidade e a família toda come junto, sem reclamar que é "comida de dieta".</p>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="flashlight-card overflow-hidden group reveal-up delay-200 flex flex-col h-full bg-white/40 border border-white/50 rounded-3xl" onmousemove="updateFlashlight(event, this)">
+                    <div class="h-56 overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1476718406336-bb5a9690ee2a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" alt="Jantar Leve" />
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none"></div>
+                        <div class="absolute bottom-4 right-4 bg-white/90 backdrop-blur px-3 py-1.5 rounded-full shadow-lg border border-white/50 flex items-center gap-1.5">
+                            <iconify-icon icon="solar:moon-sleep-bold-duotone" class="text-[#4A5D7E] text-sm"></iconify-icon>
+                            <span class="text-[10px] font-mono font-bold text-esther-ink uppercase tracking-wider">20 Receitas</span>
+                        </div>
+                    </div>
+                    <div class="p-6 flex-1 flex flex-col relative z-10">
+                        <h3 class="font-display text-2xl font-semibold text-esther-ink mb-3 group-hover:text-[#4A5D7E] transition-colors">3. Jantares Leves</h3>
+                        <p class="text-sm text-esther-ink/75 font-light leading-relaxed">Sopas, caldos e o meu famoso "Mexido" para saciar a fome da noite sem pesar no estômago antes de dormir.</p>
+                    </div>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="flashlight-card overflow-hidden group reveal-up flex flex-col h-full bg-white/40 border border-white/50 rounded-3xl" onmousemove="updateFlashlight(event, this)">
+                    <div class="h-56 overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1511690656952-34342bb7c2f2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" alt="Lanches" />
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none"></div>
+                        <div class="absolute bottom-4 right-4 bg-white/90 backdrop-blur px-3 py-1.5 rounded-full shadow-lg border border-white/50 flex items-center gap-1.5">
+                            <iconify-icon icon="solar:bag-heart-bold-duotone" class="text-esther-copper text-sm"></iconify-icon>
+                            <span class="text-[10px] font-mono font-bold text-esther-ink uppercase tracking-wider">15 Receitas</span>
+                        </div>
+                    </div>
+                    <div class="p-6 flex-1 flex flex-col relative z-10">
+                        <h3 class="font-display text-2xl font-semibold text-esther-ink mb-3 group-hover:text-esther-copper transition-colors">4. Lanches Salva-Vidas</h3>
+                        <p class="text-sm text-esther-ink/75 font-light leading-relaxed">Opções práticas para levar na bolsa e não cair na tentação da padaria no meio da tarde.</p>
+                    </div>
+                </div>
+
+                <!-- Card 5 -->
+                <div class="flashlight-card overflow-hidden group reveal-up delay-100 flex flex-col h-full bg-white/40 border border-white/50 rounded-3xl" onmousemove="updateFlashlight(event, this)">
+                    <div class="h-56 overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" alt="Sobremesas" />
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none"></div>
+                        <div class="absolute bottom-4 right-4 bg-white/90 backdrop-blur px-3 py-1.5 rounded-full shadow-lg border border-white/50 flex items-center gap-1.5">
+                            <iconify-icon icon="solar:pie-chart-2-bold-duotone" class="text-[#8A5A5A] text-sm"></iconify-icon>
+                            <span class="text-[10px] font-mono font-bold text-esther-ink uppercase tracking-wider">15 Receitas</span>
+                        </div>
+                    </div>
+                    <div class="p-6 flex-1 flex flex-col relative z-10">
+                        <h3 class="font-display text-2xl font-semibold text-esther-ink mb-3 group-hover:text-[#8A5A5A] transition-colors">5. Sobremesas Sem Culpa</h3>
+                        <p class="text-sm text-esther-ink/75 font-light leading-relaxed">Doces funcionais de verdade (como o meu Crumble de Maçã) para os dias de TPM ou quando a vontade de açúcar gritar.</p>
+                    </div>
+                </div>
+
+                <!-- Card 6 -->
+                <div class="flashlight-card overflow-hidden group reveal-up delay-200 flex flex-col h-full bg-white/40 border border-white/50 rounded-3xl" onmousemove="updateFlashlight(event, this)">
+                    <div class="h-56 overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1515543237350-b3eea1ec8082?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" alt="Bebidas Funcionais" />
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none"></div>
+                        <div class="absolute bottom-4 right-4 bg-white/90 backdrop-blur px-3 py-1.5 rounded-full shadow-lg border border-white/50 flex items-center gap-1.5">
+                            <iconify-icon icon="solar:blender-bold-duotone" class="text-esther-ink text-sm"></iconify-icon>
+                            <span class="text-[10px] font-mono font-bold text-esther-ink uppercase tracking-wider">10 Receitas</span>
+                        </div>
+                    </div>
+                    <div class="p-6 flex-1 flex flex-col relative z-10">
+                        <h3 class="font-display text-2xl font-semibold text-esther-ink mb-3 group-hover:text-esther-terracotta transition-colors">6. Molhos, Shots e Bebidas</h3>
+                        <p class="text-sm text-esther-ink/75 font-light leading-relaxed">O segredo do sabor. Molhos que duram na geladeira e shots matinais que aceleram o metabolismo.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção 5: O Empilhamento de Bônus (Resolvendo Objeções) -->
+    <section class="pt-12 pb-24 md:py-32 bg-esther-mist border-b border-esther-olive/10 relative overflow-hidden">
+        <div class="absolute inset-0 bg-noise opacity-[0.02] pointer-events-none"></div>
+        <div class="max-w-[1200px] mx-auto px-6 md:px-16 relative z-10">
+            <div class="text-center max-w-3xl mx-auto mb-16 reveal-up">
+                <h2 class="font-display text-[2.2rem] sm:text-4xl md:text-5xl text-esther-ink font-semibold mb-8 leading-[1.1] sm:leading-tight">
+                    Mas eu <span class="text-white bg-[#8A4A4A] px-3 sm:px-4 py-0.5 rounded-lg inline-block -rotate-2 font-black mx-1 shadow-inner border border-[#6A3A3A] translate-y-[-2px]">NÃO</span> vou te entregar apenas as receitas e <span class="font-alt italic tracking-[0.2em] text-transparent bg-clip-text bg-gradient-to-r from-esther-ink via-esther-ink/40 to-transparent blur-[1.5px] hover:blur-none transition-all duration-700 select-none">sumir.</span>
+                </h2>
+                <p class="text-lg text-esther-ink/75 font-light mb-4 text-balance">
+                    Eu quero garantir que você coloque isso em prática.
+                </p>
+                <p class="text-lg text-esther-ink/75 font-light">
+                    Por isso, se você garantir o seu acesso <strong class="font-medium text-esther-ink">hoje</strong>, vai levar de presente estes 4 bônus exclusivos:
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="bg-white/80 backdrop-blur-md rounded-[2rem] p-10 shadow-xl shadow-esther-ink/5 border border-white relative reveal-up hover:-translate-y-2 transition-transform duration-300">
+                    <div class="absolute top-6 right-6 bg-esther-mist text-esther-olive text-[10px] font-mono font-bold px-3 py-1.5 rounded-full border border-esther-olive/10 uppercase tracking-widest shadow-sm">
+                        Valor: <span class="line-through text-esther-ink/40 mr-1">R$ 97,00</span> <span class="text-esther-terracotta">GRÁTIS</span>
+                    </div>
+                    <div class="mb-6 text-esther-terracotta text-5xl bg-esther-mist inline-flex p-4 rounded-2xl"><iconify-icon icon="solar:play-circle-bold-duotone"></iconify-icon></div>
+                    <h3 class="font-display text-2xl font-semibold text-esther-ink mb-3">Bônus 1: O "Guia de Bordo" em Vídeo</h3>
+                    <p class="text-esther-ink/75 font-light text-base leading-relaxed">Não sabe por onde começar? Eu gravei 3 aulas curtas te pegando pela mão. Vou te ensinar como organizar sua despensa, o que comprar no mercado e como destravar a mentalidade antisanfona.</p>
+                </div>
+                
+                <div class="bg-white/80 backdrop-blur-md rounded-[2rem] p-10 shadow-xl shadow-esther-ink/5 border border-white relative reveal-up delay-100 hover:-translate-y-2 transition-transform duration-300">
+                    <div class="absolute top-6 right-6 bg-esther-mist text-esther-olive text-[10px] font-mono font-bold px-3 py-1.5 rounded-full border border-esther-olive/10 uppercase tracking-widest shadow-sm">
+                        Valor: <span class="line-through text-esther-ink/40 mr-1">R$ 97,00</span> <span class="text-esther-terracotta">GRÁTIS</span>
+                    </div>
+                    <div class="mb-6 text-esther-olive text-5xl bg-esther-mist inline-flex p-4 rounded-2xl"><iconify-icon icon="solar:chef-hat-bold-duotone"></iconify-icon></div>
+                    <h3 class="font-display text-2xl font-semibold text-esther-ink mb-3">Bônus 2: Módulo "Mão na Massa"</h3>
+                    <p class="text-esther-ink/75 font-light text-base leading-relaxed">Tem dificuldade na cozinha? Você vai receber 5 aulas minhas em vídeo, cozinhando as receitas principais passo a passo, para você ver a textura e o ponto exato de cada prato.</p>
+                </div>
+
+                <div class="bg-white/80 backdrop-blur-md rounded-[2rem] p-10 shadow-xl shadow-esther-ink/5 border border-white relative reveal-up hover:-translate-y-2 transition-transform duration-300">
+                    <div class="absolute top-6 right-6 bg-esther-mist text-esther-olive text-[10px] font-mono font-bold px-3 py-1.5 rounded-full border border-esther-olive/10 uppercase tracking-widest shadow-sm">
+                        Valor: <span class="line-through text-esther-ink/40 mr-1">R$ 147,00</span> <span class="text-esther-terracotta">GRÁTIS</span>
+                    </div>
+                    <div class="mb-6 text-esther-copper text-5xl bg-esther-mist inline-flex p-4 rounded-2xl"><iconify-icon icon="solar:refresh-circle-bold-duotone"></iconify-icon></div>
+                    <h3 class="font-display text-2xl font-semibold text-esther-ink mb-3">Bônus 3: O Clube de Atualizações</h3>
+                    <p class="text-esther-ink/75 font-light text-base leading-relaxed">O seu acervo nunca vai ficar velho. A cada 15 dias, você vai receber em PDF as novas receitas inéditas que eu crio na minha cozinha. Uma assinatura gratuita de novidades.</p>
+                </div>
+
+                <div class="bg-white/80 backdrop-blur-md rounded-[2rem] p-10 shadow-xl shadow-esther-ink/5 border border-white relative reveal-up delay-100 hover:-translate-y-2 transition-transform duration-300">
+                    <div class="absolute top-6 right-6 bg-esther-mist text-esther-olive text-[10px] font-mono font-bold px-3 py-1.5 rounded-full border border-esther-olive/10 uppercase tracking-widest shadow-sm">
+                        Valor: <span class="line-through text-esther-ink/40 mr-1">R$ 47,00</span> <span class="text-esther-terracotta">GRÁTIS</span>
+                    </div>
+                    <div class="mb-6 text-esther-ink text-5xl bg-esther-mist inline-flex p-4 rounded-2xl"><iconify-icon icon="solar:checklist-minimalistic-bold-duotone"></iconify-icon></div>
+                    <h3 class="font-display text-2xl font-semibold text-esther-ink mb-3">Bônus 4: O Kit de Sobrevivência Diária</h3>
+                    <p class="text-esther-ink/75 font-light text-base leading-relaxed">Um checklist diário para você imprimir e colar na geladeira, um guia de substituições rápidas e o acesso ao nosso Grupo VIP Silencioso no WhatsApp para receber avisos.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção 6: O Preço (A Matemática Irrecusável) -->
+    <section class="py-24 md:py-32 bg-white border-b border-esther-olive/10 flex flex-col items-center text-center">
+        <div class="max-w-[48rem] mx-auto w-full px-4 sm:px-6 reveal-up">
+            <h2 class="font-display text-4xl md:text-5xl lg:text-[4rem] text-esther-ink font-semibold mb-12 leading-tight">
+                Vamos fazer as <span class="font-alt italic text-esther-olive relative inline-block px-2">contas.<span class="absolute bottom-2 left-0 w-full h-4 bg-esther-olive/20 -z-10 rounded-full"></span></span>
+            </h2>
+            
+            <p class="text-xl md:text-2xl text-esther-ink/80 font-light mb-10 text-balance">
+                Se você fosse comprar o Acervo e cada um dos Bônus separadamente, o investimento seria:
+            </p>
+            
+            <!-- Value Stack Premium Card -->
+            <div class="bg-white p-6 sm:p-10 md:p-12 rounded-[2.5rem] shadow-2xl shadow-esther-ink/5 border border-white relative mb-16 text-left transform transition-transform hover:-translate-y-1 duration-500">
+                <div class="absolute -top-5 left-1/2 -translate-x-1/2 bg-gradient-to-r from-esther-terracotta to-esther-copper text-white font-mono font-bold uppercase tracking-widest text-xs px-6 py-2 rounded-full shadow-lg border border-white/50 whitespace-nowrap z-10 w-max text-center">
+                    Soma dos Itens Reais
+                </div>
+
+                <div class="space-y-4">
+                    <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-2 p-2 sm:p-4 rounded-2xl hover:bg-esther-mist/60 transition-colors border border-transparent hover:border-esther-olive/10 group">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-xl bg-esther-olive/10 text-esther-olive flex items-center justify-center shrink-0 group-hover:bg-esther-olive group-hover:text-white transition-colors">
+                                <iconify-icon icon="solar:book-bookmark-bold-duotone" class="text-2xl"></iconify-icon>
+                            </div>
+                            <span class="font-semibold text-esther-ink text-lg md:text-xl">O Acervo: As 100 Receitas</span>
+                        </div>
+                        <span class="text-esther-ink/40 font-mono font-medium text-lg md:text-xl line-through sm:text-right decoration-2 decoration-esther-terracotta/50">R$ 197,00</span>
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-2 p-2 sm:p-4 rounded-2xl hover:bg-esther-mist/60 transition-colors border border-transparent hover:border-esther-olive/10 group">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-xl bg-esther-copper/10 text-esther-copper flex items-center justify-center shrink-0 group-hover:bg-esther-copper group-hover:text-white transition-colors">
+                                <iconify-icon icon="solar:play-circle-bold-duotone" class="text-2xl"></iconify-icon>
+                            </div>
+                            <span class="font-semibold text-esther-ink text-lg md:text-xl">Guia de Bordo (Aulas)</span>
+                        </div>
+                        <span class="text-esther-ink/40 font-mono font-medium text-lg md:text-xl line-through sm:text-right decoration-2 decoration-esther-terracotta/50">R$ 97,00</span>
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-2 p-2 sm:p-4 rounded-2xl hover:bg-esther-mist/60 transition-colors border border-transparent hover:border-esther-olive/10 group">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-xl bg-esther-olive/10 text-esther-olive flex items-center justify-center shrink-0 group-hover:bg-esther-olive group-hover:text-white transition-colors">
+                                <iconify-icon icon="solar:chef-hat-bold-duotone" class="text-2xl"></iconify-icon>
+                            </div>
+                            <span class="font-semibold text-esther-ink text-lg md:text-xl">Módulo Mão na Massa</span>
+                        </div>
+                        <span class="text-esther-ink/40 font-mono font-medium text-lg md:text-xl line-through sm:text-right decoration-2 decoration-esther-terracotta/50">R$ 97,00</span>
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-2 p-2 sm:p-4 rounded-2xl hover:bg-esther-mist/60 transition-colors border border-transparent hover:border-esther-olive/10 group">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-xl bg-esther-terracotta/10 text-esther-terracotta flex items-center justify-center shrink-0 group-hover:bg-esther-terracotta group-hover:text-white transition-colors">
+                                <iconify-icon icon="solar:refresh-circle-bold-duotone" class="text-2xl"></iconify-icon>
+                            </div>
+                            <span class="font-semibold text-esther-ink text-lg md:text-xl">Atualizações Quinzenais</span>
+                        </div>
+                        <span class="text-esther-ink/40 font-mono font-medium text-lg md:text-xl line-through sm:text-right decoration-2 decoration-esther-terracotta/50">R$ 147,00</span>
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-2 p-2 sm:p-4 rounded-2xl hover:bg-esther-mist/60 transition-colors border border-transparent hover:border-esther-olive/10 group">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-xl bg-[#8A4A4A]/10 text-[#8A4A4A] flex items-center justify-center shrink-0 group-hover:bg-[#8A4A4A] group-hover:text-white transition-colors">
+                                <iconify-icon icon="solar:box-minimalistic-bold-duotone" class="text-2xl"></iconify-icon>
+                            </div>
+                            <span class="font-semibold text-esther-ink text-lg md:text-xl">Kit Sobrevivência (Checklists)</span>
+                        </div>
+                        <span class="text-esther-ink/40 font-mono font-medium text-lg md:text-xl line-through sm:text-right decoration-2 decoration-esther-terracotta/50">R$ 47,00</span>
+                    </div>
+                </div>
+
+                <div class="w-full h-[2px] bg-gradient-to-r from-transparent via-esther-olive/20 to-transparent my-8"></div>
+
+                <div class="flex flex-col sm:flex-row justify-between items-center bg-esther-sand/60 px-6 py-6 rounded-2xl border border-esther-olive/10 shadow-inner">
+                    <span class="text-xl text-esther-ink font-semibold uppercase tracking-widest mb-2 sm:mb-0">Valor Somado:</span>
+                    <span class="text-4xl md:text-5xl text-esther-terracotta font-display font-medium line-through decoration-[3px] decoration-esther-terracotta/40 drop-shadow-sm">R$ 585,00</span>
+                </div>
+            </div>
+
+            <!-- Preço Final Épico -->
+            <div class="max-w-3xl mx-auto">
+                <p class="text-[2rem] md:text-4xl text-esther-ink font-semibold mb-8 font-display leading-tight">
+                    Mas você <span class="text-white bg-gradient-to-r from-esther-terracotta to-[#D97D45] px-3 py-1 rounded-[0.8rem] inline-block -rotate-2 font-bold mx-1 drop-shadow-md">não vai pagar</span> nem perto de R$ 585 hoje.
+                </p>
+                <p class="text-lg md:text-xl text-esther-ink/80 font-light mb-10 text-balance">
+                    Liberando o seu acesso agora, você leva a plataforma completa + todos os bônus fundadores por apenas:
+                </p>
+
+                <div class="bg-gradient-to-b from-white to-esther-cream/50 p-6 sm:p-14 rounded-[2.5rem] border border-white shadow-[0_20px_50px_rgba(46,60,37,0.08)] relative mb-12">
+                    <div class="absolute inset-0 rounded-[2.5rem] border border-esther-olive/20 pointer-events-none"></div>
+                    <div class="absolute -top-4 -right-2 sm:-right-4 bg-[#8A4A4A] text-white w-20 sm:w-24 h-20 sm:h-24 rounded-full flex items-center justify-center font-bold text-lg sm:text-xl shadow-xl -rotate-12 transform hover:scale-110 transition-transform z-20">
+                        -86% OFF
+                    </div>
+                    
+                    <div class="flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-2 mb-2">
+                        <span class="text-2xl sm:text-4xl text-esther-olive font-semibold tracking-wider sm:mt-12 mr-1 sm:mr-3">8x de</span> 
+                        <span class="text-[5.5rem] sm:text-[9rem] md:text-[10rem] font-sans font-black text-transparent bg-clip-text bg-gradient-to-br from-esther-olive to-[#2E3C25] leading-[0.8] drop-shadow-xl tracking-tighter">
+                            <span class="text-[2.5rem] sm:text-[4rem] lg:text-[4.5rem] tracking-tight align-top relative top-1 sm:-top-1">R$ </span>10<span class="text-[3rem] sm:text-[4rem] text-esther-olive/80">,73</span>
+                        </span>
+                    </div>
+                    <p class="text-esther-ink/60 mt-6 font-mono font-medium tracking-widest text-xs sm:text-base border border-esther-ink/10 inline-block px-4 py-1.5 rounded-full">(ou R$ 77,00 à vista no PIX)</p>
+                </div>
+
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-4 bg-white px-6 py-5 rounded-2xl border border-esther-terracotta/20 shadow-sm mb-12 mx-auto max-w-xl">
+                    <div class="w-12 h-12 rounded-full bg-esther-terracotta/10 text-esther-terracotta flex items-center justify-center shrink-0">
+                        <iconify-icon icon="solar:info-circle-bold-duotone" class="text-3xl"></iconify-icon>
+                    </div>
+                    <p class="text-[0.95rem] md:text-base text-esther-ink/80 text-center sm:text-left leading-relaxed">
+                        Isso fragmenta em absurdos <strong class="font-bold text-esther-terracotta text-lg whitespace-nowrap">R$ 0,26 por dia</strong>. Menos do que você gasta no pão da padaria que está te fazendo engordar.
+                    </p>
+
+            <a href="#" class="btn-glow w-full sm:w-auto px-10 py-6 text-base md:text-xl tracking-wide uppercase border border-orange-400/50 mt-4">
+                👉 QUERO ACESSAR AS 100 RECEITAS AGORA
+            </a>
+        </div>
+    </section>
+
+    <!-- Seção 7: A Garantia (Risco Zero) -->
+    <section class="py-24 bg-esther-cream border-b border-esther-olive/10">
+        <div class="max-w-4xl mx-auto px-6 reveal-up">
+            <div class="bg-white rounded-[2.5rem] p-8 md:p-12 shadow-2xl shadow-esther-ink/5 border border-white flex flex-col md:flex-row items-center gap-10">
+                <div class="shrink-0 relative">
+                    <div class="w-32 h-32 bg-esther-mist rounded-full flex items-center justify-center border-4 border-white shadow-xl">
+                        <iconify-icon icon="solar:shield-check-bold-duotone" class="text-6xl text-esther-olive"></iconify-icon>
+                    </div>
+                    <div class="absolute bottom-0 right-0 bg-esther-terracotta text-white font-mono font-bold text-lg w-12 h-12 flex items-center justify-center rounded-full shadow-lg border-2 border-white">7d</div>
+                </div>
+                <div class="text-center md:text-left">
+                    <h2 class="font-display text-4xl text-esther-ink font-semibold mb-4">Risco 100% nas minhas costas.</h2>
+                    <p class="text-lg text-esther-ink/75 font-light mb-4 leading-relaxed">
+                        Eu confio tanto no sabor dessas receitas que vou fazer um acordo com você. Compre agora, baixe o material e faça as receitas na sua casa por 7 dias. 
+                    </p>
+                    <p class="text-lg text-esther-ink/75 font-light mb-6 leading-relaxed">
+                        Se você achar que a comida é sem graça, que os ingredientes são difíceis de achar, ou se simplesmente não gostar do meu tom de voz... basta mandar um único e-mail para o suporte e eu devolvo 100% do seu dinheiro. 
+                    </p>
+                    <p class="text-lg text-esther-ink font-medium bg-esther-mist/50 inline-block px-4 py-2 rounded-xl border border-esther-olive/10">
+                        Sem perguntas. Sem burocracia. Continuamos amigas.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção 8: FAQ (Quebra de Objeções Finais) -->
+    <section class="py-24 md:py-32 bg-esther-sand border-b border-esther-olive/10">
+        <div class="max-w-3xl mx-auto px-6 reveal-up">
+            <h2 class="font-display text-4xl md:text-5xl text-esther-ink text-center font-semibold mb-16">Ficou alguma dúvida?</h2>
+            
+            <div class="space-y-4">
+                <div class="glass-panel bg-white/60 border border-white rounded-2xl overflow-hidden hover:bg-white/80 transition-colors">
+                    <button onclick="toggleFaq(this)" class="w-full text-left p-6 font-sans text-lg font-medium text-esther-ink flex justify-between items-center focus:outline-none">
+                        <span>1. Isso é uma dieta?</span>
+                        <iconify-icon icon="solar:alt-arrow-down-linear" class="iconify-icon-arrow text-xl text-esther-olive transition-transform duration-300"></iconify-icon>
+                    </button>
+                    <div class="px-6 pb-6 pt-0 text-esther-ink/75 font-light leading-relaxed" style="max-height: 0px; overflow: hidden; transition: max-height 0.4s ease;">
+                        Não. Dietas têm data para acabar. Isso é um estilo de vida. É uma base alimentar estratégica para você comer bem, com sabor, e manter o peso para sempre.
+                    </div>
+                </div>
+
+                <div class="glass-panel bg-white/60 border border-white rounded-2xl overflow-hidden hover:bg-white/80 transition-colors">
+                    <button onclick="toggleFaq(this)" class="w-full text-left p-6 font-sans text-lg font-medium text-esther-ink flex justify-between items-center focus:outline-none">
+                        <span>2. Os ingredientes são caros ou difíceis de achar?</span>
+                        <iconify-icon icon="solar:alt-arrow-down-linear" class="iconify-icon-arrow text-xl text-esther-olive transition-transform duration-300"></iconify-icon>
+                    </button>
+                    <div class="px-6 pb-6 pt-0 text-esther-ink/75 font-light leading-relaxed" style="max-height: 0px; overflow: hidden; transition: max-height 0.4s ease;">
+                        De jeito nenhum. Você vai usar ovos, aveia, frango, legumes, azeite e algumas farinhas funcionais fáceis de achar (como amendoim e linhaça). O foco é comida de verdade, barata e acessível.
+                    </div>
+                </div>
+
+                <div class="glass-panel bg-white/60 border border-white rounded-2xl overflow-hidden hover:bg-white/80 transition-colors">
+                    <button onclick="toggleFaq(this)" class="w-full text-left p-6 font-sans text-lg font-medium text-esther-ink flex justify-between items-center focus:outline-none">
+                        <span>3. Não sei cozinhar nada. Serve pra mim?</span>
+                        <iconify-icon icon="solar:alt-arrow-down-linear" class="iconify-icon-arrow text-xl text-esther-olive transition-transform duration-300"></iconify-icon>
+                    </button>
+                    <div class="px-6 pb-6 pt-0 text-esther-ink/75 font-light leading-relaxed" style="max-height: 0px; overflow: hidden; transition: max-height 0.4s ease;">
+                        Com certeza! As receitas são extremamente simples, a maioria usa apenas uma frigideira ou liquidificador. E você ainda ganha o bônus "Mão na Massa" com aulas em vídeo para te guiar.
+                    </div>
+                </div>
+
+                <div class="glass-panel bg-white/60 border border-white rounded-2xl overflow-hidden hover:bg-white/80 transition-colors">
+                    <button onclick="toggleFaq(this)" class="w-full text-left p-6 font-sans text-lg font-medium text-esther-ink flex justify-between items-center focus:outline-none">
+                        <span>4. Funciona pra quem já tentou de tudo e está na menopausa?</span>
+                        <iconify-icon icon="solar:alt-arrow-down-linear" class="iconify-icon-arrow text-xl text-esther-olive transition-transform duration-300"></iconify-icon>
+                    </button>
+                    <div class="px-6 pb-6 pt-0 text-esther-ink/75 font-light leading-relaxed" style="max-height: 0px; overflow: hidden; transition: max-height 0.4s ease;">
+                        Sim! Eu tenho mais de 50 anos. As receitas foram pensadas exatamente para mulheres maduras que precisam desinflamar o corpo e lidar com o metabolismo mais lento.
+                    </div>
+                </div>
+
+                <div class="glass-panel bg-white/60 border border-white rounded-2xl overflow-hidden hover:bg-white/80 transition-colors">
+                    <button onclick="toggleFaq(this)" class="w-full text-left p-6 font-sans text-lg font-medium text-esther-ink flex justify-between items-center focus:outline-none">
+                        <span>5. Como vou receber o material?</span>
+                        <iconify-icon icon="solar:alt-arrow-down-linear" class="iconify-icon-arrow text-xl text-esther-olive transition-transform duration-300"></iconify-icon>
+                    </button>
+                    <div class="px-6 pb-6 pt-0 text-esther-ink/75 font-light leading-relaxed" style="max-height: 0px; overflow: hidden; transition: max-height 0.4s ease;">
+                        Assim que o pagamento for aprovado, você receberá um e-mail com seu login e senha para acessar a plataforma com todos os e-books, vídeos e bônus.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção Final: Fechamento -->
+    <section class="py-24 md:py-32 bg-esther-ink text-center relative overflow-hidden">
+        <div class="absolute inset-0 bg-noise opacity-10 pointer-events-none"></div>
+        <div class="max-w-3xl mx-auto px-6 reveal-up relative z-10">
+            <h2 class="font-display text-3xl md:text-4xl text-esther-cream font-medium mb-10 leading-snug">
+                Você pode fechar esta página e continuar tentando a próxima dieta da moda na segunda-feira. Ou você pode tomar a decisão de parar de recomeçar hoje.
+            </h2>
+            
+            <a href="#" class="btn-glow w-full sm:w-auto px-10 py-6 text-base md:text-xl tracking-wide uppercase border border-orange-400/50">
+                👉 SIM, EU QUERO PARAR O EFEITO SANFONA AGORA
+            </a>
+            
+            <p class="mt-8 text-xs font-mono text-esther-cream/40 uppercase tracking-widest">
+                Acesso imediato • Compra segura e criptografada
+            </p>
+        </div>
+    </section>
+
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Animations init
+        document.querySelectorAll('.reveal-up, .reveal-zoom').forEach((el) => {
+            ScrollTrigger.create({
+                trigger: el,
+                start: "top 85%",
+                onEnter: () => el.classList.add('active'),
+                once: true
+            });
+        });
+
+        // Flashlight Logic
+        window.updateFlashlight = function (e, card) {
+            const rect = card.getBoundingClientRect();
+            card.style.setProperty('--mouse-x', (e.clientX - rect.left) + 'px');
+            card.style.setProperty('--mouse-y', (e.clientY - rect.top) + 'px');
+        };
+
+        // Accordion Logic
+        function toggleFaq(button) {
+            const content = button.nextElementSibling;
+            const icon = button.querySelector('.iconify-icon-arrow');
+            
+            if (content.style.maxHeight && content.style.maxHeight !== '0px') {
+                content.style.maxHeight = '0px';
+                icon.style.transform = 'rotate(0deg)';
+                button.classList.remove('text-esther-olive');
+            } else {
+                content.style.maxHeight = content.scrollHeight + 'px';
+                icon.style.transform = 'rotate(180deg)';
+                button.classList.add('text-esther-olive');
+            }
+        }
+    </script>
+</body>
+</html>

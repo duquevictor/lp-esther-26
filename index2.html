@@ -1,54 +1,47 @@
 <!DOCTYPE html>
-<html class="scroll-smooth" lang="pt-BR">
-
+<html lang="pt-BR" class="scroll-smooth">
 <head>
-    <meta charset="utf-8" />
-    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>A Caneta Mais Tecnológica do Mundo | Precision Series</title>
-
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@300;400;500;600&display=swap"
-        rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pare de Engordar Tudo de Novo</title>
 
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet">
+    
     <!-- Iconify -->
     <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
 
-    <!-- GSAP & ScrollTrigger -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-
+    <!-- Tailwind Config - Exatamente do Design System -->
     <script>
         tailwind.config = {
             theme: {
                 extend: {
+                    colors: {
+                        brand: {
+                            bg: '#FDFBF7', /* Cream */
+                            bgDarker: '#F5F2EB', /* Warm Beige */
+                            surface: '#ffffff',
+                            border: '#EAE3D9',
+                            text: '#2C2A28',
+                            muted: '#6B6861',
+                            green: '#6E7A5E', /* Herbal Green */
+                            greenLight: '#E8EBE4',
+                            terracotta: '#C17767', /* Soft Terracotta */
+                            terracottaLight: '#F9ECE9'
+                        }
+                    },
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
-                        mono: ['JetBrains Mono', 'monospace'],
-                        display: ['Space Grotesk', 'sans-serif'],
+                        display: ['Playfair Display', 'serif'],
                     },
-                    colors: {
-                        stone: {
-                            50: '#fafaf9',
-                            100: '#f5f5f4',
-                            200: '#e7e5e4',
-                            300: '#d6d3d1',
-                            400: '#a8a29e',
-                            500: '#78716c',
-                            600: '#57534e',
-                            700: '#44403c',
-                            800: '#292524',
-                            900: '#1c1917',
-                        },
-                        'surface-light': '#EAEAE5',
-                    },
-                    backgroundImage: {
-                        'noise': "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E\")",
+                    boxShadow: {
+                        'soft': '0 4px 20px -2px rgba(110, 122, 94, 0.05)',
+                        'glow': '0 10px 40px -10px rgba(193, 119, 103, 0.15)',
                     }
                 }
             }
@@ -56,346 +49,404 @@
     </script>
 
     <style>
-        /* BASE STYLES */
+        /* Base / Resets (Design System) */
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: #EAEAE5;
-            color: #1C1917;
-            overflow-x: hidden;
+            background-color: theme('colors.brand.bg');
+            color: theme('colors.brand.text');
             -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
-        /* TEXT OUTLINE */
-        .text-outline {
-            -webkit-text-stroke: 1px #1C1917;
-            color: transparent;
-            transition: all 0.5s ease;
+        /* Noise Overlay */
+        .noise-overlay {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 50;
+            opacity: 0.02;
+            background-image: url('data:image/svg+xml,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noiseFilter"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.75" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noiseFilter)"/%3E%3C/svg%3E');
         }
 
-        /* BEAM BUTTON ANIMATION */
-        @keyframes spin {
-            from {
-                transform: rotate(0deg);
-            }
-
-            to {
-                transform: rotate(360deg);
-            }
+        /* Float Animations */
+        .animate-float { animation: float 10s ease-in-out infinite; }
+        .animate-float-slow { animation: float 15s ease-in-out infinite reverse; }
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg) scale(1); }
+            50% { transform: translateY(-30px) rotate(5deg) scale(1.05); }
         }
 
+        /* Beam Button (Design System Refinado) */
         .btn-beam {
             position: relative;
-            z-index: 10;
             overflow: hidden;
+            border-radius: 9999px;
+            background: transparent;
+            border: 1px solid theme('colors.brand.border');
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
         }
-
+        .btn-beam:hover {
+            transform: translateY(-2px);
+            box-shadow: theme('boxShadow.glow');
+        }
         .btn-beam::before {
             content: "";
             position: absolute;
-            inset: -2px;
-            z-index: -1;
-            background: conic-gradient(from 90deg at 50% 50%, #E2E8F0 0%, #000000 50%, #E2E8F0 100%);
-            animation: spin 4s linear infinite;
-            border-radius: inherit;
+            top: 50%;
+            left: 50%;
+            width: 150%;
+            aspect-ratio: 1;
+            background: conic-gradient(from 0deg, transparent 0%, transparent 60%, theme('colors.brand.green') 80%, theme('colors.brand.terracotta') 100%);
+            transform: translate(-50%, -50%) rotate(0deg);
+            animation: rotateBeam 4s linear infinite;
             opacity: 0;
-            transition: opacity 0.3s;
+            transition: opacity 0.5s ease;
         }
-
-        .btn-beam:hover::before {
-            opacity: 1;
-        }
-
-        .btn-beam-content {
-            background-color: #1c1917;
-            color: white;
+        .btn-beam:hover::before { opacity: 1; }
+        .btn-beam-inner {
             position: relative;
             z-index: 10;
-            width: 100%;
-            height: 100%;
-            border-radius: inherit;
             display: flex;
             align-items: center;
             justify-content: center;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: theme('colors.brand.bg');
+            border-radius: 9999px;
+            margin: 1px;
+            transition: all 0.4s ease;
+        }
+        .btn-beam:active .btn-beam-inner {
+            background: theme('colors.brand.bgDarker');
+        }
+        @keyframes rotateBeam {
+            from { transform: translate(-50%, -50%) rotate(0deg); }
+            to { transform: translate(-50%, -50%) rotate(360deg); }
         }
 
-        /* NOISE Overlay */
-        .noise-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            opacity: 0.04;
-            pointer-events: none;
-            z-index: 9999;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        /* Video Masking & Positioning */
+        .premium-mask {
+            mask-image: linear-gradient(to right, transparent, black 40%);
+            -webkit-mask-image: linear-gradient(to right, transparent, black 40%);
+        }
+        
+        @media (max-width: 768px) {
+            /* 1. Resetting Height & Spacing to push content up */
+            #hero-pin-container {
+                flex-direction: column !important;
+                justify-content: flex-start !important;
+                padding-top: 6vh !important;
+                align-items: flex-start !important;
+            }
+            
+            /* 2. Text Content comes first */
+            #hero-pin-container > .relative.z-20 {
+                position: relative !important;
+                height: auto !important;
+                padding-top: 0 !important;
+                order: 1 !important;
+                justify-content: flex-start !important;
+            }
+            #text-block {
+                margin-top: 0 !important;
+            }
+            .hero-badge {
+                margin-bottom: 1rem !important;
+            }
+            .hero-title {
+                font-size: 2.6rem !important;
+                line-height: 1.1 !important;
+                margin-bottom: 0.75rem !important;
+            }
+            .hero-subtitle {
+                font-size: 1.05rem !important;
+                margin-bottom: 1.5rem !important;
+                max-width: 100% !important;
+            }
+            
+            /* 3. CTA Full Width & Instant Visibility */
+            .hero-cta {
+                width: 100% !important;
+            }
+            .hero-cta > a {
+                width: 100% !important;
+                display: block !important;
+            }
+            .btn-beam-inner {
+                width: 100% !important;
+                padding-top: 0.85rem !important;
+                padding-bottom: 0.85rem !important;
+            }
+            
+            /* 4. Video as an embedded teaser at the bottom (30-40% height) */
+            #hero-pin-container > .absolute.inset-0.z-0 {
+                position: relative !important;
+                inset: auto !important;
+                order: 2 !important;
+                height: 38vh !important;
+                width: calc(100% - 3rem) !important;
+                margin: 2rem 1.5rem 0 1.5rem !important;
+                border-radius: 1.5rem !important;
+                box-shadow: 0 10px 40px -10px rgba(110, 122, 94, 0.2) !important;
+                overflow: hidden !important;
+                pointer-events: auto !important;
+                flex-shrink: 0;
+            }
+            #video-wrapper {
+                width: 100% !important;
+            }
+            .premium-mask {
+                mask-image: none !important;
+                -webkit-mask-image: none !important;
+            }
+            
+            /* Clean up overlays that block the video visually */
+            .bg-gradient-to-t, .bg-gradient-to-r {
+                display: none !important;
+            }
+            .floating-badge-1, .floating-badge-2 {
+                display: none !important;
+            }
         }
 
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: theme('colors.brand.bg'); }
+        ::-webkit-scrollbar-thumb { background: theme('colors.brand.border'); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: theme('colors.brand.muted'); }
 
-        ::-webkit-scrollbar-track {
-            background: #EAEAE5;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: #d6d3d1;
-            border-radius: 4px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: #a8a29e;
-        }
-
-        /* Reveal Animations */
-        .reveal-up {
-            opacity: 0;
-            transform: translateY(30px);
-            filter: blur(15px);
-            will-change: transform, opacity, filter;
-            transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .reveal-up.active {
-            opacity: 1;
-            transform: translateY(0);
-            filter: blur(0);
-        }
-
-        /* Scrubber Height */
-        .hero-scrub-container {
-            height: 300vh;
-            /* Adjust for scroll length */
-        }
+        .char { display: inline-block; }
     </style>
 </head>
-
-<body class="antialiased min-h-screen relative selection:bg-stone-800 selection:text-white">
+<body class="selection:bg-brand-green/20 selection:text-brand-green overflow-x-hidden relative">
 
     <div class="noise-overlay"></div>
 
-    <!-- NAVBAR -->
-    <header class="fixed w-full z-50 top-0 transition-all duration-300" id="navbar">
-        <div class="absolute inset-0 bg-white/70 backdrop-blur-md border-b border-stone-200/50"></div>
-        <div class="max-w-[1440px] mx-auto px-6 py-4 relative flex justify-between items-center">
-            <!-- Logo -->
-            <div class="flex items-center gap-2 group cursor-pointer">
-                <div
-                    class="w-8 h-8 bg-stone-900 text-white flex items-center justify-center rounded-sm transition-transform group-hover:rotate-90 duration-500">
-                    <iconify-icon icon="solar:pen-new-square-bold-duotone" class="text-xl"></iconify-icon>
-                </div>
-                <span class="font-display font-medium tracking-tight text-lg">ARTOOLS<span
-                        class="text-stone-400">.PRO</span></span>
-            </div>
-
-            <!-- Nav Links -->
-            <nav class="hidden md:flex items-center gap-8 text-xs font-mono uppercase tracking-widest text-stone-500">
-                <a href="#" class="hover:text-stone-900 transition-colors">Design</a>
-                <a href="#" class="hover:text-stone-900 transition-colors">Technology</a>
-                <a href="#" class="hover:text-stone-900 transition-colors">Specs</a>
-            </nav>
-
-            <!-- Action -->
-            <div class="flex items-center gap-4">
-                <iconify-icon icon="solar:bag-linear"
-                    class="text-xl cursor-pointer hover:text-stone-500 transition-colors"></iconify-icon>
-                <div class="hidden md:block w-px h-4 bg-stone-300"></div>
-                <iconify-icon icon="solar:hamburger-menu-linear"
-                    class="text-xl cursor-pointer md:hidden hover:text-stone-500 transition-colors"></iconify-icon>
+    <!-- Pinned Apple-style Scroll Section -->
+    <div id="hero-pin-container" class="relative w-full h-[100dvh] flex items-center bg-brand-bg">
+        
+        <!-- Video Background Layer with Ethereal Masking -->
+        <div class="absolute inset-0 z-0 flex items-center justify-end overflow-hidden pointer-events-none">
+            
+            <!-- Video wrapper acts as the visual star -->
+            <div class="w-full lg:w-[75%] h-full relative" id="video-wrapper">
+                
+                <!-- Otimizado, Intra-frame video para scroll impecável -->
+                <video id="hero-video" 
+                       class="premium-mask object-cover object-[center_30%] lg:object-center w-full h-full transform-gpu scale-105" 
+                       src="assets/video_optimized.mp4" 
+                       muted playsinline preload="auto"></video>
+                
+                <!-- Decorative Blur Orbs directly from Design System -->
+                <div class="absolute top-[-10%] right-[10%] w-[500px] h-[500px] rounded-full bg-brand-terracottaLight mix-blend-multiply blur-[80px] animate-float opacity-40 z-[-1]"></div>
+                <div class="absolute bottom-[-10%] right-[30%] w-[400px] h-[400px] rounded-full bg-[#faefdb] mix-blend-multiply blur-[60px] animate-float-slow opacity-50 z-[-1]"></div>
             </div>
         </div>
-    </header>
 
-    <!-- HERO SECTION -->
-    <main class="hero-scrub-container relative bg-[#EAEAE5]">
-        <div class="sticky top-0 h-screen w-full overflow-hidden">
+        <!-- Foggy gradient to make text deeply legible without muddying the video -->
+        <div class="absolute inset-0 z-10 bg-gradient-to-r from-brand-bg via-brand-bg/80 to-transparent w-full md:w-[70%] lg:w-[50%] pointer-events-none"></div>
+        <div class="absolute inset-0 z-10 bg-gradient-to-t from-brand-bg via-brand-bg/60 to-transparent h-full md:h-1/2 mt-auto pointer-events-none sm:hidden"></div>
 
-            <!-- VIDEO CENTERPIECE (Canvas Background) -->
-            <div class="absolute inset-0 z-0 flex items-center justify-center bg-stone-100">
-                <!-- Canvas for Image Sequence -->
-                <canvas id="hero-canvas" width="1280" height="720"
-                    class="w-full h-full object-cover relative z-10"></canvas>
-            </div>
-
-            <!-- OVERLAY CONTENT (Text Layer) -->
-            <div
-                class="relative z-10 w-full h-full max-w-[1440px] mx-auto grid grid-cols-1 md:grid-cols-12 pointer-events-none">
-
-                <!-- Headline Group (Left aligned) -->
-                <div
-                    class="col-span-1 md:col-span-10 lg:col-span-7 h-full flex flex-col justify-center px-6 md:pl-24 text-left pointer-events-auto">
-                    <!-- Badge -->
-                    <div class="inline-flex items-center gap-3 mb-4 reveal-up delay-100">
-                        <span class="w-2 h-2 bg-stone-900 rounded-full"></span>
-                        <span class="text-xs font-mono uppercase tracking-[0.2em] text-stone-500">Precision
-                            Series</span>
-                    </div>
-
-                    <!-- Headline -->
-                    <h1
-                        class="font-display text-5xl md:text-7xl lg:text-[5.5rem] font-bold tracking-tighter leading-[0.8] mb-5 text-stone-900 -ml-1 md:-ml-1">
-                        <div class="reveal-up delay-100 block">A caneta</div>
-                        <div class="reveal-up delay-200 block text-outline text-transparent">mais tecnológica</div>
-                        <div class="reveal-up delay-300 block">do mundo.</div>
-                    </h1>
-
-                    <!-- Subtext -->
-                    <p
-                        class="text-lg md:text-xl text-stone-600 max-w-lg leading-relaxed reveal-up delay-500 mb-8 font-light">
-                        A Artools Precision Pen redefine o equilíbrio entre peso, fluxo e design. Feita para criadores
-                        que exigem perfeição em cada traço.
-                    </p>
-
-                    <!-- Buttons -->
-                    <div class="flex flex-wrap gap-4 reveal-up delay-700">
-                        <!-- Black Pill Button -->
-                        <button
-                            class="group relative px-8 py-4 bg-stone-900 text-white rounded-full overflow-hidden shadow-lg hover:shadow-xl transition-all hover:-translate-y-1">
-                            <span class="relative z-10 text-sm font-medium tracking-wide">Comprar Agora</span>
-                        </button>
-
-                        <!-- White Pill Button -->
-                        <button
-                            class="group px-8 py-4 bg-white text-stone-900 rounded-full shadow-md hover:shadow-lg border border-transparent hover:border-stone-200 transition-all hover:-translate-y-1 flex items-center gap-2">
-                            <span class="text-sm font-medium tracking-wide">Explorar</span>
-                            <iconify-icon icon="solar:arrow-down-linear"
-                                class="group-hover:translate-y-0.5 transition-transform"></iconify-icon>
-                        </button>
+        <!-- Text Foreground Layer -->
+        <div class="relative z-20 w-full max-w-7xl mx-auto px-6 lg:px-12 h-full flex flex-col justify-center pt-10">
+            
+            <div class="w-full sm:w-11/12 lg:w-6/12 flex flex-col items-start text-left relative" id="text-block">
+                
+                <!-- Glass Badge (Design System) -->
+                <div class="hero-badge inline-flex items-center gap-2 px-4 py-2 rounded-full border border-brand-border/60 bg-white/60 backdrop-blur-md shadow-sm mb-6 lg:mb-8">
+                    <iconify-icon icon="solar:stars-minimalistic-bold-duotone" class="text-brand-terracotta text-lg"></iconify-icon>
+                    <span class="text-[10px] lg:text-xs font-semibold tracking-widest text-brand-text/80 uppercase">A Fórmula Definitiva</span>
+                </div>
+                
+                <!-- Headline (Highest Fidelity to Design System) -->
+                <!-- Utilizando a fonte Playfair Display para elegância, o SVG decorativo, e as cores primárias -->
+                <h1 class="hero-title font-display text-[2.7rem] sm:text-5xl lg:text-6xl xl:text-[5.5rem] leading-[1.05] tracking-tight text-brand-text mb-6">
+                    Pare de emagrecer e <br class="hidden sm:block"/>
+                    <span class="italic font-light text-brand-green relative inline-block whitespace-nowrap">
+                        engordar
+                        <!-- Decorative underline from DS -->
+                        <svg class="absolute -bottom-1 md:-bottom-2 left-0 w-full h-2 md:h-3 text-brand-terracotta/40" viewBox="0 0 100 20" preserveAspectRatio="none">
+                            <path d="M0 10 Q 50 20 100 10" fill="transparent" stroke="currentColor" stroke-width="2" vector-effect="non-scaling-stroke"></path>
+                        </svg>
+                    </span> 
+                    tudo de novo
+                </h1>
+                
+                <!-- Subheadline -->
+                <p class="hero-subtitle font-sans text-[1.05rem] sm:text-lg lg:text-xl text-brand-text/80 font-light leading-relaxed mb-10 max-w-[95%] lg:max-w-[85%] relative z-10">
+                    Emagreça sem precisar começar de novo usando as mesmas receitas que me fizeram perder 55kg e manter o peso até hoje.
+                </p>
+                
+                <!-- Calls to Action (Beam Button from Design System) -->
+                <div class="hero-cta w-full sm:w-auto relative z-20">
+                    <a href="#" class="btn-beam px-[1px] py-[1px] group w-full sm:w-auto inline-block">
+                        <span class="btn-beam-inner px-8 py-4 text-brand-text font-medium flex items-center justify-center gap-3 text-base sm:text-lg lg:px-10">
+                            👉 Quero Parar de Recomeçar
+                            <iconify-icon icon="solar:arrow-right-linear" class="group-hover:translate-x-1 transition-transform text-brand-terracotta"></iconify-icon>
+                        </span>
+                    </a>
+                    <div class="mt-5 flex items-center gap-2 opacity-80 pl-2">
+                        <iconify-icon icon="solar:lock-password-unlocked-bold-duotone" class="text-brand-green text-lg"></iconify-icon>
+                        <p class="text-[0.8rem] font-medium text-brand-text">Pagamento 100% seguro • Acesso instantâneo</p>
                     </div>
                 </div>
 
             </div>
 
-            <!-- RIGHT SIDE CONTROLS -->
-            <div
-                class="absolute right-8 top-1/2 -translate-y-1/2 hidden md:flex flex-col items-center gap-8 z-30 mix-blend-difference text-stone-400">
-                <div class="text-xs font-mono">01</div>
-                <div class="w-px h-12 bg-stone-300"></div>
-                <!-- Controls -->
-            </div>
-
-            <!-- SCROLL HINT -->
-            <div
-                class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 z-20 opacity-60 pointer-events-none">
-                <span class="text-[10px] font-mono uppercase tracking-widest text-stone-500">Scroll to Control</span>
-                <div class="w-px h-8 bg-stone-400 overflow-hidden relative">
-                    <div class="absolute top-0 left-0 w-full h-full bg-stone-900 animate-scroll-line"></div>
+            <!-- Absolute Floating Elements for Parallax (Design System matches) -->
+            <div class="floating-badge-1 absolute top-[25%] lg:top-[20%] right-[5%] lg:right-[15%] w-48 p-4 bg-white/70 backdrop-blur-xl rounded-2xl border border-white/50 shadow-soft animate-float hidden md:flex z-30">
+                <div class="flex gap-3 items-center">
+                    <div class="w-10 h-10 rounded-full bg-brand-greenLight flex items-center justify-center text-brand-green text-xl shrink-0">
+                        <iconify-icon icon="solar:leaf-bold-duotone"></iconify-icon>
+                    </div>
+                    <div class="text-left">
+                        <p class="font-display font-medium text-brand-text leading-tight">Leveza Natural</p>
+                    </div>
                 </div>
             </div>
+
+            <div class="floating-badge-2 absolute bottom-[20%] right-[10%] lg:right-[5%] w-56 p-5 bg-white/70 backdrop-blur-xl rounded-2xl border border-white/50 shadow-soft animate-float-slow hidden md:flex flex-col gap-2 z-30">
+                <div class="flex justify-between items-center text-xs text-brand-terracotta font-semibold uppercase tracking-widest">
+                    <span>-55kg</span>
+                    <iconify-icon icon="solar:star-fall-minimalistic-2-bold-duotone" class="text-lg"></iconify-icon>
+                </div>
+                <p class="text-brand-text font-display italic text-lg lg:text-xl">Transformação Real</p>
+            </div>
+
         </div>
-    </main>
+        
+    </div>
+    
+    <!-- Virtual Scroll Divider -->
+    <!-- The size determines the precise duration of the video scrub -->
+    <div class="h-[80vh] w-full" id="scroll-space"></div>
+
+    <div class="w-full relative z-20 flex justify-center pb-20 pt-10 border-t border-brand-border bg-brand-bg">
+        <p class="text-brand-muted text-sm font-light flex flex-col items-center gap-2">
+            <iconify-icon icon="solar:mouse-circle-linear" class="text-2xl opacity-50 animate-bounce"></iconify-icon>
+            Deslize para descobrir
+        </p>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/split-type"></script>
 
     <script>
-        // Register ScrollTrigger
-        gsap.registerPlugin(ScrollTrigger);
-
         document.addEventListener("DOMContentLoaded", () => {
-            const canvas = document.getElementById("hero-canvas");
-            const context = canvas.getContext("2d");
+            gsap.registerPlugin(ScrollTrigger);
 
-            // Configuration
-            const frameCount = 192;
-            const currentFrame = { index: 0 };
-            const images = [];
-
-            // Preload Images
-            // Uses a promise to maybe show loading state if needed, but for now just eager load
-            const preloadImages = () => {
-                for (let i = 1; i <= frameCount; i++) {
-                    const img = new Image();
-                    // Pad with leading zeros: 0001, 0002...
-                    const frameNumber = i.toString().padStart(4, '0');
-                    img.src = `assets/video_frames/frame_${frameNumber}.jpg`;
-                    images.push(img);
-                }
-            };
-
-            // Render function
-            const render = () => {
-                // Determine which frame to draw
-                const frameIndex = Math.floor(currentFrame.index);
-                const img = images[frameIndex];
-
-                if (img && img.complete) {
-                    // Draw image to cover canvas
-                    // Since canvas resolution is fixed (1280x720) and we use CSS object-cover,
-                    // we can just draw the image full size on the canvas coordinates.
-                    context.clearRect(0, 0, canvas.width, canvas.height);
-                    context.drawImage(img, 0, 0, canvas.width, canvas.height);
-                }
-            };
-
-            // Start Preloading
-            preloadImages();
-
-            // Set Initial Frame
-            // Wait for the first image to load before rendering it
-            if (images[0]) {
-                images[0].onload = render;
-            }
-
-
-            // Initial Reveal Animation (Text)
-            const reveals = document.querySelectorAll('.reveal-up');
-            reveals.forEach((el, index) => {
-                setTimeout(() => {
-                    el.classList.add('active');
-                }, 100 * index);
+            const lenis = new Lenis({
+                duration: 1.2, // Faster than before to match the shorter scroll space
+                easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+                smooth: true,
+                infinite: false,
             });
 
-            // Canvas Intro Animation
-            gsap.fromTo(canvas,
-                { opacity: 0, scale: 1.1 },
-                { opacity: 1, scale: 1, duration: 1.5, ease: "power3.out" }
-            );
+            lenis.on('scroll', ScrollTrigger.update);
+            gsap.ticker.add((time) => lenis.raf(time * 1000));
+            gsap.ticker.lagSmoothing(0, 0);
 
-            // Parallax Effects for Text (Blur Out on Scroll)
-            gsap.to(".reveal-up", {
-                y: -60,
-                opacity: 0,
-                filter: "blur(15px)",
-                stagger: 0.05,
+            // 1. Apple-style Entrance Animation
+            const heroTitle = new SplitType('.hero-title', { types: 'lines, words, chars' });
+            const heroSubtitle = new SplitType('.hero-subtitle', { types: 'lines' });
+            
+            const isMob = window.innerWidth <= 768;
+            const tl = gsap.timeline({ defaults: { ease: 'power4.out' } });
+
+            // Reset
+            gsap.set(heroTitle.chars, { y: isMob ? 40 : 80, opacity: 0, scale: 0.95 });
+            gsap.set(heroSubtitle.lines, { y: isMob ? 20 : 30, opacity: 0 });
+            gsap.set('.hero-badge, .hero-cta', { y: isMob ? 10 : 20, opacity: 0 });
+            gsap.set('#video-wrapper', { scale: 0.9, opacity: 0, filter: isMob ? 'blur(5px)' : 'blur(15px)' });
+            gsap.set('.floating-badge-1, .floating-badge-2', { x: 50, opacity: 0 });
+
+            tl.to('#video-wrapper', { scale: 1, opacity: 1, filter: 'blur(0px)', duration: isMob ? 1 : 2, ease: 'power3.out' })
+              .to('.hero-badge', { y: 0, opacity: 1, duration: isMob ? 0.6 : 1 }, isMob ? "-=0.8" : "-=1.2")
+              .to(heroTitle.chars, { y: 0, opacity: 1, scale: 1, stagger: isMob ? 0.01 : 0.015, duration: isMob ? 0.8 : 1.2, ease: 'back.out(1.1)' }, isMob ? "-=0.6" : "-=1.0")
+              .to(heroSubtitle.lines, { y: 0, opacity: 1, stagger: isMob ? 0.05 : 0.1, duration: isMob ? 0.6 : 1 }, isMob ? "-=0.5" : "-=0.8")
+              .to('.hero-cta', { y: 0, opacity: 1, duration: isMob ? 0.6 : 1 }, isMob ? "-=0.4" : "-=0.6")
+              .to('.floating-badge-1', { x: 0, opacity: 1, duration: 1.5, ease: 'expo.out' }, "-=0.8")
+              .to('.floating-badge-2', { x: 0, opacity: 1, duration: 1.5, ease: 'expo.out' }, "-=1.2");
+
+            // 2. Impeccable Video Scrubbing tied to Parallax
+            const video = document.getElementById('hero-video');
+            
+            // Critical Mobile Hack: Waking up the hardware decode pipeline before interaction starts
+            const playPromise = video.play();
+            if (playPromise !== undefined) {
+                playPromise.then(() => video.pause()).catch(error => {
+                    // Mobile browsers may block autoplay, which is fine, but we tried to warm the cache
+                });
+            }
+
+            ScrollTrigger.create({
+                trigger: "#hero-pin-container",
+                start: "top top",
+                endTrigger: "#scroll-space",
+                end: "bottom bottom",
+                pin: true,
+                pinSpacing: false
+            });
+
+            const setupVideoScrub = () => {
+                // By tweening the 'currentTime' property directly via GSAP, 
+                // we leverage its highly optimized internal rAF ticker.
+                // This eliminates the double-smoothing jitter caused by custom Leroying on top of Lenis.
+                gsap.to(video, {
+                    currentTime: video.duration || 1, // Fallback safely
+                    ease: "none", // Must be strictly linear to map 1:1 with scroll distance
+                    scrollTrigger: {
+                        trigger: "#scroll-space",
+                        start: "top top",
+                        end: "bottom bottom",
+                        scrub: true, // Let Lenis strictly dictate the speed without any GSAP lag offset
+                        // Optional performance boost: disable pointer events on video wrapper while scrolling
+                        onEnter: () => gsap.set(video, { pointerEvents: "none" }),
+                        onLeave: () => gsap.set(video, { pointerEvents: "auto" }),
+                        onEnterBack: () => gsap.set(video, { pointerEvents: "none" }),
+                    }
+                });
+            };
+            
+            if (video.readyState >= 1) { 
+                setupVideoScrub();
+            } else {
+                video.addEventListener('loadedmetadata', setupVideoScrub);
+            }
+
+            // 3. Apple Parallax: Text and Elements animate out gracefully while scrolling
+            const fadeTl = gsap.timeline({
                 scrollTrigger: {
-                    trigger: ".hero-scrub-container",
-                    start: "top top",
-                    end: "15% top", // Faster exit
+                    trigger: "#scroll-space",
+                    start: "top top", // Fade immediately as scroll starts
+                    end: "80% bottom", // Finish fading slightly before the video reaches the end
                     scrub: true
                 }
             });
 
-            // GSAP Scroll Animation
-            // We animate the 'index' property of currentFrame object from 0 to 191
-            gsap.to(currentFrame, {
-                index: frameCount - 1,
-                ease: "none", // Linear scrub
-                scrollTrigger: {
-                    trigger: ".hero-scrub-container",
-                    start: "top top",
-                    end: "bottom bottom",
-                    scrub: 0, // Instant response (canvas is fast enough)
-                    onUpdate: () => {
-                        requestAnimationFrame(render);
-                    }
-                }
-            });
+            // The text block scrolls UP and fades out while the video scrubs behind it
+            fadeTl.to('#text-block', {
+                y: -150,
+                opacity: 0,
+                ease: 'power1.inOut'
+            }, 0)
+            .to('.floating-badge-1', {
+                y: -100,
+                opacity: 0,
+                scale: 0.9,
+                ease: 'power1.inOut'
+            }, 0)
+            .to('.floating-badge-2', {
+                y: -60,
+                opacity: 0,
+                scale: 0.8,
+                ease: 'power1.inOut'
+            }, 0)
+            .to('#video-wrapper', {
+                scale: 1.05, // Subtle cinematic zoom in
+                ease: 'none'
+            }, 0);
+            
         });
-
-        // Add custom keyframe for scroll line
-        const styleSheet = document.createElement("style");
-        styleSheet.innerText = `
-            @keyframes scroll-line {
-                0% { transform: translateY(-100%); }
-                100% { transform: translateY(100%); }
-            }
-            .animate-scroll-line {
-                animation: scroll-line 1.5s cubic-bezier(0.77, 0, 0.175, 1) infinite;
-            }
-        `;
-        document.head.appendChild(styleSheet);
     </script>
 </body>
-
 </html>

@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html class="scroll-smooth" lang="pt-BR">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Esther Design System — Variação 1 · Aurora Herbal</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'ui-monospace', 'monospace'],
+                        display: ['Cormorant Garamond', 'Georgia', 'serif'],
+                    },
+                    colors: {
+                        esther: {
+                            cream: '#F7F4EF',
+                            sand: '#EBE6DD',
+                            olive: '#5C6648',
+                            'olive-soft': '#7A8568',
+                            herbal: '#6B7560',
+                            terracotta: '#B87D5C',
+                            caramel: '#A67C52',
+                            copper: '#C4956A',
+                            ink: '#2C2825',
+                            mist: '#E5E0D6',
+                        },
+                    },
+                    backgroundImage: {
+                        'noise': "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")",
+                    },
+                    animation: {
+                        'spin-slow': 'spin 10s linear infinite',
+                        'aurora': 'aurora 18s ease-in-out infinite',
+                        'breathe': 'breathe 8s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        aurora: {
+                            '0%, 100%': { transform: 'translate(0,0) scale(1)' },
+                            '33%': { transform: 'translate(2%, -3%) scale(1.03)' },
+                            '66%': { transform: 'translate(-2%, 2%) scale(0.98)' },
+                        },
+                        breathe: {
+                            '0%, 100%': { opacity: '0.45' },
+                            '50%': { opacity: '0.75' },
+                        },
+                    },
+                },
+            },
+        };
+    </script>
+
+    <style>
+        :root {
+            --esther-cream: #F7F4EF;
+            --esther-olive: #5C6648;
+            --esther-terracotta: #B87D5C;
+            --esther-ink: #2C2825;
+            --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--esther-cream);
+            color: var(--esther-ink);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .noise-overlay {
+            position: fixed;
+            inset: 0;
+            opacity: 0.035;
+            pointer-events: none;
+            z-index: 9999;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        .text-outline {
+            -webkit-text-stroke: 1px rgba(92, 102, 72, 0.85);
+            color: transparent;
+            transition: all 0.5s ease;
+        }
+
+        .bg-grid {
+            background-size: 40px 40px;
+            background-image:
+                linear-gradient(to right, rgba(44, 40, 37, 0.06) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(44, 40, 37, 0.06) 1px, transparent 1px);
+        }
+
+        .reveal-up {
+            opacity: 0;
+            transform: translateY(28px);
+            filter: blur(12px);
+            will-change: transform, opacity, filter;
+            transition: all 1.15s var(--ease-out-expo);
+        }
+
+        .reveal-up.active {
+            opacity: 1;
+            transform: translateY(0);
+            filter: blur(0);
+        }
+
+        .reveal-zoom {
+            opacity: 0;
+            transform: scale(0.96);
+            filter: blur(8px);
+            transition: all 1s var(--ease-out-expo);
+        }
+
+        .reveal-zoom.active {
+            opacity: 1;
+            transform: scale(1);
+            filter: blur(0);
+        }
+
+        .animate-on-scroll {
+            opacity: 0;
+        }
+
+        .animate-on-scroll.active {
+            animation: animationIn 0.85s var(--ease-out-expo) forwards;
+        }
+
+        @keyframes animationIn {
+            from {
+                opacity: 0;
+                transform: translateY(18px);
+                filter: blur(8px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+                filter: blur(0);
+            }
+        }
+
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .btn-beam {
+            position: relative;
+            z-index: 10;
+            overflow: hidden;
+            border-radius: 9999px;
+        }
+
+        .btn-beam::before {
+            content: "";
+            position: absolute;
+            inset: -2px;
+            z-index: -1;
+            background: conic-gradient(from 90deg at 50% 50%, #E8DFD2 0%, #5C6648 45%, #B87D5C 50%, #E8DFD2 100%);
+            animation: spin 5s linear infinite;
+            border-radius: inherit;
+            opacity: 0;
+            transition: opacity 0.35s ease;
+        }
+
+        .btn-beam:hover::before {
+            opacity: 1;
+        }
+
+        .btn-beam-content {
+            background-color: #4A5340;
+            color: #F7F4EF;
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            height: 100%;
+            border-radius: inherit;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+        }
+
+        .flashlight-card {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .flashlight-card::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(520px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+                    rgba(184, 125, 92, 0.12),
+                    transparent 42%);
+            opacity: 0;
+            transition: opacity 0.45s ease;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .flashlight-card:hover::before {
+            opacity: 1;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-14px);
+            }
+        }
+
+        .animate-float {
+            animation: float 7s ease-in-out infinite;
+        }
+
+        .hero-aurora-blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            mix-blend-mode: multiply;
+            animation: auroraBlob 22s ease-in-out infinite;
+        }
+
+        @keyframes auroraBlob {
+
+            0%,
+            100% {
+                transform: translate(0, 0) scale(1);
+            }
+
+            50% {
+                transform: translate(4%, -6%) scale(1.08);
+            }
+        }
+
+        .modal-root {
+            position: fixed;
+            inset: 0;
+            z-index: 200;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.35s ease;
+        }
+
+        .modal-root.is-open {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-backdrop {
+            position: absolute;
+            inset: 0;
+            background: rgba(44, 40, 37, 0.45);
+            backdrop-filter: blur(6px);
+        }
+
+        .modal-panel {
+            position: relative;
+            max-width: 28rem;
+            width: 100%;
+            background: #F7F4EF;
+            border-radius: 1.25rem;
+            border: 1px solid rgba(92, 102, 72, 0.15);
+            box-shadow: 0 25px 60px -20px rgba(44, 40, 37, 0.25);
+            padding: 2rem;
+            transform: translateY(12px) scale(0.98);
+            transition: transform 0.4s var(--ease-out-expo);
+        }
+
+        .modal-root.is-open .modal-panel {
+            transform: translateY(0) scale(1);
+        }
+
+        .tooltip-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        .tooltip {
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%) translateY(8px);
+            background: #2C2825;
+            color: #F7F4EF;
+            padding: 0.45rem 0.85rem;
+            border-radius: 0.5rem;
+            font-size: 0.75rem;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.25s ease;
+            white-space: nowrap;
+            z-index: 50;
+        }
+
+        .tooltip::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border: 5px solid transparent;
+            border-top-color: #2C2825;
+        }
+
+        .tooltip-container:hover .tooltip {
+            opacity: 1;
+            transform: translateX(-50%) translateY(-4px);
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #EBE6DD;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #C4B8A8;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+
+<body class="antialiased min-h-screen relative selection:bg-esther-olive selection:text-esther-cream">
+
+    <div class="noise-overlay"></div>
+
+    <header class="fixed w-full z-50 top-0 transition-all duration-300" id="navbar">
+        <div class="absolute inset-0 bg-esther-cream/80 backdrop-blur-md border-b border-esther-olive/10"></div>
+        <div class="max-w-[1440px] mx-auto px-6 py-4 relative flex justify-between items-center">
+            <a href="#top" class="flex items-center gap-2 group cursor-pointer">
+                <div
+                    class="w-9 h-9 bg-esther-olive text-esther-cream flex items-center justify-center rounded-full transition-transform group-hover:rotate-12 duration-500 shadow-lg shadow-esther-olive/20">
+                    <iconify-icon icon="solar:leaf-bold-duotone" class="text-xl"></iconify-icon>
+                </div>
+                <span class="font-display font-semibold tracking-tight text-xl text-esther-ink">Esther<span
+                        class="text-esther-terracotta/80">.one</span></span>
+            </a>
+            <nav class="hidden md:flex items-center gap-8 text-[11px] font-mono uppercase tracking-[0.18em] text-esther-olive/70">
+                <a href="#tipografia" class="hover:text-esther-ink transition-colors">Tipografia</a>
+                <a href="#cores" class="hover:text-esther-ink transition-colors">Cores</a>
+                <a href="#componentes" class="hover:text-esther-ink transition-colors">UI</a>
+                <a href="#animacoes" class="hover:text-esther-ink transition-colors">Motion</a>
+            </nav>
+            <button type="button" onclick="openModal()"
+                class="hidden sm:inline-flex text-[11px] font-mono uppercase tracking-widest px-4 py-2 rounded-full border border-esther-olive/25 text-esther-ink hover:bg-white/60 transition-colors">
+                Modal demo
+            </button>
+        </div>
+    </header>
+
+    <main id="top">
+        <!-- 1. Hero demonstração -->
+        <section class="relative min-h-screen overflow-hidden bg-esther-cream border-b border-esther-olive/10">
+            <div class="hero-aurora-blob w-[min(90vw,520px)] h-[min(90vw,520px)] bg-[#C4A27D]/35 top-[-10%] right-[-5%]"></div>
+            <div class="hero-aurora-blob w-[420px] h-[420px] bg-[#8B9A7A]/30 bottom-[5%] left-[-8%]"
+                style="animation-delay: -4s;"></div>
+            <div
+                class="absolute inset-0 bg-grid opacity-[0.35] pointer-events-none mix-blend-multiply animate-aurora">
+            </div>
+
+            <div class="relative z-10 max-w-[1440px] mx-auto px-6 md:px-16 pt-28 pb-20 min-h-screen flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
+                <div class="flex-1 text-left">
+                    <div class="inline-flex items-center gap-3 mb-6 reveal-up delay-100">
+                        <span class="w-2 h-2 rounded-full bg-esther-terracotta shadow-[0_0_12px_rgba(184,125,92,0.5)]"></span>
+                        <span class="text-xs font-mono uppercase tracking-[0.22em] text-esther-olive/80">Design system ·
+                            bem-estar</span>
+                    </div>
+                    <h1 class="font-display text-5xl md:text-7xl lg:text-[4.5rem] font-semibold tracking-tight leading-[0.95] mb-6 text-esther-ink">
+                        <span class="reveal-up delay-100 block">Respiração</span>
+                        <span class="reveal-up delay-200 block text-outline">visual suave</span>
+                        <span class="reveal-up delay-300 block text-esther-olive">e acolhedora.</span>
+                    </h1>
+                    <p class="text-lg md:text-xl text-esther-ink/70 max-w-xl leading-relaxed font-light reveal-up delay-500 mb-10">
+                        Uma linguagem premium sem frieza: herbal, terracota e areia — para produtos de saúde, beleza e
+                        transformação com autoridade gentil.
+                    </p>
+                    <div class="flex flex-wrap gap-4 reveal-up delay-700">
+                        <button type="button"
+                            class="group relative px-8 py-4 rounded-full bg-esther-terracotta text-esther-cream shadow-xl shadow-esther-terracotta/25 hover:shadow-2xl hover:-translate-y-0.5 transition-all duration-300">
+                            <span class="relative z-10 text-sm font-medium tracking-wide">Começar jornada</span>
+                        </button>
+                        <button type="button"
+                            class="group px-8 py-4 rounded-full bg-white/80 text-esther-ink border border-esther-olive/15 backdrop-blur-sm hover:border-esther-terracotta/40 transition-all flex items-center gap-2">
+                            <span class="text-sm font-medium">Explorar tokens</span>
+                            <iconify-icon icon="solar:arrow-down-linear"
+                                class="group-hover:translate-y-0.5 transition-transform"></iconify-icon>
+                        </button>
+                        <div class="p-[1px] rounded-full btn-beam">
+                            <span class="btn-beam-content px-6 py-3.5 text-sm font-medium rounded-full">Feixe herbal</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex-1 w-full max-w-lg relative">
+                    <div
+                        class="absolute -inset-4 rounded-[2rem] bg-gradient-to-br from-esther-terracotta/20 via-transparent to-esther-olive/15 blur-2xl animate-breathe pointer-events-none">
+                    </div>
+                    <div class="relative rounded-[1.75rem] overflow-hidden shadow-2xl shadow-esther-ink/10 border border-white/50 reveal-zoom delay-300">
+                        <img src="raw_files/artools_tech_feature.png" alt="Detalhe visual"
+                            class="w-full aspect-[4/5] object-cover opacity-95 hover:scale-[1.02] transition-transform duration-[1.2s] ease-out" />
+                        <div
+                            class="absolute bottom-6 left-6 right-6 p-4 rounded-xl bg-white/75 backdrop-blur-md border border-white/60 flashlight-card"
+                            onmousemove="updateFlashlight(event, this)">
+                            <p class="text-xs font-mono uppercase tracking-widest text-esther-olive/80 mb-1">Overlay</p>
+                            <p class="font-display text-xl text-esther-ink">Vidro herbal · cartão com flashlight</p>
+                        </div>
+                    </div>
+                    <img src="video_frames/frame_0001.jpg" alt=""
+                        class="hidden xl:block absolute -right-8 -top-10 w-32 h-32 rounded-2xl object-cover shadow-lg border border-white/80 animate-float rotate-6" />
+                </div>
+            </div>
+
+            <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 z-20 opacity-70">
+                <span class="text-[10px] font-mono uppercase tracking-widest text-esther-olive/70">Rolar para tokens</span>
+                <div class="w-px h-8 bg-esther-olive/30 overflow-hidden relative rounded-full">
+                    <div class="absolute top-0 left-0 w-full h-full bg-esther-terracotta animate-scroll-line"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tipografia -->
+        <section id="tipografia" class="relative z-20 bg-esther-sand/60 py-24 md:py-32 border-t border-esther-olive/10 overflow-hidden">
+            <div class="absolute inset-0 opacity-[0.04] pointer-events-none bg-noise"></div>
+            <div class="max-w-[1440px] mx-auto px-6 md:px-16 relative">
+                <header class="mb-16 reveal-up">
+                    <span class="text-xs font-mono uppercase tracking-[0.2em] text-esther-olive/70 block mb-4">2 · Tipografia</span>
+                    <h2 class="font-display text-4xl md:text-6xl text-esther-ink font-medium">Escala & voz da marca</h2>
+                    <p class="mt-6 text-esther-ink/65 max-w-2xl leading-relaxed">Carregamento via Google Fonts (CDN), com subset latin; pesos 300–600 (Inter), 400–700 (Cormorant Garamond), 400–500 (JetBrains Mono).</p>
+                </header>
+
+                <div class="grid lg:grid-cols-2 gap-12">
+                    <div class="space-y-8 reveal-up delay-200">
+                        <div>
+                            <p class="text-xs font-mono text-esther-olive/70 mb-2">Primary · display</p>
+                            <p class="font-display text-5xl">Cormorant Garamond</p>
+                            <p class="text-sm text-esther-ink/60 mt-2">Títulos hero, quotes, ênfase editorial.</p>
+                        </div>
+                        <div>
+                            <p class="text-xs font-mono text-esther-olive/70 mb-2">Sans · UI</p>
+                            <p class="font-sans text-3xl font-medium">Inter</p>
+                            <p class="text-sm text-esther-ink/60 mt-2">Fallback: system-ui, sans-serif.</p>
+                        </div>
+                        <div>
+                            <p class="text-xs font-mono text-esther-olive/70 mb-2">Monospace</p>
+                            <p class="font-mono text-xl">JetBrains Mono — labels, specs, código</p>
+                        </div>
+                    </div>
+                    <div class="space-y-6 reveal-up delay-300 bg-white/50 rounded-2xl p-8 border border-esther-olive/10">
+                        <h1 class="font-display text-5xl font-semibold tracking-tight">h1 · 3rem–4.5rem · w600 · lh 0.95 · ls -0.02em</h1>
+                        <h2 class="font-display text-4xl font-medium tracking-tight">h2 · 2.25rem–3rem · w500 · lh 1.05</h2>
+                        <h3 class="font-sans text-2xl font-semibold tracking-tight text-esther-ink">h3 · 1.5rem · w600 · lh 1.2 · ls -0.01em</h3>
+                        <h4 class="font-sans text-xl font-medium">h4 · 1.25rem · w500 · lh 1.35</h4>
+                        <h5 class="font-sans text-lg font-medium text-esther-ink/90">h5 · 1.125rem · w500</h5>
+                        <h6 class="font-mono text-xs uppercase tracking-[0.14em] text-esther-olive">h6 · 0.75rem · w500 · uppercase</h6>
+                        <p class="text-lg leading-relaxed text-esther-ink/80">body-lg · 1.125rem · w400 · lh 1.65 · ls 0</p>
+                        <p class="text-base leading-relaxed text-esther-ink/75">body · 1rem · w400 · lh 1.6</p>
+                        <p class="text-sm leading-relaxed text-esther-ink/65">body-sm · 0.875rem · w400 · lh 1.55</p>
+                        <p class="text-xs text-esther-ink/55">caption · 0.75rem · w400 · lh 1.4 · ls 0.01em</p>
+                        <p class="text-[11px] font-mono uppercase tracking-widest text-esther-olive/80">label · mono · 0.6875rem · w500 · ls 0.18em · uppercase</p>
+                        <p class="text-xs text-esther-terracotta/90 italic">helper · itálico suave para dicas</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Cores -->
+        <section id="cores" class="relative bg-esther-cream py-24 md:py-32 border-t border-esther-olive/10">
+            <div class="max-w-[1440px] mx-auto px-6 md:px-16">
+                <header class="mb-16 reveal-up">
+                    <span class="text-xs font-mono uppercase tracking-[0.2em] text-esther-olive/70 block mb-4">3 · Sistema de cores</span>
+                    <h2 class="font-display text-4xl md:text-5xl text-esther-ink">Herbal · terracota · areia</h2>
+                </header>
+
+                <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+                    <div class="rounded-2xl overflow-hidden border border-esther-olive/10 shadow-lg reveal-up delay-100">
+                        <div class="h-28 bg-[#5C6648]"></div>
+                        <div class="p-4 bg-white/80 text-sm">
+                            <p class="font-mono font-medium">primary / olive</p>
+                            <p class="text-xs text-esther-ink/60">#5C6648 · rgb(92,102,72) · hsl(76,18%,34%)</p>
+                            <p class="text-xs mt-2 text-esther-ink/55">Texto claro sobre fundo creme: contraste AA+ para tamanhos ≥18px.</p>
+                        </div>
+                    </div>
+                    <div class="rounded-2xl overflow-hidden border border-esther-olive/10 shadow-lg reveal-up delay-200">
+                        <div class="h-28 bg-[#B87D5C]"></div>
+                        <div class="p-4 bg-white/80 text-sm">
+                            <p class="font-mono font-medium">accent / terracotta</p>
+                            <p class="text-xs text-esther-ink/60">#B87D5C · CTA, links fortes, glow suave</p>
+                            <p class="text-xs mt-2">Participa em gradientes: olive → terracotta em botões beam.</p>
+                        </div>
+                    </div>
+                    <div class="rounded-2xl overflow-hidden border border-esther-olive/10 shadow-lg reveal-up delay-300">
+                        <div class="h-28 bg-[#F7F4EF] border-b border-esther-olive/10"></div>
+                        <div class="p-4 bg-white/80 text-sm">
+                            <p class="font-mono font-medium">neutral / cream</p>
+                            <p class="text-xs">#F7F4EF · fundo principal, cartões claros</p>
+                            <p class="text-xs mt-2">Variantes opacidade: /80 glass, /60 seções.</p>
+                        </div>
+                    </div>
+                    <div class="rounded-2xl overflow-hidden border border-esther-olive/10 shadow-lg reveal-up delay-500">
+                        <div class="h-28 bg-[#2C2825]"></div>
+                        <div class="p-4 bg-white/80 text-sm">
+                            <p class="font-mono font-medium">ink (evita preto puro)</p>
+                            <p class="text-xs">#2C2825 · texto, tooltip, modal</p>
+                            <p class="text-xs mt-2">Feedback: sucesso #6B8F71 · alerta #C49A6C · erro #B07A6A (tons terrosos).</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="rounded-2xl border border-esther-olive/15 bg-white/40 p-8 reveal-up">
+                    <p class="font-mono text-xs uppercase tracking-widest text-esther-olive mb-4">Papéis semânticos</p>
+                    <ul class="grid md:grid-cols-2 gap-4 text-sm text-esther-ink/75 leading-relaxed">
+                        <li><strong class="text-esther-ink">Primary:</strong> marca, ícones institucionais, bordas ativas.</li>
+                        <li><strong class="text-esther-ink">Secondary:</strong> herbal suave (#7A8568) em hover de navegação.</li>
+                        <li><strong class="text-esther-ink">Accent:</strong> CTA, badges quentes, glow copper rgba(196,149,106,0.35).</li>
+                        <li><strong class="text-esther-ink">Decorative:</strong> blobs aurora, gradientes baixa saturação.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Componentes -->
+        <section id="componentes" class="relative bg-esther-sand/50 py-24 md:py-32 border-t border-esther-olive/10 bg-grid">
+            <div class="max-w-[1440px] mx-auto px-6 md:px-16">
+                <header class="mb-16 reveal-up">
+                    <span class="text-xs font-mono uppercase tracking-[0.2em] text-esther-olive/70 block mb-4">4 · UI</span>
+                    <h2 class="font-display text-4xl md:text-5xl">Componentes animados</h2>
+                </header>
+
+                <div class="space-y-20">
+                    <div class="reveal-up">
+                        <p class="font-mono text-xs uppercase tracking-widest text-esther-olive mb-6">Buttons</p>
+                        <div class="flex flex-wrap gap-4 items-center">
+                            <button class="px-8 py-3.5 rounded-full bg-esther-terracotta text-esther-cream text-sm font-medium shadow-lg hover:-translate-y-0.5 transition-transform">Primary</button>
+                            <button class="px-8 py-3.5 rounded-full bg-white border border-esther-olive/20 text-esther-ink text-sm hover:border-esther-terracotta/50 transition-colors">Secondary</button>
+                            <div class="btn-beam rounded-full p-[1px]"><span class="btn-beam-content px-6 py-3 rounded-full text-sm">btn-beam</span></div>
+                            <button disabled class="px-8 py-3.5 rounded-full bg-esther-mist text-esther-ink/40 text-sm cursor-not-allowed">Disabled</button>
+                        </div>
+                    </div>
+
+                    <div class="reveal-up delay-200">
+                        <p class="font-mono text-xs uppercase tracking-widest text-esther-olive mb-6">Inputs</p>
+                        <div class="grid md:grid-cols-2 gap-8 max-w-3xl">
+                            <div>
+                                <label class="block text-xs font-mono uppercase tracking-widest text-esther-olive/80 mb-2">Campo preenchido</label>
+                                <input type="text" placeholder="Seu nome"
+                                    class="w-full px-4 py-3 rounded-xl bg-white/90 border border-esther-olive/15 focus:border-esther-terracotta/50 focus:ring-2 focus:ring-esther-terracotta/20 outline-none transition-shadow text-sm" />
+                            </div>
+                            <div>
+                                <label class="block text-xs font-mono uppercase tracking-widest text-esther-olive/80 mb-2">Estado foco</label>
+                                <input type="email" value="ola@esther.one"
+                                    class="w-full px-4 py-3 rounded-xl bg-esther-cream border border-esther-olive/25 outline-none text-sm" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="reveal-up delay-300">
+                        <p class="font-mono text-xs uppercase tracking-widest text-esther-olive mb-6">Cards · flashlight-card</p>
+                        <div class="grid md:grid-cols-3 gap-6">
+                            <div class="flashlight-card rounded-2xl border border-esther-olive/12 bg-white/70 p-8 min-h-[220px] flex flex-col justify-between hover:shadow-xl hover:-translate-y-1 transition-all duration-500"
+                                onmousemove="updateFlashlight(event, this)">
+                                <iconify-icon icon="solar:heart-pulse-bold-duotone" class="text-3xl text-esther-terracotta"></iconify-icon>
+                                <div>
+                                    <h3 class="font-display text-2xl mb-2">Ritual</h3>
+                                    <p class="text-sm text-esther-ink/65">Radial segue o cursor — classe flashlight-card.</p>
+                                </div>
+                            </div>
+                            <div class="flashlight-card rounded-2xl border border-esther-olive/12 bg-white/70 p-8 min-h-[220px] flex flex-col justify-between hover:shadow-xl hover:-translate-y-1 transition-all duration-500"
+                                onmousemove="updateFlashlight(event, this)">
+                                <iconify-icon icon="solar:waterdrops-bold-duotone" class="text-3xl text-esther-olive"></iconify-icon>
+                                <div>
+                                    <h3 class="font-display text-2xl mb-2">Hidratação</h3>
+                                    <p class="text-sm text-esther-ink/65">Mesmo padrão de hover em toda superfície.</p>
+                                </div>
+                            </div>
+                            <div class="flashlight-card rounded-2xl border border-esther-olive/12 bg-white/70 p-8 min-h-[220px] flex flex-col justify-between hover:shadow-xl hover:-translate-y-1 transition-all duration-500"
+                                onmousemove="updateFlashlight(event, this)">
+                                <iconify-icon icon="solar:moon-sleep-bold-duotone" class="text-3xl text-esther-caramel"></iconify-icon>
+                                <div>
+                                    <h3 class="font-display text-2xl mb-2">Descanso</h3>
+                                    <p class="text-sm text-esther-ink/65">updateFlashlight(event, this) no markup.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="reveal-up delay-500">
+                        <p class="font-mono text-xs uppercase tracking-widest text-esther-olive mb-6">Navbar · sections</p>
+                        <p class="text-sm text-esther-ink/65 mb-4">O header fixo desta página usa o mesmo padrão do <code class="font-mono text-xs bg-white/60 px-1 rounded">index.html</code>: container 1440px, blur, border inferior suave.</p>
+                    </div>
+
+                    <div class="reveal-up delay-700">
+                        <p class="font-mono text-xs uppercase tracking-widest text-esther-olive mb-6">Modal · tooltip · badges</p>
+                        <div class="flex flex-wrap gap-4 items-center">
+                            <button type="button" onclick="openModal()" class="px-5 py-2.5 rounded-full bg-esther-ink text-esther-cream text-sm">Abrir modal</button>
+                            <span class="inline-flex items-center px-3 py-1 rounded-full text-[11px] font-mono uppercase tracking-wider bg-esther-olive/15 text-esther-olive">badge neutral</span>
+                            <span class="inline-flex items-center px-3 py-1 rounded-full text-[11px] font-mono uppercase tracking-wider bg-esther-terracotta/15 text-esther-terracotta">accent</span>
+                            <div class="tooltip-container">
+                                <button type="button" class="text-sm border-b border-dotted border-esther-olive/40">Passe o cursor</button>
+                                <div class="tooltip">Tooltip institucional</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Ícones & animações -->
+        <section id="animacoes" class="relative bg-esther-cream py-24 md:py-32 border-t border-esther-olive/10 overflow-hidden">
+            <div class="absolute inset-0 pointer-events-none">
+                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-esther-terracotta/10 rounded-full blur-[100px] animate-breathe"></div>
+            </div>
+            <div class="max-w-[1440px] mx-auto px-6 md:px-16 relative z-10">
+                <header class="mb-12 reveal-up">
+                    <span class="text-xs font-mono uppercase tracking-[0.2em] text-esther-olive/70 block mb-4">5–6 · Ícones & motion</span>
+                    <h2 class="font-display text-4xl md:text-5xl mb-4">Iconify + GSAP</h2>
+                    <p class="text-esther-ink/65 max-w-2xl">Ícones via <code class="font-mono text-sm">&lt;iconify-icon&gt;</code> (mesmo stack do index). Animações: <span class="font-mono text-sm">reveal-up</span>, <span class="font-mono text-sm">reveal-zoom</span>, <span class="font-mono text-sm">animate-on-scroll</span>, <span class="font-mono text-sm">animate-float</span>, <span class="font-mono text-sm">animate-scroll-line</span>, <span class="font-mono text-sm">animate-spin-slow</span> em glows.</p>
+                </header>
+                <div class="flex flex-wrap gap-6 text-3xl text-esther-olive reveal-up delay-200">
+                    <iconify-icon icon="solar:leaf-bold-duotone"></iconify-icon>
+                    <iconify-icon icon="solar:tea-cup-bold-duotone"></iconify-icon>
+                    <iconify-icon icon="solar:stars-minimalistic-bold-duotone"></iconify-icon>
+                    <iconify-icon icon="solar:hand-heart-bold-duotone"></iconify-icon>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-[#2a2623] text-esther-cream/70 py-12 border-t border-white/5 relative z-20">
+        <div class="max-w-[1440px] mx-auto px-6 md:px-16 flex flex-col md:flex-row justify-between items-center gap-6 text-sm">
+            <span class="font-display text-esther-cream">Esther · design_system-esther1</span>
+            <span class="font-mono text-xs uppercase tracking-widest">Aurora herbal</span>
+        </div>
+    </footer>
+
+    <!-- Modal -->
+    <div id="ds-modal" class="modal-root" aria-hidden="true" role="dialog" aria-labelledby="modal-title">
+        <div class="modal-backdrop" onclick="closeModal()"></div>
+        <div class="modal-panel">
+            <h3 id="modal-title" class="font-display text-2xl text-esther-ink mb-2">Modal de demonstração</h3>
+            <p class="text-sm text-esther-ink/65 mb-6">Mesmo padrão de transição suave usado com <span class="font-mono">reveal-zoom</span> nos cards.</p>
+            <button type="button" onclick="closeModal()" class="w-full py-3 rounded-full bg-esther-olive text-esther-cream text-sm font-medium hover:opacity-90 transition-opacity">Fechar</button>
+        </div>
+    </div>
+
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
+
+        function openModal() {
+            document.getElementById('ds-modal').classList.add('is-open');
+            document.body.style.overflow = 'hidden';
+        }
+        function closeModal() {
+            document.getElementById('ds-modal').classList.remove('is-open');
+            document.body.style.overflow = '';
+        }
+
+        window.updateFlashlight = function (e, card) {
+            const rect = card.getBoundingClientRect();
+            card.style.setProperty('--mouse-x', (e.clientX - rect.left) + 'px');
+            card.style.setProperty('--mouse-y', (e.clientY - rect.top) + 'px');
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('main .reveal-up').forEach((el, i) => {
+                setTimeout(() => el.classList.add('active'), 80 * i);
+            });
+            document.querySelectorAll('main .reveal-zoom').forEach((el, i) => {
+                setTimeout(() => el.classList.add('active'), 120 + 80 * i);
+            });
+
+            gsap.utils.toArray('section .reveal-up, section .reveal-zoom, section .animate-on-scroll').forEach(function (elem) {
+                ScrollTrigger.create({
+                    trigger: elem,
+                    start: 'top 88%',
+                    onEnter: () => elem.classList.add('active'),
+                });
+            });
+
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes scroll-line {
+                    0% { transform: translateY(-100%); }
+                    100% { transform: translateY(100%); }
+                }
+                .animate-scroll-line {
+                    animation: scroll-line 1.5s cubic-bezier(0.77, 0, 0.175, 1) infinite;
+                }
+            `;
+            document.head.appendChild(style);
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html class="scroll-smooth" lang="pt-BR">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Esther Design System — Variação 3 · Garden Mist</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'ui-monospace', 'monospace'],
+                        display: ['Fraunces', 'Georgia', 'serif'],
+                    },
+                    colors: {
+                        esther: {
+                            mist: '#EEF0EA',
+                            cream: '#FAF8F4',
+                            sage: '#6B7D62',
+                            'sage-deep': '#4F5E48',
+                            clay: '#C4836D',
+                            sand: '#E4DDD3',
+                            ink: '#33302C',
+                        },
+                    },
+                    backgroundImage: {
+                        'noise': "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")",
+                    },
+                    animation: {
+                        'spin-slow': 'spin 14s linear infinite',
+                        'drift': 'drift 24s ease-in-out infinite',
+                        'mist-pulse': 'mistPulse 12s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        drift: {
+                            '0%, 100%': { transform: 'translate(0,0) rotate(0deg)' },
+                            '50%': { transform: 'translate(-3%, 2%) rotate(1deg)' },
+                        },
+                        mistPulse: {
+                            '0%, 100%': { opacity: '0.35', transform: 'scale(1)' },
+                            '50%': { opacity: '0.55', transform: 'scale(1.05)' },
+                        },
+                    },
+                },
+            },
+        };
+    </script>
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(180deg, #FAF8F4 0%, #EEF0EA 45%, #E8E6E0 100%);
+            color: #33302C;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .noise-overlay {
+            position: fixed;
+            inset: 0;
+            opacity: 0.038;
+            pointer-events: none;
+            z-index: 9999;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        .text-outline {
+            -webkit-text-stroke: 1px rgba(79, 94, 72, 0.7);
+            color: transparent;
+            transition: all 0.55s ease;
+        }
+
+        .bg-grid {
+            background-size: 48px 48px;
+            background-image:
+                linear-gradient(to right, rgba(79, 94, 72, 0.045) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(79, 94, 72, 0.045) 1px, transparent 1px);
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.42);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border: 1px solid rgba(255, 255, 255, 0.55);
+        }
+
+        .reveal-up {
+            opacity: 0;
+            transform: translateY(26px);
+            filter: blur(14px);
+            transition: all 1.15s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal-up.active {
+            opacity: 1;
+            transform: translateY(0);
+            filter: blur(0);
+        }
+
+        .reveal-zoom {
+            opacity: 0;
+            transform: scale(0.94);
+            filter: blur(12px);
+            transition: all 1.05s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal-zoom.active {
+            opacity: 1;
+            transform: scale(1);
+            filter: blur(0);
+        }
+
+        .animate-on-scroll {
+            opacity: 0;
+        }
+
+        .animate-on-scroll.active {
+            animation: animationIn 0.85s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes animationIn {
+            from {
+                opacity: 0;
+                transform: translateY(22px);
+                filter: blur(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+                filter: blur(0);
+            }
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .btn-beam {
+            position: relative;
+            z-index: 10;
+            overflow: hidden;
+            border-radius: 9999px;
+        }
+
+        .btn-beam::before {
+            content: "";
+            position: absolute;
+            inset: -2px;
+            z-index: -1;
+            background: conic-gradient(from 180deg at 50% 50%, #dfe8d8 0%, #6B7D62 40%, #C4836D 55%, #f0ebe4 100%);
+            animation: spin 5.5s linear infinite;
+            border-radius: inherit;
+            opacity: 0;
+            transition: opacity 0.35s ease;
+        }
+
+        .btn-beam:hover::before {
+            opacity: 1;
+        }
+
+        .btn-beam-content {
+            background-color: #4F5E48;
+            color: #FAF8F4;
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            height: 100%;
+            border-radius: inherit;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(255, 255, 255, 0.14);
+        }
+
+        .flashlight-card {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .flashlight-card::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(580px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+                    rgba(255, 255, 255, 0.55),
+                    transparent 45%);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .flashlight-card:hover::before {
+            opacity: 1;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(-2deg); }
+            50% { transform: translateY(-16px) rotate(2deg); }
+        }
+
+        .animate-float {
+            animation: float 8s ease-in-out infinite;
+        }
+
+        .mist-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(70px);
+            mix-blend-mode: soft-light;
+            animation: drift 24s ease-in-out infinite;
+        }
+
+        .modal-root {
+            position: fixed;
+            inset: 0;
+            z-index: 200;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+        }
+
+        .modal-root.is-open {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-backdrop {
+            position: absolute;
+            inset: 0;
+            background: rgba(51, 48, 44, 0.4);
+            backdrop-filter: blur(12px);
+        }
+
+        .modal-panel {
+            position: relative;
+            max-width: 26rem;
+            width: 100%;
+            background: rgba(250, 248, 244, 0.92);
+            backdrop-filter: blur(16px);
+            border-radius: 1.5rem;
+            border: 1px solid rgba(107, 125, 98, 0.2);
+            box-shadow: 0 30px 80px -20px rgba(51, 48, 44, 0.35);
+            padding: 2rem;
+            transform: scale(0.96) translateY(8px);
+            transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .modal-root.is-open .modal-panel {
+            transform: scale(1) translateY(0);
+        }
+
+        .tooltip-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        .tooltip {
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%) translateY(6px);
+            background: #33302C;
+            color: #FAF8F4;
+            padding: 0.45rem 0.9rem;
+            border-radius: 0.65rem;
+            font-size: 0.72rem;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s, transform 0.25s;
+            white-space: nowrap;
+            z-index: 50;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+        }
+
+        .tooltip::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -6px;
+            border: 6px solid transparent;
+            border-top-color: #33302C;
+        }
+
+        .tooltip-container:hover .tooltip {
+            opacity: 1;
+            transform: translateX(-50%) translateY(-6px);
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #E4DDD3;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #b8c4ae;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+
+<body class="antialiased min-h-screen relative selection:bg-esther-sage selection:text-esther-cream">
+
+    <div class="noise-overlay"></div>
+
+    <header class="fixed w-full z-50 top-0" id="navbar">
+        <div class="absolute inset-0 glass-panel border-b border-white/40"></div>
+        <div class="max-w-[1440px] mx-auto px-6 py-4 relative flex justify-between items-center">
+            <a href="#top" class="flex items-center gap-3 group">
+                <div class="w-10 h-10 rounded-2xl bg-esther-sage/90 text-esther-cream flex items-center justify-center shadow-lg shadow-esther-sage/25 group-hover:scale-105 transition-transform duration-300">
+                    <iconify-icon icon="solar:cloud-sun-2-bold-duotone" class="text-xl"></iconify-icon>
+                </div>
+                <span class="font-display text-xl font-medium text-esther-ink tracking-tight">Esther<span class="text-esther-clay/90 italic font-normal"> mist</span></span>
+            </a>
+            <nav class="hidden md:flex items-center gap-10 text-[11px] font-mono uppercase tracking-[0.2em] text-esther-sage-deep/80">
+                <a href="#tipografia" class="hover:text-esther-ink transition-colors">Tipo</a>
+                <a href="#cores" class="hover:text-esther-ink transition-colors">Cores</a>
+                <a href="#componentes" class="hover:text-esther-ink transition-colors">UI</a>
+                <a href="#animacoes" class="hover:text-esther-ink transition-colors">Motion</a>
+            </nav>
+            <button type="button" onclick="openModal()" class="text-[11px] font-mono uppercase tracking-widest px-4 py-2 rounded-full glass-panel text-esther-ink hover:bg-white/60 transition-colors">Demo</button>
+        </div>
+    </header>
+
+    <main id="top">
+        <section class="relative min-h-screen overflow-hidden border-b border-esther-sage/10">
+            <div class="mist-orb w-[100vw] max-w-[700px] h-[700px] bg-[#c8d4c0]/50 -top-32 -right-24 animate-mist-pulse"></div>
+            <div class="mist-orb w-[500px] h-[500px] bg-[#e8c4b8]/40 bottom-0 left-[-100px]" style="animation-delay: -6s;"></div>
+            <div class="absolute inset-0 bg-grid opacity-30 pointer-events-none"></div>
+
+            <div class="relative z-10 max-w-[1440px] mx-auto px-6 md:px-20 pt-28 pb-24 grid lg:grid-cols-12 gap-12 items-center min-h-screen">
+                <div class="lg:col-span-6 order-2 lg:order-1">
+                    <div class="relative">
+                        <div class="absolute -inset-8 rounded-[2.5rem] bg-gradient-to-br from-white/50 to-transparent blur-2xl"></div>
+                        <div class="relative glass-panel rounded-[2rem] p-2 shadow-2xl shadow-esther-ink/5 reveal-zoom">
+                            <div class="rounded-[1.75rem] overflow-hidden aspect-[3/4] relative group">
+                                <img src="video_frames/frame_0105.jpg" alt="Atmosfera"
+                                    class="w-full h-full object-cover transition-transform duration-[1.4s] group-hover:scale-[1.03]" />
+                                <div class="absolute inset-0 bg-gradient-to-t from-esther-ink/25 to-transparent"></div>
+                                <div class="absolute bottom-6 left-6 right-6 flashlight-card glass-panel rounded-xl p-4 text-esther-ink"
+                                    onmousemove="updateFlashlight(event, this)">
+                                    <p class="font-mono text-[10px] uppercase tracking-widest text-esther-sage-deep/80 mb-1">Garden mist</p>
+                                    <p class="font-display text-2xl leading-tight">Vidro orgânico + bruma animada</p>
+                                </div>
+                            </div>
+                        </div>
+                        <img src="raw_files/artools_tech_feature.png" alt=""
+                            class="hidden xl:block absolute -z-10 top-12 -right-16 w-44 rounded-2xl shadow-xl border border-white/70 object-cover aspect-square animate-float opacity-90" />
+                    </div>
+                </div>
+
+                <div class="lg:col-span-6 order-1 lg:order-2 text-center lg:text-left">
+                    <p class="text-xs font-mono uppercase tracking-[0.25em] text-esther-sage-deep/75 mb-5 reveal-up delay-100">Variação 3 · Fraunces + névoa</p>
+                    <h1 class="font-display text-5xl sm:text-6xl md:text-7xl font-medium leading-[0.95] text-esther-ink mb-6">
+                        <span class="reveal-up delay-100 block">Suavidade</span>
+                        <span class="reveal-up delay-200 block text-outline">que traduz</span>
+                        <span class="reveal-up delay-300 block text-esther-sage italic font-normal">cuidado.</span>
+                    </h1>
+                    <p class="text-lg md:text-xl text-esther-ink/70 max-w-xl mx-auto lg:mx-0 leading-relaxed font-light reveal-up delay-500 mb-10">
+                        Camadas de vidro, sombras difusas e movimento <em class="font-display not-italic text-esther-clay">delicado</em> — para uma experiência de marca saudável, feminina e etérea sem perder legibilidade.
+                    </p>
+                    <div class="flex flex-wrap justify-center lg:justify-start gap-4 reveal-up delay-700">
+                        <button type="button" class="px-9 py-4 rounded-full bg-esther-clay text-esther-cream text-sm font-medium shadow-xl shadow-esther-clay/30 hover:shadow-2xl hover:-translate-y-0.5 transition-all duration-300">
+                            Agendar conversa
+                        </button>
+                        <button type="button" class="px-9 py-4 rounded-full glass-panel text-esther-ink text-sm font-medium hover:bg-white/55 transition-colors">
+                            Ver especificações
+                        </button>
+                        <div class="btn-beam rounded-full p-[1px]">
+                            <span class="btn-beam-content px-7 py-3.5 rounded-full text-sm">btn-beam</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-65">
+                <span class="text-[10px] font-mono uppercase tracking-widest text-esther-sage-deep/70">Descer</span>
+                <div class="w-px h-9 bg-esther-sage/35 overflow-hidden rounded-full">
+                    <div class="w-full h-full bg-esther-clay animate-scroll-line"></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="tipografia" class="relative py-24 md:py-32 border-t border-white/40 bg-white/25 backdrop-blur-sm">
+            <div class="max-w-[1440px] mx-auto px-6 md:px-20">
+                <h2 class="font-display text-4xl md:text-5xl text-esther-ink mb-4 reveal-up">Tipografia</h2>
+                <p class="text-esther-ink/65 mb-14 max-w-2xl reveal-up">Fraunces (opsz 9–144) para display — voz orgânica com serifa suave. Inter para interface. JetBrains Mono para dados. Carregamento CDN Google Fonts.</p>
+                <div class="grid lg:grid-cols-2 gap-10">
+                    <div class="glass-panel rounded-2xl p-8 space-y-5 reveal-up delay-200">
+                        <p class="font-mono text-xs uppercase tracking-widest text-esther-sage">Escala completa</p>
+                        <h1 class="font-display text-5xl font-semibold">h1 · Fraunces · w600</h1>
+                        <h2 class="font-display text-4xl font-medium">h2 · 2.25rem · lh 1.1</h2>
+                        <h3 class="font-sans text-2xl font-semibold">h3 · Inter semibold</h3>
+                        <h4 class="font-sans text-xl font-medium">h4 · 1.25rem · w500</h4>
+                        <h5 class="font-sans text-lg font-medium text-esther-ink/90">h5</h5>
+                        <h6 class="font-mono text-xs uppercase tracking-[0.12em] text-esther-sage-deep">h6 · mono · label</h6>
+                        <p class="text-lg leading-relaxed">body-lg · 1.125rem · w400 · lh 1.65</p>
+                        <p class="text-base leading-relaxed text-esther-ink/80">body</p>
+                        <p class="text-sm text-esther-ink/65">body-sm</p>
+                        <p class="text-xs text-esther-ink/50">caption · helper discreto</p>
+                    </div>
+                    <div class="flex flex-col justify-center gap-6 reveal-up delay-300">
+                        <div class="rounded-2xl border border-esther-sage/15 bg-esther-mist/50 p-8">
+                            <p class="font-display text-3xl italic text-esther-clay mb-3">“Transformação com leveza.”</p>
+                            <p class="text-sm text-esther-ink/55">Display itálico para depoimentos e citações.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="cores" class="py-24 bg-gradient-to-b from-esther-mist to-esther-cream border-t border-esther-sage/10">
+            <div class="max-w-[1440px] mx-auto px-6 md:px-20">
+                <h2 class="font-display text-4xl mb-10 reveal-up">Sistema de cores</h2>
+                <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+                    <div class="rounded-2xl overflow-hidden border border-white/60 shadow-lg reveal-up delay-100 bg-white/40 backdrop-blur-sm">
+                        <div class="h-28 bg-[#6B7D62]"></div>
+                        <div class="p-4 text-xs font-mono space-y-1">
+                            <p class="font-sans text-sm font-medium text-esther-ink">sage primary</p>
+                            <p>#6B7D62 · rgb(107,125,98)</p>
+                            <p class="text-esther-ink/60 pt-2">Texto claro: #FAF8F4. Uso: marca, bordas ativas, ícones.</p>
+                        </div>
+                    </div>
+                    <div class="rounded-2xl overflow-hidden border border-white/60 shadow-lg reveal-up delay-200 bg-white/40">
+                        <div class="h-28 bg-[#C4836D]"></div>
+                        <div class="p-4 text-xs space-y-1">
+                            <p class="font-mono">clay / terracota suave</p>
+                            <p class="text-esther-ink/65">Gradientes com #dfe8d8; glow rgba(196,131,109,0.25)</p>
+                        </div>
+                    </div>
+                    <div class="rounded-2xl overflow-hidden border border-white/60 reveal-up delay-300 bg-white/40">
+                        <div class="h-28 bg-[#EEF0EA] border-b border-esther-sage/10"></div>
+                        <div class="p-4 text-xs">mist · fundo secundário · divisórias suaves</div>
+                    </div>
+                    <div class="rounded-2xl overflow-hidden border border-white/60 reveal-up delay-500 bg-white/40">
+                        <div class="h-28 bg-[#33302C]"></div>
+                        <div class="p-4 text-xs text-esther-ink/70">ink · tooltips · texto primário (sem #000)</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="componentes" class="py-24 relative overflow-hidden bg-esther-cream/80 border-t border-esther-sage/10">
+            <div class="absolute inset-0 bg-grid opacity-25"></div>
+            <div class="max-w-[1440px] mx-auto px-6 md:px-20 relative z-10 space-y-16">
+                <h2 class="font-display text-4xl reveal-up">UI · glass-panel & flashlight</h2>
+
+                <div class="reveal-up delay-200 flex flex-wrap gap-4">
+                    <button class="px-8 py-3.5 rounded-full bg-esther-sage-deep text-esther-cream text-sm shadow-md hover:brightness-105 transition-all">Primary</button>
+                    <button class="px-8 py-3.5 rounded-full glass-panel text-sm">glass-panel</button>
+                    <div class="btn-beam rounded-full"><span class="btn-beam-content px-7 py-3 rounded-full text-sm">Beam</span></div>
+                    <button disabled class="px-8 py-3.5 rounded-full bg-esther-sand text-esther-ink/35 text-sm cursor-not-allowed">Disabled</button>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-6 max-w-3xl reveal-up delay-300">
+                    <input class="w-full px-4 py-3.5 rounded-xl glass-panel border-0 text-sm placeholder:text-esther-ink/40 focus:ring-2 focus:ring-esther-sage/30 outline-none" placeholder="Nome completo" />
+                    <textarea class="w-full px-4 py-3.5 rounded-xl bg-white/60 border border-esther-sage/15 text-sm min-h-[100px] outline-none focus:border-esther-clay/50" placeholder="Mensagem"></textarea>
+                </div>
+
+                <div class="grid md:grid-cols-3 gap-6">
+                    <div class="flashlight-card glass-panel rounded-2xl p-8 min-h-[210px] flex flex-col justify-between hover:shadow-xl transition-shadow duration-500"
+                        onmousemove="updateFlashlight(event, this)">
+                        <iconify-icon icon="solar:flower-bold-duotone" class="text-3xl text-esther-sage"></iconify-icon>
+                        <p class="font-display text-xl">Névoa · card</p>
+                    </div>
+                    <div class="flashlight-card glass-panel rounded-2xl p-8 min-h-[210px] flex flex-col justify-between hover:shadow-xl transition-shadow duration-500"
+                        onmousemove="updateFlashlight(event, this)">
+                        <iconify-icon icon="solar:cup-hot-bold-duotone" class="text-3xl text-esther-clay"></iconify-icon>
+                        <p class="font-display text-xl">flashlight-card</p>
+                    </div>
+                    <div class="flashlight-card glass-panel rounded-2xl p-8 min-h-[210px] flex flex-col justify-between hover:shadow-xl transition-shadow duration-500"
+                        onmousemove="updateFlashlight(event, this)">
+                        <iconify-icon icon="solar:stars-minimalistic-bold-duotone" class="text-3xl text-esther-sage-deep"></iconify-icon>
+                        <p class="font-display text-xl">Radial highlight</p>
+                    </div>
+                </div>
+
+                <div class="flex flex-wrap items-center gap-5 reveal-up">
+                    <button onclick="openModal()" class="px-6 py-2.5 rounded-full bg-esther-ink text-esther-cream text-sm">Abrir modal-root</button>
+                    <span class="px-3 py-1.5 rounded-full text-[10px] font-mono uppercase bg-esther-sage/20 text-esther-sage-deep">badge</span>
+                    <span class="px-3 py-1.5 rounded-full text-[10px] font-mono uppercase bg-esther-clay/20 text-esther-clay">accent</span>
+                    <div class="tooltip-container">
+                        <button type="button" class="text-sm underline decoration-esther-sage/40 decoration-dotted underline-offset-4">tooltip-container</button>
+                        <div class="tooltip">Texto de apoio</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="animacoes" class="py-24 border-t border-esther-sage/10 bg-gradient-to-b from-esther-mist to-transparent">
+            <div class="max-w-[1440px] mx-auto px-6 md:px-20">
+                <h2 class="font-display text-4xl mb-6 reveal-up">Ícones · animações</h2>
+                <p class="text-esther-ink/65 mb-8 max-w-2xl reveal-up">Iconify (<span class="font-mono">iconify-icon</span>). Motion: <span class="font-mono">reveal-up</span>, <span class="font-mono">reveal-zoom</span>, <span class="font-mono">animate-on-scroll</span>, <span class="font-mono">animate-float</span>, <span class="font-mono">animate-scroll-line</span>, <span class="font-mono">animate-spin-slow</span> em halos, <span class="font-mono">mist-orb</span> + <span class="font-mono">animate-mist-pulse</span> / <span class="font-mono">animate-drift</span>.</p>
+                <div class="flex flex-wrap gap-8 text-4xl text-esther-sage reveal-up delay-200">
+                    <iconify-icon icon="solar:cloud-sun-2-bold-duotone"></iconify-icon>
+                    <iconify-icon icon="solar:leaf-bold-duotone"></iconify-icon>
+                    <iconify-icon icon="solar:heart-shine-bold-duotone"></iconify-icon>
+                    <iconify-icon icon="solar:waterdrop-bold-duotone"></iconify-icon>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="glass-panel border-t border-white/30 py-10 text-esther-ink/60 text-sm">
+        <div class="max-w-[1440px] mx-auto px-6 md:px-20 flex justify-between flex-wrap gap-4">
+            <span class="font-display text-esther-ink">Esther — design_system-esther3</span>
+            <span class="font-mono text-xs uppercase tracking-widest">Garden mist</span>
+        </div>
+    </footer>
+
+    <div id="ds-modal" class="modal-root" aria-hidden="true">
+        <div class="modal-backdrop" onclick="closeModal()"></div>
+        <div class="modal-panel">
+            <h3 class="font-display text-2xl text-esther-ink mb-2">Modal em vidro</h3>
+            <p class="text-sm text-esther-ink/65 mb-6">Classes modal-root, modal-backdrop, modal-panel — alinhadas ao padrão de transição suave.</p>
+            <button onclick="closeModal()" class="w-full py-3 rounded-full bg-esther-sage-deep text-esther-cream text-sm font-medium">Fechar</button>
+        </div>
+    </div>
+
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
+        function openModal() {
+            document.getElementById('ds-modal').classList.add('is-open');
+            document.body.style.overflow = 'hidden';
+        }
+        function closeModal() {
+            document.getElementById('ds-modal').classList.remove('is-open');
+            document.body.style.overflow = '';
+        }
+        window.updateFlashlight = function (e, card) {
+            const rect = card.getBoundingClientRect();
+            card.style.setProperty('--mouse-x', (e.clientX - rect.left) + 'px');
+            card.style.setProperty('--mouse-y', (e.clientY - rect.top) + 'px');
+        };
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('main .reveal-up').forEach((el, i) => setTimeout(() => el.classList.add('active'), 90 * i));
+            document.querySelectorAll('main .reveal-zoom').forEach((el, i) => setTimeout(() => el.classList.add('active'), 120 + 70 * i));
+            gsap.utils.toArray('section .reveal-up, section .reveal-zoom').forEach(function (elem) {
+                ScrollTrigger.create({
+                    trigger: elem,
+                    start: 'top 88%',
+                    onEnter: () => elem.classList.add('active'),
+                });
+            });
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes scroll-line {
+                    0% { transform: translateY(-100%); }
+                    100% { transform: translateY(100%); }
+                }
+                .animate-scroll-line {
+                    animation: scroll-line 1.5s cubic-bezier(0.77, 0, 0.175, 1) infinite;
+                }
+            `;
+            document.head.appendChild(style);
+        });
+    </script>
+</body>
+
+</html>

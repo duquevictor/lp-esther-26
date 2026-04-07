@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html class="scroll-smooth" lang="pt-BR">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>As Receitas Que Me Impediram de Voltar a Engordar — Hero</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Iconify -->
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+
+    <!-- GSAP & ScrollTrigger -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+    <!-- SplitType -->
+    <script src="https://unpkg.com/split-type@0.3.4/umd/index.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'ui-monospace', 'monospace'],
+                        display: ['Cormorant Garamond', 'Georgia', 'serif'],
+                    },
+                    colors: {
+                        esther: {
+                            cream: '#F7F4EF',
+                            sand: '#EBE6DD',
+                            olive: '#5C6648',
+                            'olive-soft': '#7A8568',
+                            herbal: '#6B7560',
+                            terracotta: '#B87D5C',
+                            caramel: '#A67C52',
+                            copper: '#C4956A',
+                            ink: '#2C2825',
+                            mist: '#E5E0D6',
+                        },
+                    },
+                },
+            },
+        };
+    </script>
+
+    <style>
+        :root {
+            --esther-cream: #F7F4EF;
+            --esther-olive: #5C6648;
+            --esther-terracotta: #B87D5C;
+            --esther-ink: #2C2825;
+            --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--esther-cream);
+            color: var(--esther-ink);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .noise-overlay {
+            position: fixed;
+            inset: 0;
+            opacity: 0.035;
+            pointer-events: none;
+            z-index: 9999;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        .text-outline {
+            -webkit-text-stroke: 1px rgba(92, 102, 72, 0.9);
+            color: transparent;
+        }
+
+        .bg-grid-hero {
+            background-size: 40px 40px;
+            background-image:
+                linear-gradient(to right, rgba(44, 40, 37, 0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(44, 40, 37, 0.05) 1px, transparent 1px);
+        }
+
+        .hero-aurora-blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            mix-blend-mode: multiply;
+            animation: auroraBlob 22s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes auroraBlob {
+            0%, 100% {
+                transform: translate(0, 0) scale(1);
+            }
+
+            50% {
+                transform: translate(4%, -6%) scale(1.08);
+            }
+        }
+
+        .btn-hero-primary {
+            position: relative;
+            overflow: hidden;
+            border-radius: 9999px;
+            background: var(--esther-terracotta);
+            color: var(--esther-cream);
+            box-shadow: 0 18px 40px -12px rgba(184, 125, 92, 0.45);
+            transition: transform 0.45s var(--ease-out-expo), box-shadow 0.45s ease;
+        }
+
+        .btn-hero-primary::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(120deg, transparent 0%, rgba(255, 255, 255, 0.28) 45%, transparent 70%);
+            transform: translateX(-120%);
+            transition: transform 0.6s var(--ease-out-expo);
+        }
+
+        .btn-hero-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 24px 56px -12px rgba(184, 125, 92, 0.55);
+        }
+
+        .btn-hero-primary:hover::after {
+            transform: translateX(120%);
+        }
+
+        .btn-hero-primary:focus-visible {
+            outline: 3px solid rgba(92, 102, 72, 0.25);
+            outline-offset: 2px;
+        }
+
+        .hero-image-frame {
+            position: relative;
+            border-radius: 2rem;
+            border: 1px solid rgba(92, 102, 72, 0.14);
+            background: rgba(255, 255, 255, 0.55);
+            box-shadow: 0 40px 90px -40px rgba(44, 40, 37, 0.25);
+            overflow: hidden;
+            transform: translateZ(0);
+        }
+
+        .hero-image-frame::before {
+            content: "";
+            position: absolute;
+            inset: -1px;
+            border-radius: inherit;
+            background: radial-gradient(800px circle at 12% 10%, rgba(184, 125, 92, 0.25), transparent 45%),
+                radial-gradient(620px circle at 90% 55%, rgba(92, 102, 72, 0.22), transparent 50%);
+            opacity: 0.75;
+            pointer-events: none;
+        }
+
+        .hero-image-frame::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(105deg, rgba(247, 244, 239, 0.85) 0%, rgba(247, 244, 239, 0.35) 40%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .hero-image {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: saturate(1.02) contrast(1.02);
+            transform: scale(1.02);
+            transition: transform 1.2s var(--ease-out-expo);
+        }
+
+        .hero-image-frame:hover .hero-image {
+            transform: scale(1.04);
+        }
+
+        .float-soft {
+            animation: floatSoft 7s ease-in-out infinite;
+        }
+
+        @keyframes floatSoft {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
+
+            50% {
+                transform: translateY(-12px) rotate(1deg);
+            }
+        }
+
+        .float-soft-delay {
+            animation: floatSoft 7s ease-in-out infinite;
+            animation-delay: -2.5s;
+        }
+
+        .parallax-mouse {
+            transform: translate3d(
+                calc(var(--mx, 0) * var(--depth, 12) * 1px),
+                calc(var(--my, 0) * var(--depth, 12) * 1px + var(--ty, 0) * 1px),
+                0
+            ) rotate(calc(var(--r, 0) * 1deg));
+            will-change: transform;
+        }
+
+        @media (max-width: 1023px) {
+            .btn-hero-primary {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .hero-compact-hide {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body class="antialiased selection:bg-esther-olive selection:text-esther-cream">
+    <div class="noise-overlay" aria-hidden="true"></div>
+
+    <section id="hero-section" class="relative isolate overflow-hidden">
+        <div class="absolute inset-0 bg-grid-hero opacity-[0.25] pointer-events-none mix-blend-multiply"></div>
+
+        <div class="hero-aurora-blob w-[520px] h-[520px] bg-[#C4956A]/25 -top-[12%] -right-[10%]"></div>
+        <div class="hero-aurora-blob w-[420px] h-[420px] bg-[#7A8568]/24 -bottom-[10%] left-[-12%]" style="animation-delay: -5s;"></div>
+
+        <div class="relative z-10 max-w-[1440px] mx-auto px-6 md:px-16 py-12 sm:py-16 md:py-20 lg:py-28 flex flex-col lg:flex-row items-center gap-10 lg:gap-20"
+            style="--mx: 0; --my: 0;">
+            <!-- Texto (Esquerda no desktop; abaixo da imagem no mobile) -->
+            <div class="order-2 lg:order-1 w-full lg:w-[52%] xl:w-[50%] text-left">
+                <h1 id="hero-title" class="font-display text-4xl sm:text-5xl md:text-6xl lg:text-[4.25rem] font-semibold tracking-tight leading-[1.02] text-esther-ink mb-6 lg:mb-8"
+                    aria-label="As Receitas Que Me Impediram de Voltar a Engordar">
+                    <span class="h-line block">Pare de emagrecer e</span>
+                    <span class="h-line block"><span class="text-outline">engordar</span></span>
+                    <span class="h-line block">tudo de novo</span>
+                </h1>
+
+                <p id="hero-sub" class="text-base sm:text-lg md:text-xl text-esther-ink/72 max-w-xl leading-[1.65] font-light mb-8 lg:mb-10" aria-label="Subheadline do infoproduto">Emagreça sem precisar começar de novo usando as mesmas receitas que me fizeram perder 55kg e manter o peso até hoje</p>
+
+                <div class="flex flex-col items-start gap-4 sm:gap-5">
+                    <button type="button" id="hero-cta"
+                        class="btn-hero-primary group inline-flex items-center justify-center px-8 sm:px-10 py-4 rounded-full relative z-10 pointer-events-auto">
+                        <span class="relative z-10 text-sm sm:text-[15px] font-medium tracking-wide">👉 Quero Parar de Recomeçar</span>
+                    </button>
+
+                    <p class="hero-micro text-xs sm:text-[13px] text-esther-ink/55 tracking-[0.02em]">🔒 Pagamento 100% seguro • Acesso instantâneo</p>
+                </div>
+            </div>
+
+            <!-- Mídia Principal + Detalhes (Direita no desktop; primeiro no mobile) -->
+            <div class="order-1 lg:order-2 w-full lg:w-[48%] relative flex items-center justify-center lg:justify-end">
+                <div class="hero-image-frame parallax-mouse" style="--depth: 14;"
+                    data-entrance="media">
+                    <div class="relative w-full aspect-[3/2]">
+                        <img src="../mockups-esther.png" alt="Mockups do material As Receitas Que Me Impediram de Voltar a Engordar"
+                            class="hero-image" draggable="false" />
+                    </div>
+                </div>
+
+                <!-- Badges flutuantes -->
+                <div class="absolute -top-4 -left-4 hidden md:flex parallax-mouse hero-compact-hide"
+                    style="--depth: 18;" data-entrance="badge-1">
+                    <div class="rounded-2xl border border-white/60 bg-white/65 backdrop-blur-md px-5 py-4 shadow-xl shadow-esther-ink/[0.08]">
+                        <div class="flex items-center gap-3 mb-2">
+                            <div
+                                class="w-10 h-10 rounded-full bg-esther-olive/10 flex items-center justify-center border border-esther-olive/15">
+                                <iconify-icon icon="solar:leaf-bold-duotone" class="text-2xl text-esther-olive"></iconify-icon>
+                            </div>
+                            <span class="text-[10px] font-mono uppercase tracking-[0.2em] text-esther-olive/80">Transformação</span>
+                        </div>
+                        <p class="font-display text-xl text-esther-ink leading-snug">Saúde com leveza</p>
+                    </div>
+                </div>
+
+                <div class="absolute top-[18%] -right-3 hidden lg:flex parallax-mouse"
+                    style="--depth: 20;" data-entrance="badge-2">
+                    <div class="rounded-full border border-esther-terracotta/25 bg-esther-terracotta/10 backdrop-blur-sm px-5 py-2.5 shadow-lg shadow-esther-terracotta/10">
+                        <span class="text-[11px] font-mono uppercase tracking-[0.2em] text-esther-terracotta">Autoridade suave</span>
+                    </div>
+                </div>
+
+                <div class="absolute bottom-7 -right-1 hidden xl:flex parallax-mouse"
+                    style="--depth: 22;" data-entrance="badge-3">
+                    <div class="rounded-2xl border border-white/70 bg-white/55 backdrop-blur-md px-5 py-4 shadow-xl shadow-esther-ink/[0.07]">
+                        <div class="flex items-center gap-3">
+                            <div
+                                class="w-9 h-9 rounded-full bg-esther-copper/15 border border-esther-copper/20 flex items-center justify-center">
+                                <iconify-icon icon="solar:heart-angle-bold-duotone" class="text-xl text-esther-caramel"></iconify-icon>
+                            </div>
+                            <div>
+                                <p class="text-[10px] font-mono uppercase tracking-[0.2em] text-esther-olive/75">Acolhimento</p>
+                                <p class="font-display text-xl text-esther-ink leading-snug">Para continuar</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Detalhe translúcido vertical -->
+                <div class="absolute top-1/2 -translate-y-1/2 right-0 w-px h-40 hidden lg:block parallax-mouse"
+                    style="--depth: 10;" data-entrance="ornament">
+                    <div class="w-px h-full bg-gradient-to-b from-transparent via-esther-olive/35 to-transparent"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scroll hint (desktop; escondido no mobile para não competir com a imagem no topo) -->
+        <div class="absolute bottom-7 left-1/2 -translate-x-1/2 z-[6] hidden lg:flex flex-col items-center gap-2 opacity-60 pointer-events-none"
+            data-entrance="scroll-hint">
+            <span class="text-[10px] font-mono uppercase tracking-[0.2em] text-esther-olive/70">Uma leitura que convida</span>
+            <div class="w-px h-10 bg-esther-olive/25 overflow-hidden rounded-full relative">
+                <div class="absolute inset-0 w-full bg-esther-terracotta/75"
+                    style="animation: scrollLine 1.6s cubic-bezier(0.77, 0, 0.175, 1) infinite;"></div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
+
+        (function () {
+            const heroSection = document.getElementById('hero-section');
+            const titleEls = Array.from(heroSection.querySelectorAll('.h-line'));
+            const sub = document.getElementById('hero-sub');
+            const cta = document.getElementById('hero-cta');
+
+            const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+            const allEntranceEls = Array.from(heroSection.querySelectorAll('[data-entrance]'));
+            const heroVarsEl = heroSection.querySelector('div[style*="--mx"]');
+            const parallaxEntranceEls = allEntranceEls.filter((el) => el.classList.contains('parallax-mouse'));
+            const nonParallaxEntranceEls = allEntranceEls.filter((el) => !el.classList.contains('parallax-mouse'));
+
+            if (prefersReduced) {
+                gsap.set(titleEls, { opacity: 1, filter: 'blur(0px)', clearProps: 'transform' });
+                if (sub) gsap.set(sub, { opacity: 1, filter: 'blur(0px)', clearProps: 'transform' });
+                if (cta) gsap.set(cta, { opacity: 1, filter: 'blur(0px)' });
+                gsap.set(allEntranceEls, { opacity: 1, filter: 'blur(0px)', '--ty': 0, '--r': 0 });
+                if (heroVarsEl) gsap.set(heroVarsEl, { '--mx': 0, '--my': 0 });
+                return;
+            }
+
+            // Initial cinematic state
+            gsap.set(titleEls, { opacity: 0, y: 18, filter: 'blur(10px)' });
+            gsap.set(parallaxEntranceEls, { opacity: 0, '--ty': 18, filter: 'blur(10px)' });
+            gsap.set(nonParallaxEntranceEls, { opacity: 0, y: 18, scale: 0.99, filter: 'blur(10px)' });
+            gsap.set('.hero-micro', { opacity: 0, y: 10, filter: 'blur(8px)' });
+            if (cta) gsap.set(cta, { opacity: 0, y: 18, filter: 'blur(10px)' });
+
+            gsap.set('#hero-title', { willChange: 'transform, opacity' });
+            gsap.set('#hero-sub', { willChange: 'transform, opacity' });
+
+            // Split subtitle into lines (preserves copy, only wraps DOM)
+            let subtitleSplit = null;
+            if (sub && typeof SplitType !== 'undefined') {
+                try {
+                    subtitleSplit = new SplitType(sub, { types: 'lines', lineClass: 'hero-sub-line' });
+                    sub.querySelectorAll('.hero-sub-line').forEach((line) => {
+                        const inner = document.createElement('span');
+                        inner.className = 'line-inner';
+                        inner.innerHTML = line.innerHTML;
+                        line.innerHTML = '';
+                        line.appendChild(inner);
+                    });
+                    gsap.set('#hero-sub .hero-sub-line .line-inner', { y: '105%', opacity: 0 });
+                } catch (e) {
+                    // fallback: animate subtitle as a whole
+                    gsap.set(sub, { opacity: 0, y: 18, filter: 'blur(10px)' });
+                }
+            } else if (sub) {
+                gsap.set(sub, { opacity: 0, y: 18, filter: 'blur(10px)' });
+            }
+
+            // Entrance timeline (fade + translate + delay)
+            const tl = gsap.timeline({ defaults: { ease: 'power3.out' }, delay: 0.08 });
+
+            tl.to(titleEls, {
+                opacity: 1,
+                y: 0,
+                filter: 'blur(0px)',
+                duration: 0.95,
+                stagger: 0.16
+            }, 0.08);
+
+            // Subtitle: progressive line reveal
+            if (subtitleSplit && sub) {
+                tl.to('#hero-sub .hero-sub-line .line-inner', {
+                    opacity: 1,
+                    y: '0%',
+                    duration: 0.85,
+                    stagger: 0.06
+                }, 0.55);
+            } else if (sub) {
+                tl.to(sub, { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.95 }, 0.55);
+            }
+
+            tl.to(cta, {
+                opacity: 1,
+                y: 0,
+                filter: 'blur(0px)',
+                duration: 0.85
+            }, 0.92).to('.hero-micro', {
+                opacity: 1,
+                y: 0,
+                filter: 'blur(0px)',
+                duration: 0.65
+            }, 1.04);
+
+            const mediaEl = heroSection.querySelector('[data-entrance="media"]');
+            const otherParallaxEls = parallaxEntranceEls.filter((el) => el !== mediaEl);
+            const scrollHintEl = heroSection.querySelector('[data-entrance="scroll-hint"]');
+
+            tl.to(mediaEl, {
+                opacity: 1,
+                '--ty': 0,
+                filter: 'blur(0px)',
+                duration: 1.05,
+                ease: 'power4.out'
+            }, 0.25);
+
+            tl.to(otherParallaxEls, {
+                opacity: 1,
+                '--ty': 0,
+                filter: 'blur(0px)',
+                duration: 0.9,
+                stagger: 0.12
+            }, 0.78);
+
+            tl.to(scrollHintEl, {
+                opacity: 0.75,
+                y: 0,
+                filter: 'blur(0px)',
+                duration: 0.65
+            }, 1.05);
+
+            // Flutuação suave (usa --ty, não mexe em transform diretamente)
+            const badgeEls = Array.from(heroSection.querySelectorAll('[data-entrance^="badge-"]'));
+            badgeEls.forEach((el, i) => {
+                const amp = i % 2 === 0 ? -8 : -6;
+                gsap.to(el, {
+                    '--ty': amp,
+                    duration: 4.1 + i * 0.45,
+                    ease: 'sine.inOut',
+                    repeat: -1,
+                    yoyo: true,
+                    overwrite: 'auto'
+                });
+            });
+
+            // Mouse parallax (leve, premium, sem exagero)
+            const parallaxTargets = Array.from(heroSection.querySelectorAll('.parallax-mouse'));
+
+            let raf = null;
+            const onMove = (e) => {
+                const rect = heroSection.getBoundingClientRect();
+                const x = (e.clientX - (rect.left + rect.width / 2)) / rect.width;
+                const y = (e.clientY - (rect.top + rect.height / 2)) / rect.height;
+
+                if (raf) cancelAnimationFrame(raf);
+                raf = requestAnimationFrame(() => {
+                    if (!heroVarsEl) return;
+                    gsap.to(heroVarsEl, {
+                        '--mx': gsap.utils.clamp(x, -0.5, 0.5),
+                        '--my': gsap.utils.clamp(y, -0.5, 0.5),
+                        duration: 0.28,
+                        overwrite: 'auto'
+                    });
+                });
+            };
+
+            const onLeave = () => {
+                if (raf) cancelAnimationFrame(raf);
+                if (!heroVarsEl) return;
+                gsap.to(heroVarsEl, {
+                    '--mx': 0,
+                    '--my': 0,
+                    duration: 0.6,
+                    overwrite: 'auto'
+                });
+            };
+
+            heroSection.addEventListener('mousemove', onMove);
+            heroSection.addEventListener('mouseleave', onLeave);
+
+            // Scroll subtle depth (só se o usuário for rolando)
+            ScrollTrigger.create({
+                trigger: heroSection,
+                start: 'top top',
+                end: 'bottom top',
+                onUpdate: (self) => {
+                    const p = self.progress;
+                    const rot = (p - 0.5) * 0.35;
+                    parallaxTargets.forEach((el, i) => {
+                        // Leve rotação e deslocamento para dar profundidade
+                        const extra = (i % 2 === 0 ? 1 : -1) * 0.6;
+                        gsap.set(el, { '--r': rot * extra });
+                    });
+                }
+            });
+
+            // Prevent accidental navigation if user clicks the CTA placeholder
+            if (cta) {
+                cta.addEventListener('click', (ev) => {
+                    ev.preventDefault();
+                });
+            }
+        })();
+    </script>
+
+    <style>
+        @keyframes scrollLine {
+            0% {
+                transform: translateY(-100%);
+            }
+
+            100% {
+                transform: translateY(100%);
+            }
+        }
+    </style>
+</body>
+
+</html>
+
