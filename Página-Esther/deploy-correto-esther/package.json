@@ -1,0 +1,11 @@
+{
+  "name": "lp-esther-26",
+  "private": true,
+  "scripts": {
+    "build:css": "tailwindcss -c tailwind.config.cjs -i styles/tailwind.css -o styles/tailwind.generated.css --minify"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.17"
+  }
+}
+
