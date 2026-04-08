@@ -1873,6 +1873,14 @@
             }
         }
     </style>
+    <link
+        rel="preload"
+        as="image"
+        href="imagens-webp/responsive/hero-prato-640w.webp"
+        imagesrcset="imagens-webp/responsive/hero-prato-640w.webp 640w, imagens-webp/responsive/hero-prato-960w.webp 960w, imagens-webp/responsive/hero-prato-1280w.webp 1280w"
+        imagesizes="100vw"
+        fetchpriority="high"
+    />
 </head>
 
 <body class="antialiased min-h-screen relative selection:bg-esther-olive selection:text-esther-cream overflow-x-hidden w-full">
@@ -1884,7 +1892,18 @@
         
         <!-- Mobile Background Wrapper -->
         <div class="block lg:hidden absolute inset-0 z-0 h-[100vh] w-full overflow-hidden pointer-events-none select-none">
-            <img src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Prato Saudável" class="w-full h-[50vh] object-cover object-center" />
+            <img
+                src="imagens-webp/responsive/hero-prato-640w.webp"
+                srcset="imagens-webp/responsive/hero-prato-640w.webp 640w, imagens-webp/responsive/hero-prato-960w.webp 960w, imagens-webp/responsive/hero-prato-1280w.webp 1280w"
+                sizes="100vw"
+                alt="Prato Saudável"
+                class="w-full h-[50vh] object-cover object-center"
+                width="640"
+                height="436"
+                decoding="async"
+                loading="eager"
+                fetchpriority="high"
+            />
             
             <!-- Degrade suave para o creme -->
             <div class="absolute top-0 left-0 w-full h-[45vh] bg-gradient-to-b from-black/40 via-esther-cream/50 to-esther-cream"></div>
@@ -1933,7 +1952,17 @@
             <div class="hidden lg:block flex-1 w-full relative z-20 reveal-zoom delay-500 perspective-1000">
                 <div class="relative glass-panel rounded-[2.5rem] p-3 shadow-2xl shadow-esther-ink/5 border border-white/70">
                     <div class="rounded-[2rem] overflow-hidden aspect-[4/5] relative group">
-                        <img src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Prato saudável" class="w-full h-full object-cover group-hover:scale-105 transition-all duration-[1.5s]" />
+                        <img
+                            src="imagens-webp/responsive/hero-prato-640w.webp"
+                            srcset="imagens-webp/responsive/hero-prato-640w.webp 640w, imagens-webp/responsive/hero-prato-960w.webp 960w, imagens-webp/responsive/hero-prato-1280w.webp 1280w"
+                            sizes="(min-width: 1024px) 520px, 100vw"
+                            alt="Prato saudável"
+                            class="w-full h-full object-cover group-hover:scale-105 transition-all duration-[1.5s]"
+                            width="640"
+                            height="436"
+                            decoding="async"
+                            loading="lazy"
+                        />
                         <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
                         <div class="absolute bottom-6 left-6 right-6 z-20">
                             <div class="glass-panel p-4 rounded-xl flex flex-col items-center gap-2 bg-white/10 text-center">
@@ -1947,7 +1976,16 @@
                     </div>
                     <!-- Mockup abstraction badges -->
                     <div class="absolute right-0 sm:-right-8 md:-right-12 top-16 bg-white/90 backdrop-blur-xl border border-white/50 px-4 py-3 rounded-2xl shadow-xl animate-float z-30 text-center flex flex-col items-center">
-                        <img src="imagens-webp/foto-perfil-hero.webp" alt="Esther Gregolon" class="w-12 h-12 rounded-full object-cover mb-2 mx-auto" width="96" height="96" decoding="async" />
+                        <img
+                            src="imagens-webp/responsive/foto-perfil-hero-48w.webp"
+                            srcset="imagens-webp/responsive/foto-perfil-hero-48w.webp 48w, imagens-webp/responsive/foto-perfil-hero-96w.webp 96w"
+                            sizes="48px"
+                            alt="Esther Gregolon"
+                            class="w-12 h-12 rounded-full object-cover mb-2 mx-auto"
+                            width="48"
+                            height="48"
+                            decoding="async"
+                        />
                         <p class="text-[10px] font-mono tracking-widest uppercase text-esther-olive font-bold">Por Esther Gregolon</p>
                     </div>
                 </div>
@@ -2059,11 +2097,31 @@
             <div class="flex-1 w-full reveal-zoom">
                 <div class="relative flex gap-4 justify-center">
                     <div class="w-1/2 rounded-3xl overflow-hidden border-4 border-white shadow-xl -rotate-3 relative z-10 aspect-[3/4]">
-                        <img src="imagens-webp/antes-esther.webp" alt="Antes" class="w-full h-full object-cover" />
+                        <img
+                            src="imagens-webp/responsive/antes-esther-360w.webp"
+                            srcset="imagens-webp/responsive/antes-esther-360w.webp 360w, imagens-webp/responsive/antes-esther-720w.webp 720w"
+                            sizes="(min-width: 1024px) 280px, 45vw"
+                            alt="Antes"
+                            class="w-full h-full object-cover"
+                            width="360"
+                            height="480"
+                            decoding="async"
+                            loading="lazy"
+                        />
                         <div class="absolute bottom-3 left-3 bg-white/90 text-xs font-mono font-bold px-3 py-1 rounded-full shadow-md text-esther-ink">Antes</div>
                     </div>
                     <div class="w-1/2 rounded-3xl overflow-hidden border-4 border-white shadow-xl rotate-3 relative mt-12 z-20 hover:scale-105 transition-transform duration-500 aspect-[3/4]">
-                        <img src="imagens-webp/depois-esther.webp" alt="Depois" class="w-full h-full object-cover" />
+                        <img
+                            src="imagens-webp/responsive/depois-esther-360w.webp"
+                            srcset="imagens-webp/responsive/depois-esther-360w.webp 360w, imagens-webp/responsive/depois-esther-720w.webp 720w"
+                            sizes="(min-width: 1024px) 280px, 45vw"
+                            alt="Depois"
+                            class="w-full h-full object-cover"
+                            width="360"
+                            height="540"
+                            decoding="async"
+                            loading="lazy"
+                        />
                         <div class="absolute bottom-3 left-3 bg-esther-olive text-white text-xs font-mono font-bold px-3 py-1 rounded-full shadow-md">Hoje (-55kg)</div>
                     </div>
                 </div>
@@ -2424,42 +2482,42 @@
                     </p>
                     <div class="offer-recipes-marquee -mx-6 md:-mx-16" role="region" aria-label="Fotos de receitas">
                         <div class="offer-recipes-marquee-track">
-                            <div class="offer-recipes-marquee-slide"><img src="imagens-webp/recipe-07-salmao-assado-com-crosta-de-castanhas.webp" alt="Salmão assado com crosta de castanhas" width="280" height="200" decoding="async" /></div>
-                            <div class="offer-recipes-marquee-slide"><img src="imagens-webp/recipe-08-panqueca-de-espinafre.webp" alt="Panqueca de Espinafre" width="280" height="200" decoding="async" /></div>
-                            <div class="offer-recipes-marquee-slide"><img src="imagens-webp/recipe-09-hamburguer-caseiro.webp" alt="Hambúrguer caseiro" width="280" height="200" decoding="async" /></div>
-                            <div class="offer-recipes-marquee-slide"><img src="imagens-webp/recipe-10-torta-de-frango-de-liquidificador.webp" alt="Torta de frango de liquidificador" width="280" height="200" decoding="async" /></div>
-                            <div class="offer-recipes-marquee-slide"><img src="imagens-webp/recipe-11-iscas-de-frango-ao-molho-de-laranja.webp" alt="Iscas de Frango ao Molho de Laranja" width="280" height="200" decoding="async" /></div>
-                            <div class="offer-recipes-marquee-slide"><img src="imagens-webp/recipe-12-risoto-de-abobrinha.webp" alt="Risoto de abobrinha" width="280" height="200" decoding="async" /></div>
-                            <div class="offer-recipes-marquee-slide"><img src="imagens-webp/recipe-13-omelete-de-forno-com-legumes.webp" alt="Omelete de Forno com Legumes" width="280" height="200" decoding="async" /></div>
-                            <div class="offer-recipes-marquee-slide"><img src="imagens-webp/recipe-14-file-mignon-suino.webp" alt="Filé Mignon Suíno" width="280" height="200" decoding="async" /></div>
-                            <div class="offer-recipes-marquee-slide"><img src="imagens-webp/recipe-15-almondega-patinho.webp" alt="Almôndega patinho" width="280" height="200" decoding="async" /></div>
-                            <div class="offer-recipes-marquee-slide"><img src="imagens-webp/recipe-16-strogonoff-de-grao-de-bico.webp" alt="Strogonoff de grão de bico" width="280" height="200" decoding="async" /></div>
-                            <div class="offer-recipes-marquee-slide"><img src="imagens-webp/recipe-17-panqueca-de-carne-com-grao-de-bico.webp" alt="Panqueca de carne com grão de bico" width="280" height="200" decoding="async" /></div>
-                            <div class="offer-recipes-marquee-slide"><img src="imagens-webp/recipe-18-rocambole-de-carne-moida.webp" alt="Rocambole de carne moída" width="280" height="200" decoding="async" /></div>
-                            <div class="offer-recipes-marquee-slide"><img src="imagens-webp/recipe-19-frango-ao-curry-com-leite-de-coco.webp" alt="Frango ao Curry com leite de coco" width="280" height="200" decoding="async" /></div>
-                            <div class="offer-recipes-marquee-slide"><img src="imagens-webp/recipe-20-charuto-de-repolho-com-quinoa-e-carne.webp" alt="Charuto de repolho com quinoa e carne" width="280" height="200" decoding="async" /></div>
-                            <div class="offer-recipes-marquee-slide"><img src="imagens-webp/recipe-21-file-de-tilapia.webp" alt="Filé de Tilápia" width="280" height="200" decoding="async" /></div>
-                            <div class="offer-recipes-marquee-slide"><img src="imagens-webp/recipe-22-bowl-de-salada.webp" alt="Bowl de Salada" width="280" height="200" decoding="async" /></div>
-                            <div class="offer-recipes-marquee-slide"><img src="imagens-webp/recipe-23-abobrinha-recheada-com-carne-e-queijo.webp" alt="Abobrinha recheada com carne e queijo" width="280" height="200" decoding="async" /></div>
-                            <div class="offer-recipes-marquee-slide"><img src="imagens-webp/recipe-24-fricasse-de-frango.webp" alt="Fricassê de Frango" width="280" height="200" decoding="async" /></div>
-                            <div class="offer-recipes-marquee-slide" aria-hidden="true"><img src="imagens-webp/recipe-07-salmao-assado-com-crosta-de-castanhas.webp" alt="" width="280" height="200" decoding="async" /></div>
-                            <div class="offer-recipes-marquee-slide" aria-hidden="true"><img src="imagens-webp/recipe-08-panqueca-de-espinafre.webp" alt="" width="280" height="200" decoding="async" /></div>
-                            <div class="offer-recipes-marquee-slide" aria-hidden="true"><img src="imagens-webp/recipe-09-hamburguer-caseiro.webp" alt="" width="280" height="200" decoding="async" /></div>
-                            <div class="offer-recipes-marquee-slide" aria-hidden="true"><img src="imagens-webp/recipe-10-torta-de-frango-de-liquidificador.webp" alt="" width="280" height="200" decoding="async" /></div>
-                            <div class="offer-recipes-marquee-slide" aria-hidden="true"><img src="imagens-webp/recipe-11-iscas-de-frango-ao-molho-de-laranja.webp" alt="" width="280" height="200" decoding="async" /></div>
-                            <div class="offer-recipes-marquee-slide" aria-hidden="true"><img src="imagens-webp/recipe-12-risoto-de-abobrinha.webp" alt="" width="280" height="200" decoding="async" /></div>
-                            <div class="offer-recipes-marquee-slide" aria-hidden="true"><img src="imagens-webp/recipe-13-omelete-de-forno-com-legumes.webp" alt="" width="280" height="200" decoding="async" /></div>
-                            <div class="offer-recipes-marquee-slide" aria-hidden="true"><img src="imagens-webp/recipe-14-file-mignon-suino.webp" alt="" width="280" height="200" decoding="async" /></div>
-                            <div class="offer-recipes-marquee-slide" aria-hidden="true"><img src="imagens-webp/recipe-15-almondega-patinho.webp" alt="" width="280" height="200" decoding="async" /></div>
-                            <div class="offer-recipes-marquee-slide" aria-hidden="true"><img src="imagens-webp/recipe-16-strogonoff-de-grao-de-bico.webp" alt="" width="280" height="200" decoding="async" /></div>
-                            <div class="offer-recipes-marquee-slide" aria-hidden="true"><img src="imagens-webp/recipe-17-panqueca-de-carne-com-grao-de-bico.webp" alt="" width="280" height="200" decoding="async" /></div>
-                            <div class="offer-recipes-marquee-slide" aria-hidden="true"><img src="imagens-webp/recipe-18-rocambole-de-carne-moida.webp" alt="" width="280" height="200" decoding="async" /></div>
-                            <div class="offer-recipes-marquee-slide" aria-hidden="true"><img src="imagens-webp/recipe-19-frango-ao-curry-com-leite-de-coco.webp" alt="" width="280" height="200" decoding="async" /></div>
-                            <div class="offer-recipes-marquee-slide" aria-hidden="true"><img src="imagens-webp/recipe-20-charuto-de-repolho-com-quinoa-e-carne.webp" alt="" width="280" height="200" decoding="async" /></div>
-                            <div class="offer-recipes-marquee-slide" aria-hidden="true"><img src="imagens-webp/recipe-21-file-de-tilapia.webp" alt="" width="280" height="200" decoding="async" /></div>
-                            <div class="offer-recipes-marquee-slide" aria-hidden="true"><img src="imagens-webp/recipe-22-bowl-de-salada.webp" alt="" width="280" height="200" decoding="async" /></div>
-                            <div class="offer-recipes-marquee-slide" aria-hidden="true"><img src="imagens-webp/recipe-23-abobrinha-recheada-com-carne-e-queijo.webp" alt="" width="280" height="200" decoding="async" /></div>
-                            <div class="offer-recipes-marquee-slide" aria-hidden="true"><img src="imagens-webp/recipe-24-fricasse-de-frango.webp" alt="" width="280" height="200" decoding="async" /></div>
+                            <div class="offer-recipes-marquee-slide"><img src="imagens-webp/responsive/recipe-07-salmao-assado-com-crosta-de-castanhas-200w.webp" srcset="imagens-webp/responsive/recipe-07-salmao-assado-com-crosta-de-castanhas-200w.webp 200w, imagens-webp/responsive/recipe-07-salmao-assado-com-crosta-de-castanhas-400w.webp 400w" sizes="(min-width: 1024px) 200px, (min-width: 640px) 176px, 148px" alt="Salmão assado com crosta de castanhas" width="200" height="134" decoding="async" loading="lazy" /></div>
+                            <div class="offer-recipes-marquee-slide"><img src="imagens-webp/responsive/recipe-08-panqueca-de-espinafre-200w.webp" srcset="imagens-webp/responsive/recipe-08-panqueca-de-espinafre-200w.webp 200w, imagens-webp/responsive/recipe-08-panqueca-de-espinafre-400w.webp 400w" sizes="(min-width: 1024px) 200px, (min-width: 640px) 176px, 148px" alt="Panqueca de Espinafre" width="200" height="134" decoding="async" loading="lazy" /></div>
+                            <div class="offer-recipes-marquee-slide"><img src="imagens-webp/responsive/recipe-09-hamburguer-caseiro-200w.webp" srcset="imagens-webp/responsive/recipe-09-hamburguer-caseiro-200w.webp 200w, imagens-webp/responsive/recipe-09-hamburguer-caseiro-400w.webp 400w" sizes="(min-width: 1024px) 200px, (min-width: 640px) 176px, 148px" alt="Hambúrguer caseiro" width="200" height="134" decoding="async" loading="lazy" /></div>
+                            <div class="offer-recipes-marquee-slide"><img src="imagens-webp/responsive/recipe-10-torta-de-frango-de-liquidificador-200w.webp" srcset="imagens-webp/responsive/recipe-10-torta-de-frango-de-liquidificador-200w.webp 200w, imagens-webp/responsive/recipe-10-torta-de-frango-de-liquidificador-400w.webp 400w" sizes="(min-width: 1024px) 200px, (min-width: 640px) 176px, 148px" alt="Torta de frango de liquidificador" width="200" height="134" decoding="async" loading="lazy" /></div>
+                            <div class="offer-recipes-marquee-slide"><img src="imagens-webp/responsive/recipe-11-iscas-de-frango-ao-molho-de-laranja-200w.webp" srcset="imagens-webp/responsive/recipe-11-iscas-de-frango-ao-molho-de-laranja-200w.webp 200w, imagens-webp/responsive/recipe-11-iscas-de-frango-ao-molho-de-laranja-400w.webp 400w" sizes="(min-width: 1024px) 200px, (min-width: 640px) 176px, 148px" alt="Iscas de Frango ao Molho de Laranja" width="200" height="134" decoding="async" loading="lazy" /></div>
+                            <div class="offer-recipes-marquee-slide"><img src="imagens-webp/responsive/recipe-12-risoto-de-abobrinha-200w.webp" srcset="imagens-webp/responsive/recipe-12-risoto-de-abobrinha-200w.webp 200w, imagens-webp/responsive/recipe-12-risoto-de-abobrinha-400w.webp 400w" sizes="(min-width: 1024px) 200px, (min-width: 640px) 176px, 148px" alt="Risoto de abobrinha" width="200" height="134" decoding="async" loading="lazy" /></div>
+                            <div class="offer-recipes-marquee-slide"><img src="imagens-webp/responsive/recipe-13-omelete-de-forno-com-legumes-200w.webp" srcset="imagens-webp/responsive/recipe-13-omelete-de-forno-com-legumes-200w.webp 200w, imagens-webp/responsive/recipe-13-omelete-de-forno-com-legumes-400w.webp 400w" sizes="(min-width: 1024px) 200px, (min-width: 640px) 176px, 148px" alt="Omelete de Forno com Legumes" width="200" height="134" decoding="async" loading="lazy" /></div>
+                            <div class="offer-recipes-marquee-slide"><img src="imagens-webp/responsive/recipe-14-file-mignon-suino-200w.webp" srcset="imagens-webp/responsive/recipe-14-file-mignon-suino-200w.webp 200w, imagens-webp/responsive/recipe-14-file-mignon-suino-400w.webp 400w" sizes="(min-width: 1024px) 200px, (min-width: 640px) 176px, 148px" alt="Filé Mignon Suíno" width="200" height="134" decoding="async" loading="lazy" /></div>
+                            <div class="offer-recipes-marquee-slide"><img src="imagens-webp/responsive/recipe-15-almondega-patinho-200w.webp" srcset="imagens-webp/responsive/recipe-15-almondega-patinho-200w.webp 200w, imagens-webp/responsive/recipe-15-almondega-patinho-400w.webp 400w" sizes="(min-width: 1024px) 200px, (min-width: 640px) 176px, 148px" alt="Almôndega patinho" width="200" height="134" decoding="async" loading="lazy" /></div>
+                            <div class="offer-recipes-marquee-slide"><img src="imagens-webp/responsive/recipe-16-strogonoff-de-grao-de-bico-200w.webp" srcset="imagens-webp/responsive/recipe-16-strogonoff-de-grao-de-bico-200w.webp 200w, imagens-webp/responsive/recipe-16-strogonoff-de-grao-de-bico-400w.webp 400w" sizes="(min-width: 1024px) 200px, (min-width: 640px) 176px, 148px" alt="Strogonoff de grão de bico" width="200" height="134" decoding="async" loading="lazy" /></div>
+                            <div class="offer-recipes-marquee-slide"><img src="imagens-webp/responsive/recipe-17-panqueca-de-carne-com-grao-de-bico-200w.webp" srcset="imagens-webp/responsive/recipe-17-panqueca-de-carne-com-grao-de-bico-200w.webp 200w, imagens-webp/responsive/recipe-17-panqueca-de-carne-com-grao-de-bico-400w.webp 400w" sizes="(min-width: 1024px) 200px, (min-width: 640px) 176px, 148px" alt="Panqueca de carne com grão de bico" width="200" height="134" decoding="async" loading="lazy" /></div>
+                            <div class="offer-recipes-marquee-slide"><img src="imagens-webp/responsive/recipe-18-rocambole-de-carne-moida-200w.webp" srcset="imagens-webp/responsive/recipe-18-rocambole-de-carne-moida-200w.webp 200w, imagens-webp/responsive/recipe-18-rocambole-de-carne-moida-400w.webp 400w" sizes="(min-width: 1024px) 200px, (min-width: 640px) 176px, 148px" alt="Rocambole de carne moída" width="200" height="134" decoding="async" loading="lazy" /></div>
+                            <div class="offer-recipes-marquee-slide"><img src="imagens-webp/responsive/recipe-19-frango-ao-curry-com-leite-de-coco-200w.webp" srcset="imagens-webp/responsive/recipe-19-frango-ao-curry-com-leite-de-coco-200w.webp 200w, imagens-webp/responsive/recipe-19-frango-ao-curry-com-leite-de-coco-400w.webp 400w" sizes="(min-width: 1024px) 200px, (min-width: 640px) 176px, 148px" alt="Frango ao Curry com leite de coco" width="200" height="134" decoding="async" loading="lazy" /></div>
+                            <div class="offer-recipes-marquee-slide"><img src="imagens-webp/responsive/recipe-20-charuto-de-repolho-com-quinoa-e-carne-200w.webp" srcset="imagens-webp/responsive/recipe-20-charuto-de-repolho-com-quinoa-e-carne-200w.webp 200w, imagens-webp/responsive/recipe-20-charuto-de-repolho-com-quinoa-e-carne-400w.webp 400w" sizes="(min-width: 1024px) 200px, (min-width: 640px) 176px, 148px" alt="Charuto de repolho com quinoa e carne" width="200" height="134" decoding="async" loading="lazy" /></div>
+                            <div class="offer-recipes-marquee-slide"><img src="imagens-webp/responsive/recipe-21-file-de-tilapia-200w.webp" srcset="imagens-webp/responsive/recipe-21-file-de-tilapia-200w.webp 200w, imagens-webp/responsive/recipe-21-file-de-tilapia-400w.webp 400w" sizes="(min-width: 1024px) 200px, (min-width: 640px) 176px, 148px" alt="Filé de Tilápia" width="200" height="134" decoding="async" loading="lazy" /></div>
+                            <div class="offer-recipes-marquee-slide"><img src="imagens-webp/responsive/recipe-22-bowl-de-salada-200w.webp" srcset="imagens-webp/responsive/recipe-22-bowl-de-salada-200w.webp 200w, imagens-webp/responsive/recipe-22-bowl-de-salada-400w.webp 400w" sizes="(min-width: 1024px) 200px, (min-width: 640px) 176px, 148px" alt="Bowl de Salada" width="200" height="134" decoding="async" loading="lazy" /></div>
+                            <div class="offer-recipes-marquee-slide"><img src="imagens-webp/responsive/recipe-23-abobrinha-recheada-com-carne-e-queijo-200w.webp" srcset="imagens-webp/responsive/recipe-23-abobrinha-recheada-com-carne-e-queijo-200w.webp 200w, imagens-webp/responsive/recipe-23-abobrinha-recheada-com-carne-e-queijo-400w.webp 400w" sizes="(min-width: 1024px) 200px, (min-width: 640px) 176px, 148px" alt="Abobrinha recheada com carne e queijo" width="200" height="134" decoding="async" loading="lazy" /></div>
+                            <div class="offer-recipes-marquee-slide"><img src="imagens-webp/responsive/recipe-24-fricasse-de-frango-200w.webp" srcset="imagens-webp/responsive/recipe-24-fricasse-de-frango-200w.webp 200w, imagens-webp/responsive/recipe-24-fricasse-de-frango-400w.webp 400w" sizes="(min-width: 1024px) 200px, (min-width: 640px) 176px, 148px" alt="Fricassê de Frango" width="200" height="134" decoding="async" loading="lazy" /></div>
+                            <div class="offer-recipes-marquee-slide" aria-hidden="true"><img src="imagens-webp/responsive/recipe-07-salmao-assado-com-crosta-de-castanhas-200w.webp" srcset="imagens-webp/responsive/recipe-07-salmao-assado-com-crosta-de-castanhas-200w.webp 200w, imagens-webp/responsive/recipe-07-salmao-assado-com-crosta-de-castanhas-400w.webp 400w" sizes="(min-width: 1024px) 200px, (min-width: 640px) 176px, 148px" alt="" width="200" height="134" decoding="async" loading="lazy" /></div>
+                            <div class="offer-recipes-marquee-slide" aria-hidden="true"><img src="imagens-webp/responsive/recipe-08-panqueca-de-espinafre-200w.webp" srcset="imagens-webp/responsive/recipe-08-panqueca-de-espinafre-200w.webp 200w, imagens-webp/responsive/recipe-08-panqueca-de-espinafre-400w.webp 400w" sizes="(min-width: 1024px) 200px, (min-width: 640px) 176px, 148px" alt="" width="200" height="134" decoding="async" loading="lazy" /></div>
+                            <div class="offer-recipes-marquee-slide" aria-hidden="true"><img src="imagens-webp/responsive/recipe-09-hamburguer-caseiro-200w.webp" srcset="imagens-webp/responsive/recipe-09-hamburguer-caseiro-200w.webp 200w, imagens-webp/responsive/recipe-09-hamburguer-caseiro-400w.webp 400w" sizes="(min-width: 1024px) 200px, (min-width: 640px) 176px, 148px" alt="" width="200" height="134" decoding="async" loading="lazy" /></div>
+                            <div class="offer-recipes-marquee-slide" aria-hidden="true"><img src="imagens-webp/responsive/recipe-10-torta-de-frango-de-liquidificador-200w.webp" srcset="imagens-webp/responsive/recipe-10-torta-de-frango-de-liquidificador-200w.webp 200w, imagens-webp/responsive/recipe-10-torta-de-frango-de-liquidificador-400w.webp 400w" sizes="(min-width: 1024px) 200px, (min-width: 640px) 176px, 148px" alt="" width="200" height="134" decoding="async" loading="lazy" /></div>
+                            <div class="offer-recipes-marquee-slide" aria-hidden="true"><img src="imagens-webp/responsive/recipe-11-iscas-de-frango-ao-molho-de-laranja-200w.webp" srcset="imagens-webp/responsive/recipe-11-iscas-de-frango-ao-molho-de-laranja-200w.webp 200w, imagens-webp/responsive/recipe-11-iscas-de-frango-ao-molho-de-laranja-400w.webp 400w" sizes="(min-width: 1024px) 200px, (min-width: 640px) 176px, 148px" alt="" width="200" height="134" decoding="async" loading="lazy" /></div>
+                            <div class="offer-recipes-marquee-slide" aria-hidden="true"><img src="imagens-webp/responsive/recipe-12-risoto-de-abobrinha-200w.webp" srcset="imagens-webp/responsive/recipe-12-risoto-de-abobrinha-200w.webp 200w, imagens-webp/responsive/recipe-12-risoto-de-abobrinha-400w.webp 400w" sizes="(min-width: 1024px) 200px, (min-width: 640px) 176px, 148px" alt="" width="200" height="134" decoding="async" loading="lazy" /></div>
+                            <div class="offer-recipes-marquee-slide" aria-hidden="true"><img src="imagens-webp/responsive/recipe-13-omelete-de-forno-com-legumes-200w.webp" srcset="imagens-webp/responsive/recipe-13-omelete-de-forno-com-legumes-200w.webp 200w, imagens-webp/responsive/recipe-13-omelete-de-forno-com-legumes-400w.webp 400w" sizes="(min-width: 1024px) 200px, (min-width: 640px) 176px, 148px" alt="" width="200" height="134" decoding="async" loading="lazy" /></div>
+                            <div class="offer-recipes-marquee-slide" aria-hidden="true"><img src="imagens-webp/responsive/recipe-14-file-mignon-suino-200w.webp" srcset="imagens-webp/responsive/recipe-14-file-mignon-suino-200w.webp 200w, imagens-webp/responsive/recipe-14-file-mignon-suino-400w.webp 400w" sizes="(min-width: 1024px) 200px, (min-width: 640px) 176px, 148px" alt="" width="200" height="134" decoding="async" loading="lazy" /></div>
+                            <div class="offer-recipes-marquee-slide" aria-hidden="true"><img src="imagens-webp/responsive/recipe-15-almondega-patinho-200w.webp" srcset="imagens-webp/responsive/recipe-15-almondega-patinho-200w.webp 200w, imagens-webp/responsive/recipe-15-almondega-patinho-400w.webp 400w" sizes="(min-width: 1024px) 200px, (min-width: 640px) 176px, 148px" alt="" width="200" height="134" decoding="async" loading="lazy" /></div>
+                            <div class="offer-recipes-marquee-slide" aria-hidden="true"><img src="imagens-webp/responsive/recipe-16-strogonoff-de-grao-de-bico-200w.webp" srcset="imagens-webp/responsive/recipe-16-strogonoff-de-grao-de-bico-200w.webp 200w, imagens-webp/responsive/recipe-16-strogonoff-de-grao-de-bico-400w.webp 400w" sizes="(min-width: 1024px) 200px, (min-width: 640px) 176px, 148px" alt="" width="200" height="134" decoding="async" loading="lazy" /></div>
+                            <div class="offer-recipes-marquee-slide" aria-hidden="true"><img src="imagens-webp/responsive/recipe-17-panqueca-de-carne-com-grao-de-bico-200w.webp" srcset="imagens-webp/responsive/recipe-17-panqueca-de-carne-com-grao-de-bico-200w.webp 200w, imagens-webp/responsive/recipe-17-panqueca-de-carne-com-grao-de-bico-400w.webp 400w" sizes="(min-width: 1024px) 200px, (min-width: 640px) 176px, 148px" alt="" width="200" height="134" decoding="async" loading="lazy" /></div>
+                            <div class="offer-recipes-marquee-slide" aria-hidden="true"><img src="imagens-webp/responsive/recipe-18-rocambole-de-carne-moida-200w.webp" srcset="imagens-webp/responsive/recipe-18-rocambole-de-carne-moida-200w.webp 200w, imagens-webp/responsive/recipe-18-rocambole-de-carne-moida-400w.webp 400w" sizes="(min-width: 1024px) 200px, (min-width: 640px) 176px, 148px" alt="" width="200" height="134" decoding="async" loading="lazy" /></div>
+                            <div class="offer-recipes-marquee-slide" aria-hidden="true"><img src="imagens-webp/responsive/recipe-19-frango-ao-curry-com-leite-de-coco-200w.webp" srcset="imagens-webp/responsive/recipe-19-frango-ao-curry-com-leite-de-coco-200w.webp 200w, imagens-webp/responsive/recipe-19-frango-ao-curry-com-leite-de-coco-400w.webp 400w" sizes="(min-width: 1024px) 200px, (min-width: 640px) 176px, 148px" alt="" width="200" height="134" decoding="async" loading="lazy" /></div>
+                            <div class="offer-recipes-marquee-slide" aria-hidden="true"><img src="imagens-webp/responsive/recipe-20-charuto-de-repolho-com-quinoa-e-carne-200w.webp" srcset="imagens-webp/responsive/recipe-20-charuto-de-repolho-com-quinoa-e-carne-200w.webp 200w, imagens-webp/responsive/recipe-20-charuto-de-repolho-com-quinoa-e-carne-400w.webp 400w" sizes="(min-width: 1024px) 200px, (min-width: 640px) 176px, 148px" alt="" width="200" height="134" decoding="async" loading="lazy" /></div>
+                            <div class="offer-recipes-marquee-slide" aria-hidden="true"><img src="imagens-webp/responsive/recipe-21-file-de-tilapia-200w.webp" srcset="imagens-webp/responsive/recipe-21-file-de-tilapia-200w.webp 200w, imagens-webp/responsive/recipe-21-file-de-tilapia-400w.webp 400w" sizes="(min-width: 1024px) 200px, (min-width: 640px) 176px, 148px" alt="" width="200" height="134" decoding="async" loading="lazy" /></div>
+                            <div class="offer-recipes-marquee-slide" aria-hidden="true"><img src="imagens-webp/responsive/recipe-22-bowl-de-salada-200w.webp" srcset="imagens-webp/responsive/recipe-22-bowl-de-salada-200w.webp 200w, imagens-webp/responsive/recipe-22-bowl-de-salada-400w.webp 400w" sizes="(min-width: 1024px) 200px, (min-width: 640px) 176px, 148px" alt="" width="200" height="134" decoding="async" loading="lazy" /></div>
+                            <div class="offer-recipes-marquee-slide" aria-hidden="true"><img src="imagens-webp/responsive/recipe-23-abobrinha-recheada-com-carne-e-queijo-200w.webp" srcset="imagens-webp/responsive/recipe-23-abobrinha-recheada-com-carne-e-queijo-200w.webp 200w, imagens-webp/responsive/recipe-23-abobrinha-recheada-com-carne-e-queijo-400w.webp 400w" sizes="(min-width: 1024px) 200px, (min-width: 640px) 176px, 148px" alt="" width="200" height="134" decoding="async" loading="lazy" /></div>
+                            <div class="offer-recipes-marquee-slide" aria-hidden="true"><img src="imagens-webp/responsive/recipe-24-fricasse-de-frango-200w.webp" srcset="imagens-webp/responsive/recipe-24-fricasse-de-frango-200w.webp 200w, imagens-webp/responsive/recipe-24-fricasse-de-frango-400w.webp 400w" sizes="(min-width: 1024px) 200px, (min-width: 640px) 176px, 148px" alt="" width="200" height="134" decoding="async" loading="lazy" /></div>
                         </div>
                     </div>
                     <p class="text-lg sm:text-xl text-esther-ink/78 font-light max-w-4xl mx-auto leading-relaxed">
@@ -2543,7 +2601,17 @@
                 <!-- Card 5 -->
                 <div class="flashlight-card overflow-hidden group reveal-up delay-100 flex flex-col h-full bg-white/40 border border-white/50 rounded-3xl" onmousemove="updateFlashlight(event, this)">
                     <div class="h-56 overflow-hidden relative">
-                        <img src="imagens-webp/recipe-01-crumble-de-banana.webp" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" alt="Crumble de Banana — sobremesa funcional" width="800" height="600" decoding="async" />
+                        <img
+                            src="imagens-webp/responsive/recipe-01-crumble-de-banana-400w.webp"
+                            srcset="imagens-webp/responsive/recipe-01-crumble-de-banana-400w.webp 400w, imagens-webp/responsive/recipe-01-crumble-de-banana-800w.webp 800w"
+                            sizes="(min-width: 1024px) 384px, (min-width: 768px) 50vw, 100vw"
+                            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000"
+                            alt="Crumble de Banana — sobremesa funcional"
+                            width="400"
+                            height="300"
+                            decoding="async"
+                            loading="lazy"
+                        />
                         <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none"></div>
                         <div class="absolute bottom-4 right-4 bg-white/90 backdrop-blur px-3 py-1.5 rounded-full shadow-lg border border-white/50 flex items-center gap-1.5">
                             <iconify-icon icon="solar:pie-chart-2-bold-duotone" class="text-[#8A5A5A] text-sm"></iconify-icon>
@@ -2559,7 +2627,17 @@
                 <!-- Card 6 -->
                 <div class="flashlight-card overflow-hidden group reveal-up delay-200 flex flex-col h-full bg-white/40 border border-white/50 rounded-3xl" onmousemove="updateFlashlight(event, this)">
                     <div class="h-56 overflow-hidden relative">
-                        <img src="imagens-webp/recipe-08-maionese-de-abacate.webp" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" alt="Maionese de abacate" width="800" height="600" decoding="async" />
+                        <img
+                            src="imagens-webp/responsive/recipe-08-maionese-de-abacate-400w.webp"
+                            srcset="imagens-webp/responsive/recipe-08-maionese-de-abacate-400w.webp 400w, imagens-webp/responsive/recipe-08-maionese-de-abacate-800w.webp 800w"
+                            sizes="(min-width: 1024px) 384px, (min-width: 768px) 50vw, 100vw"
+                            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000"
+                            alt="Maionese de abacate"
+                            width="400"
+                            height="300"
+                            decoding="async"
+                            loading="lazy"
+                        />
                         <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none"></div>
                         <div class="absolute bottom-4 right-4 bg-white/90 backdrop-blur px-3 py-1.5 rounded-full shadow-lg border border-white/50 flex items-center gap-1.5">
                             <iconify-icon icon="solar:blender-bold-duotone" class="text-esther-ink text-sm"></iconify-icon>
@@ -2647,7 +2725,17 @@
                 Vamos fazer as <span class="font-alt italic text-esther-olive relative inline-block px-2">contas.<span class="absolute bottom-2 left-0 w-full h-4 bg-esther-olive/20 -z-10 rounded-full"></span></span>
             </h2>
             <figure class="mb-8 md:mb-10 w-full">
-                <img src="imagens-webp/mockups-corretos.webp" alt="Acervo digital completo: capas dos guias de receitas, Guia de Bordo em vídeo, Módulo Mão na Massa, Clube de Atualizações, Kit de Sobrevivência Diária e comunidade no WhatsApp." class="block w-full h-auto" width="1600" height="900" loading="lazy" decoding="async" />
+                <img
+                    src="imagens-webp/responsive/mockups-corretos-768w.webp"
+                    srcset="imagens-webp/responsive/mockups-corretos-768w.webp 768w, imagens-webp/responsive/mockups-corretos-1536w.webp 1536w"
+                    sizes="(min-width: 768px) 768px, 100vw"
+                    alt="Acervo digital completo: capas dos guias de receitas, Guia de Bordo em vídeo, Módulo Mão na Massa, Clube de Atualizações, Kit de Sobrevivência Diária e comunidade no WhatsApp."
+                    class="block w-full h-auto"
+                    width="768"
+                    height="420"
+                    loading="lazy"
+                    decoding="async"
+                />
             </figure>
             
             <p class="text-xl md:text-2xl text-esther-ink/80 font-light mb-8 md:mb-10 text-balance">
