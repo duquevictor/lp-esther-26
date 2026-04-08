@@ -2955,17 +2955,25 @@
     </footer>
 
     <script>
-        gsap.registerPlugin(ScrollTrigger);
+        function whenGsapReady(cb) {
+            const hasGsap = typeof window.gsap !== "undefined";
+            const hasScrollTrigger = typeof window.ScrollTrigger !== "undefined";
+            if (hasGsap && hasScrollTrigger) return cb();
+            window.setTimeout(() => whenGsapReady(cb), 50);
+        }
 
-        // Animations init
-        document.querySelectorAll('.reveal-up, .reveal-zoom').forEach((el) => {
-            ScrollTrigger.create({
-                trigger: el,
-                start: "top 85%",
-                onEnter: () => el.classList.add('active'),
-                once: true
+        whenGsapReady(() => {
+            gsap.registerPlugin(ScrollTrigger);
+
+            // Animations init
+            document.querySelectorAll('.reveal-up, .reveal-zoom').forEach((el) => {
+                ScrollTrigger.create({
+                    trigger: el,
+                    start: "top 85%",
+                    onEnter: () => el.classList.add('active'),
+                    once: true
+                });
             });
-        });
 
         (function initFinalCloser() {
             const root = document.querySelector('[data-final-closer]');
@@ -3011,7 +3019,7 @@
             });
         })();
 
-        document.querySelectorAll('.esther-kinetic-scale').forEach((root) => {
+            document.querySelectorAll('.esther-kinetic-scale').forEach((root) => {
             const valueEl = root.querySelector('.esther-kinetic-scale__value');
             if (!valueEl) return;
             const end = parseFloat(valueEl.getAttribute('data-weight-end') || '55', 10);
@@ -3037,6 +3045,7 @@
                         }
                     });
                 }
+            });
             });
         });
 
